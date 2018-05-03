@@ -1,0 +1,65 @@
+{
+    "extends": [
+        "airbnb/base",
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "prettier"
+    ],
+    "parser": "babel-eslint",
+    "plugins": [
+        "react",
+        "import",
+        "react-native",
+        "redux-saga",
+        "jsx-a11y",
+        "class-property"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "env": {
+        "node": true,
+        "jasmine": true,
+        "browser": true,
+    },
+    "rules": {
+        "indent": [1, 4],
+        "no-console": 0,
+        "max-len": 0,
+        "no-unused-vars": [0, {"vars": "local", "args": "none"}],
+        "eol-last": 0,
+        "id-length": 0,
+        "comma-dangle": [
+          "error",
+          {
+            "arrays": "always",
+            "objects": "always",
+            "imports": "always",
+            "exports": "never",
+            "functions": "ignore"
+          }
+        ],
+        "arrow-parens": [1, "as-needed"],
+        "semi-spacing": "warn",
+        "no-case-declarations": 0,
+        "import/prefer-default-export": 0,
+        "no-mixed-operators": [
+            "error",
+            {
+                "groups": [
+                    ["+", "-", "*", "/", "%", "**"],
+                    ["&", "|", "^", "~", "<<", ">>", ">>>"],
+                    ["==", "!=", "===", "!==", ">", ">=", "<", "<="],
+                    ["&&", "||"],
+                    ["in", "instanceof"]
+                ],
+                "allowSamePrecedence": true
+            }
+        ]
+    },
+}
