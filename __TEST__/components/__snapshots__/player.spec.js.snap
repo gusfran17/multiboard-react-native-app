@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Player /> should render as expected 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#2f2f2f",
+      "borderBottomColor": "#444",
+      "borderBottomWidth": 2,
+      "flexDirection": "row",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flex": 4,
+        "flexDirection": "row",
+      }
+    }
+  >
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#900",
+            "fontSize": 15,
+            "fontWeight": "900",
+            "paddingBottom": 19,
+            "paddingLeft": 10,
+            "paddingRight": 0,
+            "paddingTop": 19,
+          }
+        }
+      >
+        ✖
+      </Text>
+    </TouchableOpacity>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#fff",
+          "flex": 1,
+          "fontWeight": "900",
+          "marginLeft": -30,
+          "paddingBottom": 20,
+          "paddingLeft": 5,
+          "paddingRight": 5,
+          "paddingTop": 20,
+          "textAlign": "center",
+        }
+      }
+    >
+      GUSTAVO
+    </Text>
+  </View>
+  <Counter
+    index={0}
+    score={20}
+    updateScore={[Function]}
+  />
+</View>
+`;
