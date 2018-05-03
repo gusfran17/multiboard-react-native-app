@@ -40,4 +40,5 @@ const MainStack = StackNavigator({
     },
 });
 
+
 export default MainStack;
