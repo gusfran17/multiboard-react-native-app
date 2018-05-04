@@ -1,12 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, ImageBackground, } from 'react-native';
 import PropTypes from 'prop-types';
 import GamesTable from './GamesTable';
 import { NavigationBar, } from './../../containers';
 
 const SavedGames = props => {
     return (
-        <View style={[ styles.container, ]}>
+        <ImageBackground
+            style={[ styles.container, ]}
+            source={require('./../../assets/images/dark_dice.png')}>
             <View style={[ styles.savedGamesContainer, ]}>
                 <Text style={styles.title}>Saved Games</Text>
                 <GamesTable
@@ -24,7 +26,7 @@ const SavedGames = props => {
                     </Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ImageBackground>
     );
 }
 
@@ -44,10 +46,11 @@ SavedGames.navigationOptions = ({ navigation, }) => {
             title="MULTIBOARD"
         />,
         headerStyle: {
-            backgroundColor: '#9a9',
-            height: 85,
+            backgroundColor: '#ff00ff00',
+            height: 65,
+            borderBottomWidth: 0,
         },
-        headerTintColor: '#222',
+        headerTintColor: '#fff',
     };
 };
 
@@ -56,12 +59,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#9a9',
         padding: 15,
+        marginTop: -80,
     },
     savedGamesContainer: {
         flexDirection: 'column',
-        backgroundColor: '#222',
+        backgroundColor: '#22222299',
         borderRadius: 20,
         paddingBottom: 30,
+        marginTop: 90,
     },
     title: {
         alignSelf: 'center',
@@ -69,7 +74,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: '900',
         color: '#fff',
-        padding: 40,
+        padding: 30,
     },
     button: {
         alignSelf: 'center',

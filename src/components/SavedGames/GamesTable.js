@@ -38,7 +38,7 @@ const PositionsTable = props => {
                 <TouchableOpacity
                     onPress={()=>{loadGame(game)}}
                     style={[ styles.col3Load, styles.button, ]}>
-                    <Icon size={25} name="slideshow" color='#fff'/>
+                    <Icon size={30} name="slideshow" color='#fff'/>
                 </TouchableOpacity>
             </View>
         );
@@ -91,6 +91,8 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
         paddingRight: 5,
         fontWeight: '900',
+        fontSize: 17,
+        textDecorationLine: 'underline',
     },
     col1: {
         textAlign: 'left',

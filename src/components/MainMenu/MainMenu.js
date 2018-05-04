@@ -1,5 +1,5 @@
 import React, { Component, } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ImageBackground, } from 'react-native';
 import PropTypes from 'prop-types';
 import { NewGameSettings, Scoreboard, SavedGames, } from './../../utility/constants';
 
@@ -59,7 +59,9 @@ const MainMenu = props => {
         }
     }
     return (
-        <View style={styles.container}>
+        <ImageBackground
+            style={styles.container}
+            source={require('./../../assets/images/cards_dices.png')}>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>
                   MULTIBOARD
@@ -88,7 +90,7 @@ const MainMenu = props => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </ImageBackground>
     );
 }
 
@@ -101,10 +103,17 @@ MainMenu.propTypes = {
     savedGames: PropTypes.array.isRequired,
 }
 
+MainMenu.navigationOptions = ({ navigation, }) => {
+    return {
+        headerTitle: null,
+        header: null,
+    };
+};
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 30,
+        paddingTop: 100,
         alignContent: 'flex-start',
         alignItems: 'flex-start',
         backgroundColor: '#9a9',

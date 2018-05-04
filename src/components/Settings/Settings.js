@@ -1,14 +1,18 @@
 import React, { Component, } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Switch, } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Switch, ImageBackground,} from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
 import { MaxScoreSetting, WinLoseSetting, SaveGameComponent, MainMenuSettingsFooter, } from './';
 import { NavigationBar, } from './../../containers';
 import { NewGameSettings, MainMenu, Scoreboard, } from './../../utility/constants';
+import BringFromBottom from './../Animation/BringFromBottom';
 
 const Settings = props => (
-    <View style={styles.container}>
-        <View style={styles.SettingsContainer}>
+    <ImageBackground
+        resizeMode="cover"
+        style={styles.container}
+        source={require('./../../assets/images/falling_dices_final.png')}>
+        <BringFromBottom>
             <View style={styles.header}>
                 <Text style={styles.title}>Settings</Text>
             </View>
@@ -39,8 +43,8 @@ const Settings = props => (
                 />
             }
 
-        </View>
-    </View>
+        </BringFromBottom>
+    </ImageBackground>
 );
 
 Settings.navigationOptions = ({ navigation, }) => {
@@ -51,11 +55,12 @@ Settings.navigationOptions = ({ navigation, }) => {
             title={navigation.state.routeName === NewGameSettings? 'MULTIBOARD' : 'SCOREBOARD'}
         />,
         headerStyle: {
-            backgroundColor: '#9a9',
+            backgroundColor: '#0000',
             height: 65,
+            borderBottomColor: '#0000',
         },
-        headerTintColor: '#222',
-        headerLeft: <Icon name={'chevron-left'} size={35} onPress={ () => { if (navigation.state.routeName === NewGameSettings) navigation.goBack(); else navigation.navigate(Scoreboard);} }  />,
+        headerTintColor: '#000',
+        headerLeft: <Icon name={'chevron-left'} color='#444' size={35} onPress={ () => { if (navigation.state.routeName === NewGameSettings) navigation.goBack(); else navigation.navigate(Scoreboard);} }  />,
     };
 };
 
@@ -75,12 +80,13 @@ Settings.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#9a9',
+        backgroundColor: '#000',
         alignItems: 'center',
         justifyContent: 'center',
         paddingLeft: 15,
         paddingRight: 15,
-        paddingTop: 15,
+        paddingTop: 20,
+        marginTop: -80,
     },
     SettingsContainer: {
         flex: 1,

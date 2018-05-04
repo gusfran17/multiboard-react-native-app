@@ -2,12 +2,10 @@
   "name": "ScoreboardApp",
   "version": "0.1.0",
   "private": true,
-  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "react-native-scripts start",
-    "eject": "react-native-scripts eject",
-    "android": "react-native-scripts android",
-    "ios": "react-native-scripts ios",
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "test": "jest",
     "remotedev": "remotedev --hostname=localhost --port=19000"
   },
@@ -15,7 +13,7 @@
     "setupFiles": [
       "./__TEST__/setup.js"
     ],
-    "preset": "jest-expo",
+    "preset": "react-native",
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(js?|ts?|jsx?|tsx?)$",
     "cacheDirectory": ".tmp/jest/cache",
     "moduleFileExtensions": [
@@ -46,7 +44,6 @@
     ]
   },
   "dependencies": {
-    "expo": "^26.0.0",
     "npm": "^5.8.0",
     "prop-types": "^15.6.1",
     "react": "16.3.2",
@@ -55,6 +52,7 @@
     "react-native-google-analytics-bridge": "^5.6.3",
     "react-native-masked-text": "^1.6.5",
     "react-native-text-input-mask": "^0.3.2",
+    "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^1.5.11",
     "react-navigation-redux-helpers": "^1.0.5",
     "react-redux": "^5.0.7",
@@ -72,6 +70,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.11.1",
+    "babel-preset-react-native-stage-0": "^1.0.1",
     "babel-preset-stage-0": "^6.24.1",
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
@@ -87,9 +86,9 @@
     "eslint-plugin-react": "^7.6.0",
     "eslint-plugin-react-native": "^3.2.1",
     "eslint-plugin-redux-saga": "^0.7.0",
-    "jest-expo": "26.0.0",
+    "jest": "^22.4.3",
+    "jest-react-native": "^18.0.0",
     "react-dom": "^16.3.2",
-    "react-native-scripts": "1.13.1",
     "react-test-renderer": "16.3.0-alpha.1",
     "redux-logger": "^3.0.6",
     "remote-redux-devtools": "^0.5.12",

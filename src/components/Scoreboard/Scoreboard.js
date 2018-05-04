@@ -1,5 +1,5 @@
 import React, { Component, } from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, ImageBackground, } from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
 import { Header, Player, AddPlayerComponent, } from './';
@@ -8,6 +8,7 @@ import { GameStats, } from './../GameStats';
 import { NavigationBar, } from './../../containers';
 import { WON, LOST, PLAYING, ENDED, } from './../../utility/constants';
 import { sortPlayersMaxScoreLoses, sortPlayersMaxScoreWins, } from './../../utility/sort';
+import BringFromBottom from './../Animation/BringFromBottom';
 
 const Scoreboard = props => {
 
@@ -63,13 +64,16 @@ const Scoreboard = props => {
 
 
     return (
-        <View style={styles.container}>
+        <ImageBackground
+            style={styles.container}
+            resizeMode="cover"
+            source={require('./../../assets/images/back_nice.png')}>
             <PlayerInfo
                 player={getSelectedPlayer()}
                 selectPlayer={props.selectPlayerDispatcher}
             />
             {showStats()}
-            <ScrollView style={styles.scoreboardContainer}>
+            <BringFromBottom>
                 <Header
                     players={props.players}
                     maxScore={props.maxScore}
@@ -82,8 +86,9 @@ const Scoreboard = props => {
                     addPlayer={props.addPlayerDispatcher}
                     navigation={props.navigation}
                 />
-            </ScrollView>
-        </View>
+
+            </BringFromBottom>
+        </ImageBackground>
     );
 }
 
@@ -96,10 +101,11 @@ Scoreboard.navigationOptions = ({ navigation, }) => {
             title="SCOREBOARD"
         />,
         headerStyle: {
-            backgroundColor: '#9a9',
-            height: 85,
+            backgroundColor: '#ff00ff00',
+            height: 65,
+            borderBottomWidth: 0,
         },
-        headerTintColor: '#222',
+        headerTintColor: '#fff',
     };
 };
 
@@ -121,14 +127,11 @@ Scoreboard.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop: -85,
         backgroundColor: '#9a9',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 15,
-    },
-    scoreboardContainer: {
-        alignSelf: 'stretch',
-        marginTop: 20,
     },
     titleContainer: {
         alignSelf: 'stretch',

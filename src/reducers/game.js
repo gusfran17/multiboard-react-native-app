@@ -195,14 +195,9 @@ const game = (state = initialState, action) => {
         };
     case START_NEW_GAME:
         return {
-            selectedPlayer: -1,
+            ...initialState,
             maxScoreWins: action.settings.maxScoreWins,
             maxScore: action.settings.maxScore,
-            displayStats: false,
-            gameStatus: IN_COURSE,
-            gameName: '',
-            saved: undefined,
-            players: [],
         };
     case SAVE_PROGRESS:
         return {

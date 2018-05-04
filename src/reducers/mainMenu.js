@@ -15,10 +15,8 @@ const initialState = {
 }
 
 const isValidGame = (name,games) => {
-    console.log(name, games);
     let gameExists = false;
     for (let game of games) {
-        console.log(game);
         if (game.gameName === name) {
             gameExists = true;
         }

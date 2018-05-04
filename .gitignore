@@ -19,3 +19,5 @@ package-lock.json
 .flowconfig
 .DS_Store
 .DS_Store0
+/android
+/ios

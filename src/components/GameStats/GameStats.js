@@ -39,7 +39,7 @@ GameStats.propTypes = {
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        top: 75,
+        top: 160,
         zIndex: 10,
         width: 300,
         flex: 1,
