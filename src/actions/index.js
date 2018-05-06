@@ -9,20 +9,22 @@ export {
     START_NEW_GAME,
     SAVE_PROGRESS,
     LOAD_GAME,
+    CHECK_GAME_STATUS,
+    UPDATE_WIN_OR_LOSE,
+    UPDATE_MAX_SCORE,
     addPlayer,
     removePlayer,
     updateScore,
     updatePlayerStatus,
     selectPlayer,
-    UPDATE_WIN_OR_LOSE,
-    UPDATE_MAX_SCORE,
     updateWinOrLose,
     updateMaxScore,
     updateDisplayStats,
     updateGameStatus,
     startNewGame,
     saveProgress,
-    loadGame
+    loadGame,
+    checkGameStatus
 } from './game';
 export {
     UPDATE_NEW_GAME_WIN_OR_LOSE,

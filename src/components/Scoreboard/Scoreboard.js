@@ -21,9 +21,15 @@ const Scoreboard = props => {
                         score={player.score}
                         index={index}
                         status={player.status}
+                        maxScore={props.maxScore}
+                        maxScoreWins={props.maxScoreWins}
+                        gameStatus={props.gameStatus}
                         removePlayer={props.removePlayerDispatcher}
                         updateScore={props.updateScoreDispatcher}
+                        updatePlayerStatus={props.updatePlayerStatusDispatcher}
                         selectPlayer={props.selectPlayerDispatcher}
+                        updateGameStatus={props.updateGameStatusDispatcher}
+                        checkGameStatus={props.checkGameStatusDispatcher}
                     />
                 </View>
             )
@@ -85,6 +91,7 @@ const Scoreboard = props => {
                 <AddPlayerComponent
                     addPlayer={props.addPlayerDispatcher}
                     navigation={props.navigation}
+                    checkGameStatus={props.checkGameStatusDispatcher}
                 />
 
             </BringFromBottom>
@@ -112,10 +119,13 @@ Scoreboard.navigationOptions = ({ navigation, }) => {
 Scoreboard.propTypes = {
     players: PropTypes.array.isRequired,
     updateScoreDispatcher: PropTypes.func.isRequired,
+    updatePlayerStatusDispatcher: PropTypes.func.isRequired,
     removePlayerDispatcher: PropTypes.func.isRequired,
     addPlayerDispatcher: PropTypes.func.isRequired,
     selectPlayerDispatcher: PropTypes.func.isRequired,
     updateDisplayStatsDispatcher: PropTypes.func.isRequired,
+    updateGameStatusDispatcher: PropTypes.func.isRequired,
+    checkGameStatusDispatcher: PropTypes.func.isRequired,
     navigation: PropTypes.object,
     maxScore: PropTypes.number.isRequired,
     maxScoreWins: PropTypes.bool.isRequired,

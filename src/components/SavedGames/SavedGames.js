@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, ImageBackground, 
 import PropTypes from 'prop-types';
 import GamesTable from './GamesTable';
 import { NavigationBar, } from './../../containers';
+import { StatefullAnimatedButton, } from './../Button';
 
 const SavedGames = props => {
     return (
@@ -17,14 +18,11 @@ const SavedGames = props => {
                     loadGame={props.loadGameDispatcher}
                     activeGameNotSaved={props.activeGameNotSaved}
                 />
-                <TouchableOpacity
-                    style={styles.button}
+                <StatefullAnimatedButton
                     onPress={() => {props.navigation.goBack()}}
-                >
-                    <Text style={styles.buttonText}>
-                        Back to menu
-                    </Text>
-                </TouchableOpacity>
+                    text="Back to menu"
+                    width={140}
+                />
             </View>
         </ImageBackground>
     );
@@ -63,6 +61,7 @@ const styles = StyleSheet.create({
     },
     savedGamesContainer: {
         flexDirection: 'column',
+        alignItems: 'center',
         backgroundColor: '#22222299',
         borderRadius: 20,
         paddingBottom: 30,
@@ -75,20 +74,6 @@ const styles = StyleSheet.create({
         fontWeight: '900',
         color: '#fff',
         padding: 30,
-    },
-    button: {
-        alignSelf: 'center',
-        backgroundColor: '#333',
-        margin: 5,
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingTop: 10,
-        paddingBottom: 10,
-        borderRadius: 10,
-    },
-    buttonText: {
-        color: '#999',
-        fontWeight: '900',
     },
 });
 

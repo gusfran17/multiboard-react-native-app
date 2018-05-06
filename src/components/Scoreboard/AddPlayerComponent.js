@@ -12,11 +12,13 @@ class AddPlayerComponent extends Component {
 
     static propTypes = {
         addPlayer: PropTypes.func.isRequired,
+        checkGameStatus: PropTypes.func.isRequired,
     }
 
     addPlayer = () => {
         this.props.addPlayer(this.state.name);
         this.setState({name:"",});
+        this.props.checkGameStatus();
     }
     render(){
         return (

@@ -20,8 +20,8 @@ class NavigationBar extends Component {
                 this.state.animation1,
                 {
                     toValue: 0,
-                    speed: 2,
-                    bounciness: 10,
+                    speed: 1,
+                    bounciness: 8,
 
                 }
             ),
@@ -29,7 +29,7 @@ class NavigationBar extends Component {
                 this.state.animation2,
                 {
                     toValue: 0,
-                    speed: 2,
+                    speed: 1,
                     bounciness: 10,
                     delay: 400,
                 }
@@ -38,7 +38,7 @@ class NavigationBar extends Component {
                 this.state.animation3,
                 {
                     toValue: 0,
-                    speed: 2,
+                    speed: 1,
                     bounciness: 10,
                     delay: 800,
                 }
@@ -76,7 +76,7 @@ class NavigationBar extends Component {
                                     <Icon
                                         size={30}
                                         name='list'
-                                        color="#fff">
+                                        color={this.props.playersAmount > 0? '#fff': '#666' }>
                                     </Icon>
                                 </TouchableOpacity>
                             </Animated.View>

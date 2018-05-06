@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingLeft: 15,
         paddingRight: 15,
-        paddingTop: 20,
+        paddingTop: 0,
         marginTop: -80,
     },
     SettingsContainer: {

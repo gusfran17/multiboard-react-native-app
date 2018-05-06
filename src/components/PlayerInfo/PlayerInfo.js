@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Detail from './Detail';
 import { WON, LOST, PLAYING, } from './../../utility/constants';
 import { formatDate, } from './../../utility/format';
+import { StatefullAnimatedButton, } from './../Button';
 
 const PlayerInfo = props => {
     let playerDetailsComponents;
@@ -32,14 +33,11 @@ const PlayerInfo = props => {
                     label="Updated:"
                     value={formatDate(props.player.updated)}
                 />
-                <TouchableOpacity
-                    style={styles.closeButton}
+                <StatefullAnimatedButton
                     onPress={()=>{props.selectPlayer(-1)}}
-                >
-                    <Text style={styles.closeButtonText}>
-                        CLOSE
-                    </Text>
-                </TouchableOpacity>
+                    text="Close"
+                    width={80}
+                />
             </View>
         );
     } else {

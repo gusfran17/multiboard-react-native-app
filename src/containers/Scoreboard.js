@@ -1,7 +1,7 @@
 import React, { Component, } from 'react';
 import { connect, } from 'react-redux';
 import { Scoreboard, } from './../components/Scoreboard';
-import { addPlayer, removePlayer, updateScore, selectPlayer, updateDisplayStats, } from './../actions';
+import { addPlayer, removePlayer, updateScore, selectPlayer, updateDisplayStats, updatePlayerStatus, updateGameStatus, checkGameStatus, } from './../actions';
 
 const mapStateToProps = state => {
     return (
@@ -31,6 +31,15 @@ const mapDispatchToProps = dispatch => ({
     },
     updateDisplayStatsDispatcher: displayStats => {
         dispatch(updateDisplayStats(displayStats));
+    },
+    updatePlayerStatusDispatcher: (index, status) => {
+        dispatch(updatePlayerStatus(index, status));
+    },
+    updateGameStatusDispatcher: gameStatus => {
+        dispatch(updateGameStatus(gameStatus));
+    },
+    checkGameStatusDispatcher: () => {
+        dispatch(checkGameStatus());
     },
 });
 

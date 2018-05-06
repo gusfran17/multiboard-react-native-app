@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Switch, } from 're
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
 import { MainMenu, } from './../../utility/constants';
+import { StatefullAnimatedButton, } from './../Button';
 
 
 class SaveGameComponent extends Component {
@@ -40,14 +41,11 @@ class SaveGameComponent extends Component {
         let saveProgressButton;
         if (this.props.edited) {
             saveProgressButton= (
-                <TouchableOpacity
-                    style={styles.savedGameButton}
+                <StatefullAnimatedButton
                     onPress={this.saveProgress}
-                >
-                    <Text style={styles.optionButtonText}>
-                        Save progress
-                    </Text>
-                </TouchableOpacity>
+                    text="Save progress"
+                    width={170}
+                />
             );
         }
         if (this.props.saved) {
@@ -128,22 +126,16 @@ class SaveGameComponent extends Component {
         return (
             <View style={styles.saveGameForm}>
                 {this.gameNameControl()}
-                <TouchableOpacity
-                    style={styles.optionButton}
+                <StatefullAnimatedButton
                     onPress={() => {this.props.navigation.goBack()}}
-                >
-                    <Text style={styles.optionButtonText}>
-                        Continue playing
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.optionButton}
+                    text="Continue playing"
+                    width={170}
+                />
+                <StatefullAnimatedButton
                     onPress={() => {this.props.navigation.navigate(MainMenu)}}
-                >
-                    <Text style={styles.optionButtonText}>
-                        Main menu
-                    </Text>
-                </TouchableOpacity>
+                    text="Main menu"
+                    width={170}
+                />
             </View>
         );
     };
@@ -162,7 +154,7 @@ const styles = StyleSheet.create({
     },
     optionButton: {
         height: 44,
-        width: 150,
+        width: 170,
         backgroundColor: '#333',
         marginBottom: 15,
         padding: 10,
@@ -187,7 +179,7 @@ const styles = StyleSheet.create({
     },
     savedGameButton: {
         height: 44,
-        width: 150,
+        width: 170,
         backgroundColor: '#333',
         marginBottom: 15,
         padding: 10,

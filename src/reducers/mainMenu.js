@@ -9,7 +9,7 @@ import {
 
 const initialState = {
     maxScoreWins: true,
-    maxScore: 100,
+    maxScore: 10,
     activeGame: -1,
     savedGames: [],
 }

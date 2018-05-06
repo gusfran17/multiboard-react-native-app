@@ -53,8 +53,15 @@ const Player = props => {
             </View>
             <Counter
                 score={props.score}
-                updateScore={props.updateScore}
+                status={props.status}
                 index={props.index}
+                maxScore={props.maxScore}
+                maxScoreWins={props.maxScoreWins}
+                gameStatus={props.gameStatus}
+                updateGameStatus={props.updateGameStatus}
+                updatePlayerStatus={props.updatePlayerStatus}
+                updateScore={props.updateScore}
+                checkGameStatus={props.checkGameStatus}
             />
         </View>
     );
@@ -65,9 +72,15 @@ Player.propTypes = {
     score: PropTypes.number.isRequired,
     index: PropTypes.number.isRequired,
     status: PropTypes.oneOf([ WON, LOST, PLAYING, ]).isRequired,
+    maxScore: PropTypes.number.isRequired,
+    maxScoreWins: PropTypes.bool.isRequired,
+    gameStatus: PropTypes.string.isRequired,
     removePlayer: PropTypes.func.isRequired,
     updateScore: PropTypes.func.isRequired,
     selectPlayer: PropTypes.func.isRequired,
+    updatePlayerStatus: PropTypes.func.isRequired,
+    updateGameStatus: PropTypes.func.isRequired,
+    checkGameStatus: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({

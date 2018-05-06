@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import PositionsTable from './PositionsTable'
 import { WON, LOST, PLAYING, } from './../../utility/constants';
 import { sortPlayersMaxScoreLoses, sortPlayersMaxScoreWins, } from './../../utility/sort';
-
+import { StatefullAnimatedButton, } from './../Button';
 
 const GameStats = props => {
     const sortedPlayers = props.maxScoreWins? sortPlayersMaxScoreWins(props.players.slice()): sortPlayersMaxScoreLoses(props.players.slice());
@@ -16,14 +16,11 @@ const GameStats = props => {
             <PositionsTable
                 players={sortedPlayers}
             />
-            <TouchableOpacity
-                style={styles.button}
+            <StatefullAnimatedButton
                 onPress={() => {props.updateDisplayStats(false)}}
-            >
-                <Text style={styles.buttonText}>
-                    Continue
-                </Text>
-            </TouchableOpacity>
+                text="Continue"
+                width={120}
+            />
         </View>
     );
 }
@@ -74,20 +71,6 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 15,
         textDecorationLine: 'underline',
-    },
-    button: {
-        flex: 1,
-        backgroundColor: '#333',
-        margin: 5,
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingTop: 10,
-        paddingBottom: 10,
-        borderRadius: 10,
-    },
-    buttonText: {
-        color: '#999',
-        fontWeight: '900',
     },
 });
 
