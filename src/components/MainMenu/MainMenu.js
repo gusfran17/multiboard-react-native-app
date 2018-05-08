@@ -1,5 +1,5 @@
 import React, { Component, } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, ImageBackground, Animated, } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, Image, Animated, } from 'react-native';
 import PropTypes from 'prop-types';
 import { NewGameSettings, Scoreboard, SavedGames, } from './../../utility/constants';
 import { AnimatedButton, } from './../Button';
@@ -21,7 +21,6 @@ class MainMenu extends Component {
 
     static propTypes = {
         navigation: PropTypes.object,
-        startNewGameDispatcher: PropTypes.func.isRequired,
         activeGame: PropTypes.object.isRequired,
         maxScore: PropTypes.number.isRequired,
         maxScoreWins: PropTypes.bool.isRequired,
@@ -36,8 +35,8 @@ class MainMenu extends Component {
     };
 
     componentDidMount() {
-        const bounciness = 15;
-        const speed = 0.5;
+        const bounciness = 12;
+        const speed = 2;
         const delay = 250;
         const delayOffset = 1400;
         Animated.sequence([
@@ -48,6 +47,7 @@ class MainMenu extends Component {
                         toValue: 70,
                         duration: 400,
                         delay: delayOffset - 700,
+                        useNativeDriver: true,
                     }
                 ),
                 Animated.timing(
@@ -56,51 +56,57 @@ class MainMenu extends Component {
                         delay: delayOffset - 600,
                         toValue: 100,
                         duration: 600,
+                        useNativeDriver: true,
                     }
                 ),
                 Animated.spring(
                     this.state.springAnimation1,
                     {
                         delay: delayOffset,
-                        toValue: 250,
+                        toValue: 1,
                         speed,
                         bounciness,
+                        useNativeDriver: true,
                     }
                 ),
                 Animated.spring(
                     this.state.springAnimation2,
                     {
                         delay: delayOffset + delay,
-                        toValue: 250,
+                        toValue: 1,
                         speed,
                         bounciness,
+                        useNativeDriver: true,
                     }
                 ),
                 Animated.spring(
                     this.state.springAnimation3,
                     {
                         delay: delayOffset + (delay*2),
-                        toValue: 250,
+                        toValue: 1,
                         speed,
                         bounciness,
+                        useNativeDriver: true,
                     }
                 ),
                 Animated.spring(
                     this.state.springAnimation4,
                     {
                         delay: delayOffset + (delay*3),
-                        toValue: 250,
+                        toValue: 1,
                         speed,
                         bounciness,
+                        useNativeDriver: true,
                     }
                 ),
                 Animated.spring(
                     this.state.springAnimation5,
                     {
                         delay: delayOffset + (delay*4),
-                        toValue: 250,
+                        toValue: 1,
                         speed,
                         bounciness,
+                        useNativeDriver: true,
                     }
                 ),
             ]),
@@ -118,16 +124,14 @@ class MainMenu extends Component {
                     },
                     {
                         text: 'OK', onPress: () => {
-                            this.props.startNewGameDispatcher({ maxScore: this.props.maxScore, maxScoreWins: this.props.maxScoreWins, });
-                            this.props.navigation.navigate(Scoreboard);
+                            this.props.navigation.navigate(NewGameSettings);
                         },
                     },
                 ],
                 { cancelable: false, }
             );
         } else {
-            this.props.startNewGameDispatcher({ maxScore: this.props.maxScore, maxScoreWins: this.props.maxScoreWins,});
-            this.props.navigation.navigate('Scoreboard');
+            this.props.navigation.navigate(NewGameSettings);
         }
     }
 
@@ -138,6 +142,7 @@ class MainMenu extends Component {
                     onPress={() => {this.props.navigation.navigate(Scoreboard)}}
                     animation={animation}
                     text="Continue game"
+                    width={250}
                 />
             );
         }
@@ -150,6 +155,7 @@ class MainMenu extends Component {
                     onPress={() => {this.props.navigation.navigate(SavedGames)}}
                     animation={animation}
                     text="Saved Games"
+                    width={250}
                 />
             );
         }
@@ -160,32 +166,37 @@ class MainMenu extends Component {
         let edited = this.props.activeGame.edited;
         let savedGames = this.props.savedGames.length > 0;
         return (
-            <ImageBackground
-                style={styles.container}
-                source={require('./../../assets/images/cards_dices.png')}>
-                <Animated.View style={{...titleContainer, top: bringMenusAnimationOne, }}>
+            <View
+                style={styles.container}>
+                <Image
+                    source={require('./../../assets/images/cards_dices.png')}
+                    style={[StyleSheet.absoluteFill,{flex:1, height: undefined, width: undefined,},]}
+                    resizeMode="cover"/>
+                <Animated.View style={{...titleContainer, transform: [{ translateY: bringMenusAnimationOne, },], }}>
                     <Text style={styles.title}>
                       MULTIBOARD
                     </Text>
                 </Animated.View>
-                <Animated.View style={{...menuContainer, top: bringMenusAnimationTwo, }}>
+                <Animated.View style={{...menuContainer, transform: [{ translateY: bringMenusAnimationTwo, },], }}>
                     <Text style={styles.header}>Main Menu</Text>
                     <View style={styles.body}>
                         <AnimatedButton
                             onPress={this.startNewGame}
                             animation={springAnimation1}
                             text="New Game"
+                            width={250}
                         />
                         {this.continueGame(springAnimation2)}
                         {this.savedGames(!edited? springAnimation2: springAnimation3)}
                         <AnimatedButton
                             onPress={() => {this.props.navigation.navigate(NewGameSettings)}}
                             animation={edited && savedGames? springAnimation4: !edited && !savedGames? springAnimation2: springAnimation3}
-                            text="Settings"
+                            text="Exit"
+                            width={250}
                         />
                     </View>
                 </Animated.View>
-            </ImageBackground>
+            </View>
         );
     }
 }
@@ -211,7 +222,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignContent: 'flex-start',
         alignItems: 'flex-start',
-        backgroundColor: '#9a9',
+        backgroundColor: '#000',
         padding: 15,
     },
     title: {

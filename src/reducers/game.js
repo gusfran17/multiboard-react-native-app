@@ -1,7 +1,7 @@
 import {
     ADD_PLAYER,
     REMOVE_PLAYER,
-    UPDATE_SCORE,
+    UPDATE_PLAYER_SCORE,
     UPDATE_PLAYER_STATUS,
     SELECT_PLAYER,
     UPDATE_WIN_OR_LOSE,
@@ -76,7 +76,7 @@ const initialState = {
 const isValidPlayer = (name,players) => {
     let playerExists = false;
     for (let player of players) {
-        if (player.name === name) {
+        if (player.name.trim().toUpperCase() === name.trim().toUpperCase()) {
             playerExists = true;
         }
     }
@@ -116,7 +116,7 @@ const game = (state = initialState, action) => {
                 ...state.players.slice(action.index + 1),
             ],
         };
-    case UPDATE_SCORE:
+    case UPDATE_PLAYER_SCORE:
         const player = {
             name: state.players[action.index].name,
             score: state.players[action.index].score + action.delta,

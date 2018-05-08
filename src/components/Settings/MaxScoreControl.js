@@ -55,8 +55,10 @@ class MaxScoreControl extends Component {
                         style={styles.scoreValueText}
                         value={this.state.newScore.toString()}
                         onChangeText={text=> this.onChanged(text, inputRef)}
-                        onKeyPress={() => {console.log('onKeyPress', this.state); this.setState({newScore: '...',})}}
+                        onKeyPress={() => {this.setState({newScore: '...',})}}
                         onSubmitEditing={() =>{ this.props.updateMaxScore(this.state.newScore)}}
+                        onBlur={() => { if (this.state.newScore) this.props.updateMaxScore(this.state.newScore);}}
+                        underlineColorAndroid='rgba(0,0,0,0)'
                     />
                 </View>
                 <TouchableOpacity
@@ -77,13 +79,13 @@ const styles = StyleSheet.create({
     },
     updateScoreMinus: {
         width: 40,
-        backgroundColor: '#ef5350',
+        backgroundColor: '#dd2323',
         flexDirection: 'row',
         alignItems: 'center',
     },
     updateScorePlus: {
         width: 40,
-        backgroundColor: '#66bb6a',
+        backgroundColor: '#33bb33',
         flexDirection: 'row',
         alignItems: 'center',
     },

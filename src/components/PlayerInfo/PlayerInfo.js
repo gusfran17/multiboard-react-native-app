@@ -6,38 +6,47 @@ import Detail from './Detail';
 import { WON, LOST, PLAYING, } from './../../utility/constants';
 import { formatDate, } from './../../utility/format';
 import { StatefullAnimatedButton, } from './../Button';
+import { GrowToHeight, } from './../Animation';
 
 const PlayerInfo = props => {
     let playerDetailsComponents;
     if (props.player) {
         return (
             <View style={[ styles.playerInfo, ]}>
-                <Text style={styles.name}>{props.player.name}</Text>
-                <Detail
-                    label="Score:"
-                    value={props.player.score.toString()}
-                />
-                <Detail
-                    label="Rank:"
-                    value={props.player.rank.toString()}
-                />
-                <Detail
-                    label="Status:"
-                    value={props.player.status}
-                />
-                <Detail
-                    label="Created:"
-                    value={formatDate(props.player.created)}
-                />
-                <Detail
-                    label="Updated:"
-                    value={formatDate(props.player.updated)}
-                />
-                <StatefullAnimatedButton
-                    onPress={()=>{props.selectPlayer(-1)}}
-                    text="Close"
-                    width={80}
-                />
+                <GrowToHeight
+                    height={350}
+                    delay={0}
+                    style={animatedContainerStyle}>
+                    <Text style={styles.name}>{props.player.name}</Text>
+                    <Detail
+                        label="Score:"
+                        value={props.player.score.toString()}
+                    />
+                    <Detail
+                        label="Rank:"
+                        value={props.player.rank.toString()}
+                    />
+                    <Detail
+                        label="Status:"
+                        value={props.player.status}
+                    />
+                    <Detail
+                        label="Created:"
+                        value={formatDate(props.player.created)}
+                    />
+                    <Detail
+                        label="Updated:"
+                        value={formatDate(props.player.updated)}
+                    />
+                    <View style={styles.closeButton}>
+                        <StatefullAnimatedButton
+                            onPress={()=>{props.selectPlayer(-1)}}
+                            text="Close"
+                            width={80}
+                            delay={500}
+                        />
+                    </View>
+                </GrowToHeight>
             </View>
         );
     } else {
@@ -50,10 +59,20 @@ PlayerInfo.propTypes = {
         name: PropTypes.string.isRequired,
         score: PropTypes.number.isRequired,
         status: PropTypes.oneOf([ WON, LOST, PLAYING, ]).isRequired,
-        created: PropTypes.object.isRequired,
+        created: PropTypes.string.isRequired,
         updated: PropTypes.object,
     }),
     selectPlayer: PropTypes.func.isRequired,
+}
+
+const animatedContainerStyle = {
+    alignSelf: 'stretch',
+    paddingTop: 10,
+    paddingBottom: 30,
+    paddingLeft: 20,
+    paddingRight: 30,
+    alignContent: 'center',
+    flexDirection: 'column',
 }
 
 const styles = StyleSheet.create({
@@ -84,19 +103,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     closeButton: {
-        flex: 2,
-        backgroundColor: '#333',
-        marginTop: 20,
-        marginBottom: 25,
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingTop: 10,
-        paddingBottom: 10,
-        borderRadius: 10,
-    },
-    closeButtonText: {
-        color: '#999',
-        fontWeight: '900',
+        marginTop: 30,
     },
 });
 

@@ -9,7 +9,7 @@ const mapStateToProps = state => (
         maxScoreWins: state.game.maxScoreWins,
         players: state.game.players,
         gameName: state.game.gameName,
-        saved: state.game.saved,
+        saved: state.game.saved? new Date(state.game.saved): state.game.saved,
         edited: state.game.edited,
     }
 );

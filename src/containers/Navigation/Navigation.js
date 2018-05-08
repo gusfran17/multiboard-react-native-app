@@ -1,10 +1,10 @@
 import React from 'react';
 import { StackNavigator, } from 'react-navigation';
-import Settings from './Settings';
-import Scoreboard from './Scoreboard';
-import MainMenu from './MainMenu';
-import SavedGames from './SavedGames';
-import NewGameSettings from './NewGameSettings'
+import Settings from './../Settings';
+import Scoreboard from './../Scoreboard';
+import MainMenu from './../MainMenu';
+import SavedGames from './../SavedGames';
+import NewGameSettings from './../NewGameSettings'
 
 const GameStack = StackNavigator({
     Scoreboard: {
@@ -24,7 +24,7 @@ const MainStack = StackNavigator({
         screen: MainMenu,
         navigationOptions: {
             headerStyle: {
-                backgroundColor: '#9a9',
+                backgroundColor: '#000',
             },
             headerTintColor: '#222',
         },

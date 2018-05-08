@@ -1,6 +1,6 @@
 import React, { Component, } from 'react';
 import { connect, } from 'react-redux';
-import { updateNewGameWinOrLose, updateNewGameMaxScore, } from './../actions';
+import { updateNewGameWinOrLose, updateNewGameMaxScore, startNewGame, } from './../actions';
 import { Settings, } from './../components'
 
 const mapStateToProps = state => (
@@ -17,6 +17,9 @@ const mapDispatchToProps = dispatch => ({
     },
     updateMaxScoreDispatcher: maxScore => {
         dispatch(updateNewGameMaxScore(maxScore));
+    },
+    startNewGameDispatcher: settings => {
+        dispatch(startNewGame(settings));
     },
 });
 

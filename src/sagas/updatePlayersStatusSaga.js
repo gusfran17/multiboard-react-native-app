@@ -1,5 +1,5 @@
 import { takeLatest, call, select, put, } from 'redux-saga/effects';
-import { UPDATE_SCORE, UPDATE_WIN_OR_LOSE, UPDATE_MAX_SCORE, UPDATE_GAME_STATUS, ADD_PLAYER, REMOVE_PLAYER, updatePlayerStatus, checkGameStatus, } from './../actions';
+import { UPDATE_PLAYER_SCORE, UPDATE_WIN_OR_LOSE, UPDATE_MAX_SCORE, UPDATE_GAME_STATUS, ADD_PLAYER, REMOVE_PLAYER, updatePlayerStatus, checkGameStatus, } from './../actions';
 import { gameSelector, settingsSelector, } from './../selectors';
 import { WON, LOST, PLAYING, ENDED, } from './../utility/constants';
 

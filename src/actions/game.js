@@ -3,13 +3,13 @@ import { makeActionCreator, } from './../utility';
 // PLAYERS
 export const ADD_PLAYER = 'Player/ADD_PLAYER';
 export const REMOVE_PLAYER = 'Player/REMOVE_PLAYER';
-export const UPDATE_SCORE = 'Player/UPDATE_SCORE';
+export const UPDATE_PLAYER_SCORE = 'Player/UPDATE_PLAYER_SCORE';
 export const UPDATE_PLAYER_STATUS = 'Player/UPDATE_PLAYER_STATUS';
 export const SELECT_PLAYER = 'Player/SELECT_PLAYER';
 
 export const addPlayer = makeActionCreator(ADD_PLAYER, 'name');
 export const removePlayer = makeActionCreator(REMOVE_PLAYER, 'index');
-export const updateScore = makeActionCreator(UPDATE_SCORE, 'index', 'delta');
+export const updateScore = makeActionCreator(UPDATE_PLAYER_SCORE, 'index', 'delta');
 export const updatePlayerStatus = makeActionCreator(UPDATE_PLAYER_STATUS, 'index', 'status');
 export const selectPlayer = makeActionCreator(SELECT_PLAYER, 'index');
 
@@ -29,5 +29,5 @@ export const updateDisplayStats = makeActionCreator(UPDATE_DISPLAY_STATS, 'displ
 export const updateGameStatus = makeActionCreator(UPDATE_GAME_STATUS, 'gameStatus');
 export const startNewGame = makeActionCreator(START_NEW_GAME, 'settings');
 export const saveProgress = makeActionCreator(SAVE_PROGRESS, 'gameName');
-export const loadGame = makeActionCreator(LOAD_GAME, 'game');
+export const loadGame = makeActionCreator(LOAD_GAME, 'game', 'index');
 export const checkGameStatus = makeActionCreator(CHECK_GAME_STATUS, 'game');

@@ -7,6 +7,7 @@ const monthNames = [
 
 export const formatDate = date => {
     if (date) {
+        date = new Date(date);
         const hours = date.getHours();
         const minutes = date.getMinutes();
         const day = date.getDate();
@@ -21,6 +22,7 @@ export const formatDate = date => {
 
 export const formatDateShort = date => {
     if (date) {
+        date = new Date(date);
         const day = date.getDate();
         const monthIndex = date.getMonth();
         const year = date.getFullYear();

@@ -8,25 +8,29 @@ class StatefullAnimatedButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            springAnimation: new Animated.Value(0),
+            springAnimation: new Animated.Value(0.001),
         }
     }
     static propTypes = {
         onPress: PropTypes.func.isRequired,
         text: PropTypes.string.isRequired,
         width: PropTypes.number.isRequired,
+        delay: PropTypes.number,
     }
 
     componentDidMount() {
         const bounciness = 12;
         const speed = 1;
+
         Animated.spring(
             this.state.springAnimation,
             {
-                toValue: this.props.width,
-                delay: 100,
+                toValue: 1,
+                delay: this.props.delay? this.props.delay: 100,
                 speed,
                 bounciness,
+                useNativeDriver: true,
+                fromValue: 0.001,
             }
         ).start();
     }
@@ -38,6 +42,7 @@ class StatefullAnimatedButton extends Component {
                 onPress={this.props.onPress}
                 animation={this.state.springAnimation}
                 text={this.props.text}
+                width={this.props.width}
             />
         );
     }

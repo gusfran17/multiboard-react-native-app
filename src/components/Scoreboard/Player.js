@@ -16,11 +16,19 @@ const Player = props => {
         }
     }
 
+    const trimName = name => {
+        if (name.length > 15){
+            let shortName = `${name.substring(0,13)}...`;
+            return shortName;
+        }
+        return name;
+    }
+
     const badge = props.status===WON?
         <Badge
             value="Winner"
             textStyle={{color: "white", fontWeight: "900", fontSize: 10,}}
-            containerStyle={{backgroundColor: "#6b6",}}
+            containerStyle={{backgroundColor: "#7c7",}}
         />
         : props.status===LOST?
             <Badge
@@ -37,7 +45,7 @@ const Player = props => {
                 >
                     <Icon
                         style={styles.removeButtonText}
-                        color="#b66"
+                        color="#dd2323"
                         name="cancel">
                     </Icon>
                 </TouchableOpacity>
@@ -45,7 +53,7 @@ const Player = props => {
                     style={styles.name}
                     onPress={() => { props.selectPlayer(props.index) }}
                 >
-                    {props.name}
+                    {trimName(props.name)}
                 </Text>
                 <View style={styles.playerWonLost}>
                     {badge}
@@ -96,7 +104,7 @@ const styles = StyleSheet.create({
         right: 5,
     },
     playerWon: {
-        backgroundColor: '#2f6f2f',
+        backgroundColor: '#2f8f2f',
         borderWidth: 2,
         borderColor: '#292',
     },
@@ -124,6 +132,7 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         marginLeft: -30,
         fontWeight: '900',
+        textDecorationLine: 'underline',
     },
 });
 

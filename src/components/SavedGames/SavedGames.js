@@ -2,28 +2,35 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, ImageBackground, } from 'react-native';
 import PropTypes from 'prop-types';
 import GamesTable from './GamesTable';
-import { NavigationBar, } from './../../containers';
 import { StatefullAnimatedButton, } from './../Button';
+import { GrowToHeight, } from './../Animation';
 
 const SavedGames = props => {
     return (
         <ImageBackground
             style={[ styles.container, ]}
             source={require('./../../assets/images/dark_dice.png')}>
-            <View style={[ styles.savedGamesContainer, ]}>
-                <Text style={styles.title}>Saved Games</Text>
-                <GamesTable
-                    savedGames={props.savedGames}
-                    navigation={props.navigation}
-                    loadGame={props.loadGameDispatcher}
-                    activeGameNotSaved={props.activeGameNotSaved}
-                />
-                <StatefullAnimatedButton
-                    onPress={() => {props.navigation.goBack()}}
-                    text="Back to menu"
-                    width={140}
-                />
-            </View>
+            <GrowToHeight
+                height={250}
+                delay={200}
+                style={animatedContainerStyle}>
+                <View style={[ styles.savedGamesContainer, ]}>
+                    <Text style={styles.title}>Saved Games</Text>
+                    <GamesTable
+                        savedGames={props.savedGames}
+                        navigation={props.navigation}
+                        loadGame={props.loadGameDispatcher}
+                        removeGame={props.removeGameDispatcher}
+                        activeGameNotSaved={props.activeGameNotSaved}
+                    />
+                    <StatefullAnimatedButton
+                        onPress={() => {props.navigation.goBack()}}
+                        text="Back to menu"
+                        width={140}
+                        delay={900}
+                    />
+                </View>
+            </GrowToHeight>
         </ImageBackground>
     );
 }
@@ -32,17 +39,14 @@ SavedGames.propTypes = {
     savedGames: PropTypes.array.isRequired,
     navigation: PropTypes.object.isRequired,
     loadGameDispatcher: PropTypes.func.isRequired,
+    removeGameDispatcher: PropTypes.func.isRequired,
     activeGameNotSaved: PropTypes.bool.isRequired,
 }
 
 SavedGames.navigationOptions = ({ navigation, }) => {
     const params = navigation.state.params || {};
     return {
-        headerTitle: <NavigationBar
-            navigation={navigation}
-            showControls={false}
-            title="MULTIBOARD"
-        />,
+        headerTitle: null,
         headerStyle: {
             backgroundColor: '#ff00ff00',
             height: 65,
@@ -52,10 +56,14 @@ SavedGames.navigationOptions = ({ navigation, }) => {
     };
 };
 
+const animatedContainerStyle = {
+    flex: 1,
+};
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#9a9',
+        backgroundColor: '#000',
         padding: 15,
         marginTop: -80,
     },
@@ -65,7 +73,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#22222299',
         borderRadius: 20,
         paddingBottom: 30,
-        marginTop: 90,
+        marginTop: 60,
     },
     title: {
         alignSelf: 'center',

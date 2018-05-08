@@ -78,7 +78,7 @@ class Stopwatch extends Component {
                             style={[styles.timerButton, styles.timerButtonLeft,]}
                             onPress={this.onStart}
                         >
-                            <Text style={styles.timerButtonText}>Sart</Text>
+                            <Text style={styles.timerButtonText}>Start</Text>
                         </TouchableOpacity>
                     }
 

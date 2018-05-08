@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, } from 'react-native';
 import { Icon, } from 'react-native-elements';
 import PropTypes from 'prop-types';
+import { GrowToHeight, } from './../Animation';
 
 const PositionsTable = props => {
     const playersListComponet = props.players.map((player, index) => {
@@ -14,14 +15,21 @@ const PositionsTable = props => {
         );
     });
     return (
-        <View style={styles.positionsTable}>
-            <View style={styles.detail}>
-                <Text style={[ styles.col1, styles.titleLabel, ]}>Rank</Text>
-                <Text style={[ styles.col2, styles.titleLabel, ]}>Name</Text>
-                <Text style={[ styles.col3, styles.titleLabel, ]}>Score</Text>
+        <GrowToHeight
+            height={props.players.length <= 4? (80+(props.players.length*50)):280}
+            delay={0}
+            style={animatedContainerStyle}>
+            <View style={styles.positionsTable}>
+                <View style={styles.detail}>
+                    <Text style={[ styles.col1, styles.titleLabel, ]}>Rank</Text>
+                    <Text style={[ styles.col2, styles.titleLabel, ]}>Name</Text>
+                    <Text style={[ styles.col3, styles.titleLabel, ]}>Score</Text>
+                </View>
+                <ScrollView>
+                    {playersListComponet}
+                </ScrollView>
             </View>
-            {playersListComponet}
-        </View>
+        </GrowToHeight>
     );
 }
 
@@ -29,12 +37,23 @@ PositionsTable.propTypes = {
     players: PropTypes.array.isRequired,
 }
 
+const animatedContainerStyle = {
+    alignSelf: 'stretch',
+    paddingTop: 0,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 30,
+    marginBottom: 0,
+    alignContent: 'center',
+    flexDirection: 'column',
+}
 
 const styles = StyleSheet.create({
     positionsTable: {
         alignSelf: 'stretch',
         paddingTop: 10,
-        paddingBottom: 30,
+        paddingBottom: 15,
+        flexDirection: 'column',
     },
     detail: {
         flexDirection: 'row',

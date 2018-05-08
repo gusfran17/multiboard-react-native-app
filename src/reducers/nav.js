@@ -1,4 +1,4 @@
-import MainStack from './../containers/Navigation';
+import { MainStack, } from './../containers/Navigation';
 
 const initialState = MainStack.router.getStateForAction(MainStack.router.getActionForPathAndParams('MainMenu'));
 const nav = (state = initialState, action) => {

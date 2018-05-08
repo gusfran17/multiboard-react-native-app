@@ -8,7 +8,16 @@ import { StatefullAnimatedButton, } from './../Button';
 
 const GameStats = props => {
     const sortedPlayers = props.maxScoreWins? sortPlayersMaxScoreWins(props.players.slice()): sortPlayersMaxScoreLoses(props.players.slice());
-    const gameFinishedTitleComponent = props.gameFinished? <Text style={styles.title}>{sortedPlayers[0].name} WON!</Text>:undefined;
+    const gameFinishedTitleComponent = props.gameFinished?
+        <View>
+            <Text style={styles.titleName}>
+                {sortedPlayers[0].name}
+            </Text>
+            <Text style={styles.titleWin}>
+                WON!!!
+            </Text>
+        </View>
+        :undefined;
     return (
         <View style={[ styles.container, ]}>
             {gameFinishedTitleComponent}
@@ -20,6 +29,7 @@ const GameStats = props => {
                 onPress={() => {props.updateDisplayStats(false)}}
                 text="Continue"
                 width={120}
+                delay={700}
             />
         </View>
     );
@@ -36,7 +46,7 @@ GameStats.propTypes = {
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        top: 160,
+        top: 100,
         zIndex: 10,
         width: 300,
         flex: 1,
@@ -49,23 +59,31 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         paddingBottom: 30,
     },
-    title: {
-        flex: 1,
+    titleName: {
         textAlign: 'center',
         color: '#fff',
-        paddingTop: 30,
+        paddingTop: 15,
         paddingBottom: 0,
         paddingLeft: 5,
         paddingRight: 5,
         fontWeight: '900',
         fontSize: 20,
     },
-    subTitle: {
-        flex: 1,
+    titleWin: {
         textAlign: 'center',
         color: '#fff',
-        paddingTop: 30,
-        paddingBottom: 20,
+        paddingTop: 10,
+        paddingBottom: 0,
+        paddingLeft: 5,
+        paddingRight: 5,
+        fontWeight: '900',
+        fontSize: 30,
+    },
+    subTitle: {
+        textAlign: 'center',
+        color: '#fff',
+        paddingTop: 10,
+        paddingBottom: 10,
         paddingLeft: 5,
         paddingRight: 5,
         fontWeight: '600',

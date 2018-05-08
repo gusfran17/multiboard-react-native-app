@@ -1,39 +1,42 @@
 import React from 'react';
-import { Animated, ScrollView, } from 'react-native';
+import { Animated, ScrollView, StyleSheet, } from 'react-native';
 import PropTypes from 'prop-types';
 
-class BringFromBottom extends React.Component {
+class GrowToHeight extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            bringUp: new Animated.Value(800),
+            scale: new Animated.Value(0),
         }
     }
 
     static propTypes = {
         children: PropTypes.node,
-        style: PropTypes.object,
+        delay: PropTypes.number.isRequired,
+        style: PropTypes.object.isRequired,
     }
 
     componentDidMount() {
         Animated.timing(
-            this.state.bringUp,
+            this.state.scale,
             {
-                toValue: 100,
-                delay: 300,
+                toValue: 1,
+                delay: this.props.delay,
                 useNativeDriver: true,
             }
         ).start();
     }
 
     render() {
-        let { bringUp, } = this.state;
+        let { scale, } = this.state;
 
         return (
             <Animated.ScrollView
+                scrollEnabled={true}
+                showsVerticalScrollIndicator={true}
                 style={{
-                    transform: [{ translateY: bringUp, },],
-                    alignSelf: 'stretch',
+                    transform: [{ scaleY: scale, }, {perspective: 1000, },],
+                    opacity: scale,
                     ...this.props.style,
                 }}
             >
@@ -43,4 +46,4 @@ class BringFromBottom extends React.Component {
     }
 }
 
-export default BringFromBottom;
+export default GrowToHeight;

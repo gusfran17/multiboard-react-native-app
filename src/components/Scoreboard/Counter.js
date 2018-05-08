@@ -84,13 +84,13 @@ const styles = StyleSheet.create({
     },
     updateScoreMinus: {
         flex: 2,
-        backgroundColor: '#ef5350',
+        backgroundColor: '#dd2323',
         flexDirection: 'row',
         alignItems: 'center',
     },
     updateScorePlus: {
         flex: 2,
-        backgroundColor: '#66bb6a',
+        backgroundColor: '#33bb33',
         flexDirection: 'row',
         alignItems: 'center',
     },

@@ -14,12 +14,12 @@ const WinLoseControl = props => {
             <Text
                 style={ [styles.valueLabel, styles.valueLabelLose, ]}
                 onPress={()=>{props.toggleWinLose(false)}}
-            >lose</Text>
+            >l{"\n"}o{"\n"}s{"\n"}e</Text>
             <View style={styles.switchContainer}>
                 <Switch
                     style={styles.switchComponent}
                     onTintColor="#efe"
-                    tintColor="#f77"
+                    tintColor="#f33"
                     thumbTintColor={props.maxScoreWins? '#7f7':'#f77'}
                     value={props.maxScoreWins}
                     onValueChange={() => {props.toggleWinLose(!props.maxScoreWins)}}
@@ -28,7 +28,7 @@ const WinLoseControl = props => {
             <Text
                 style={[styles.valueLabel, styles.valueLabelWin, ]}
                 onPress={()=>{props.toggleWinLose(true)}}
-            >win</Text>
+            >w{"\n"}i{"\n"}n</Text>
         </View>
     );
 }

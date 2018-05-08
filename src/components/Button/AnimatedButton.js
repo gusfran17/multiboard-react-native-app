@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const AnimatedButton = props => {
     return (
-        <Animated.View style={{height: 58, width: props.animation,}}>
+        <Animated.View style={{height: 58, width: props.width, alignSelf: 'center', transform: [{ scale: props.animation, }, {perspective: 1000, },], opacity: props.animation,}}>
             <TouchableOpacity
                 style={styles.optionButton}
                 onPress={props.onPress}
@@ -21,6 +21,7 @@ AnimatedButton.propTypes = {
     animation: PropTypes.object.isRequired,
     onPress: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired,
+    width: PropTypes.number.isRequired,
 }
 
 const styles = StyleSheet.create({

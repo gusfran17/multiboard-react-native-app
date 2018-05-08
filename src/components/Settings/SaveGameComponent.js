@@ -13,6 +13,7 @@ class SaveGameComponent extends Component {
         this.state = {
             gameName: props.gameName,
             allowEditGame: false,
+            saveProgressDelay: 100,
         };
     }
 
@@ -24,6 +25,10 @@ class SaveGameComponent extends Component {
         saveProgress: PropTypes.func.isRequired,
     }
 
+    componentWillMount() {
+        if (this.props.edited) this.setState({ saveProgressDelay: 1000, });
+    }
+
     saveProgress = () => {
         if (this.state.gameName) {
             this.props.saveProgress(this.state.gameName);
@@ -31,6 +36,7 @@ class SaveGameComponent extends Component {
         } else {
             alert('The game name cannot be empty.');
         }
+        this.setState({ saveProgressDelay: 100, });
     }
 
     editGameName = () => {
@@ -45,6 +51,7 @@ class SaveGameComponent extends Component {
                     onPress={this.saveProgress}
                     text="Save progress"
                     width={170}
+                    delay={this.state.saveProgressDelay}
                 />
             );
         }
@@ -59,6 +66,7 @@ class SaveGameComponent extends Component {
                             placeholderTextColor='#999'
                             onChangeText={gameName => {this.setState({gameName,})}}
                             onSubmitEditing={this.saveProgress}
+                            underlineColorAndroid='rgba(0,0,0,0)'
                         />
                         <TouchableOpacity
                             style={styles.saveGameButton}
@@ -108,6 +116,7 @@ class SaveGameComponent extends Component {
                         placeholderTextColor='#999'
                         onChangeText={gameName => {this.setState({gameName,})}}
                         onSubmitEditing={this.saveProgress}
+                        underlineColorAndroid='rgba(0,0,0,0)'
                     />
                     <TouchableOpacity
                         style={styles.saveGameButton}
@@ -130,11 +139,13 @@ class SaveGameComponent extends Component {
                     onPress={() => {this.props.navigation.goBack()}}
                     text="Continue playing"
                     width={170}
+                    delay={1000}
                 />
                 <StatefullAnimatedButton
                     onPress={() => {this.props.navigation.navigate(MainMenu)}}
                     text="Main menu"
                     width={170}
+                    delay={1000}
                 />
             </View>
         );

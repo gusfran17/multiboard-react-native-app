@@ -2,23 +2,39 @@ import React, { Component, } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Switch, } from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
+import { Scoreboard, } from './../../utility/constants';
+import { StatefullAnimatedButton, } from './../Button';
 
+const MainMenuSettingsFooter = props => {
 
-const MainMenuSettingsFooter = props => (
-    <View style={styles.footer}>
-        <TouchableOpacity
-            style={styles.optionButton}
-            onPress={() => {props.navigation.goBack()}}
-        >
-            <Text style={styles.optionButtonText}>
-                Back to menu
-            </Text>
-        </TouchableOpacity>
-    </View>
-);
+    const startNewGame = () => {
+        props.startNewGame({ maxScore: props.maxScore, maxScoreWins: props.maxScoreWins, });
+        props.navigation.navigate(Scoreboard);
+    }
+
+    return (
+        <View style={styles.footer}>
+            <StatefullAnimatedButton
+                onPress={startNewGame}
+                text="Start new game"
+                width={150}
+                delay={1000}
+            />
+            <StatefullAnimatedButton
+                onPress={() => {props.navigation.goBack()}}
+                text="Back to menu"
+                width={150}
+                delay={1000}
+            />
+        </View>
+    );
+}
 
 MainMenuSettingsFooter.propTypes = {
     navigation: PropTypes.object,
+    startNewGame: PropTypes.func.isRequired,
+    maxScore: PropTypes.number.isRequired,
+    maxScoreWins: PropTypes.bool.isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -31,18 +47,6 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 20,
         paddingTop: 40,
         paddingBottom: 15,
-    },
-    optionButton: {
-        height: 44,
-        backgroundColor: '#333',
-        marginBottom: 15,
-        padding: 10,
-        borderRadius: 10,
-    },
-    optionButtonText: {
-        color: '#999',
-        fontWeight: '900',
-        padding: 3,
     },
 });
 

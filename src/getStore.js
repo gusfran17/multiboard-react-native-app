@@ -1,5 +1,7 @@
 import logger from 'redux-logger';
 import { createStore, combineReducers, applyMiddleware, compose, } from 'redux';
+import { persistStore, persistReducer, } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import { composeWithDevTools, } from 'redux-devtools-extension';
 // import { composeWithDevTools, } from 'remote-redux-devtools';
 import createSagaMiddleware from 'redux-saga';
@@ -32,13 +34,20 @@ const combinedReducer = combineReducers({
     nav,
 });
 
-const store = createStore(
-    combinedReducer,
+const persistConfig = {
+    key: 'root',
+    storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, combinedReducer)
+
+export const store = createStore(
+    persistedReducer,
     enhancer,
 );
+
+export const persistor = persistStore(store)
 
 sagaMiddleware.run(updatePlayersStatusSaga);
 sagaMiddleware.run(updateGameStatusSaga);
 sagaMiddleware.run(saveGameSaga);
-
-export default store;

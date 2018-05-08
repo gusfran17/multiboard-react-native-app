@@ -8,8 +8,13 @@ export {
     MainMenu
 } from './MainMenu';
 export {
-    NavigationBar
+    NavigationHeader,
+    RightHeader
 } from './Navigation';
 export {
     SavedGames
 } from './SavedGames';
+export {
+    BringFromBottom,
+    GrowToHeight
+} from './Animation';

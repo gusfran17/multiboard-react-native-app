@@ -72,7 +72,7 @@ function* checkGameStatus({ status, }) {
                 finished ++;
             }
         }
-        if (finished >= game.players.length - 1) {
+        if (finished >= game.players.length - 1 && game.players.length > 1) {
             // game is in ENDED status and those still playing are winner
             yield call(putGameStatus, true, game.gameStatus);
             yield call(replacePlayersStatus, game.players, PLAYING, WON);

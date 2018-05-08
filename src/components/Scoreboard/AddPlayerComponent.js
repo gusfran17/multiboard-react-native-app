@@ -31,6 +31,8 @@ class AddPlayerComponent extends Component {
                             this.setState({name,});
                         }}
                         onSubmitEditing={this.addPlayer}
+                        onBlur={() => { if (this.state.name) this.addPlayer();}}
+                        underlineColorAndroid='rgba(0,0,0,0)'
                     >
                     </TextInput>
                     <TouchableOpacity

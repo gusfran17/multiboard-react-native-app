@@ -1,11 +1,11 @@
 import React, { Component, } from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, ImageBackground, } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, ImageBackground, KeyboardAvoidingView,} from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
 import { Header, Player, AddPlayerComponent, } from './';
 import { PlayerInfo, } from './../PlayerInfo';
 import { GameStats, } from './../GameStats';
-import { NavigationBar, } from './../../containers';
+import { RightHeader, } from './../../containers';
 import { WON, LOST, PLAYING, ENDED, } from './../../utility/constants';
 import { sortPlayersMaxScoreLoses, sortPlayersMaxScoreWins, } from './../../utility/sort';
 import BringFromBottom from './../Animation/BringFromBottom';
@@ -79,21 +79,27 @@ const Scoreboard = props => {
                 selectPlayer={props.selectPlayerDispatcher}
             />
             {showStats()}
-            <BringFromBottom>
-                <Header
-                    players={props.players}
-                    maxScore={props.maxScore}
-                    maxScoreWins={props.maxScoreWins}
-                />
-                <View>
-                    {playersComponent}
-                </View>
-                <AddPlayerComponent
-                    addPlayer={props.addPlayerDispatcher}
-                    navigation={props.navigation}
-                    checkGameStatus={props.checkGameStatusDispatcher}
-                />
-
+            <BringFromBottom
+                style={scoreboardContainer}>
+                <KeyboardAvoidingView
+                    behavior="position"
+                    enabled={true}
+                    keyboardVerticalOffset={(Platform.OS === 'ios') ? 50:0}
+                >
+                    <Header
+                        players={props.players}
+                        maxScore={props.maxScore}
+                        maxScoreWins={props.maxScoreWins}
+                    />
+                    <View>
+                        {playersComponent}
+                    </View>
+                    <AddPlayerComponent
+                        addPlayer={props.addPlayerDispatcher}
+                        navigation={props.navigation}
+                        checkGameStatus={props.checkGameStatusDispatcher}
+                    />
+                </KeyboardAvoidingView>
             </BringFromBottom>
         </ImageBackground>
     );
@@ -102,18 +108,22 @@ const Scoreboard = props => {
 Scoreboard.navigationOptions = ({ navigation, }) => {
     const params = navigation.state.params || {};
     return {
-        headerTitle: <NavigationBar
+        headerRight: <RightHeader
             navigation={navigation}
-            showControls={true}
-            title="SCOREBOARD"
         />,
         headerStyle: {
             backgroundColor: '#ff00ff00',
-            height: 65,
+            height: 85,
             borderBottomWidth: 0,
         },
         headerTintColor: '#fff',
+        headerTransparent: true,
     };
+};
+
+const scoreboardContainer = {
+    marginBottom: 100,
+    marginTop: -20,
 };
 
 Scoreboard.propTypes = {
@@ -137,8 +147,8 @@ Scoreboard.propTypes = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: -85,
-        backgroundColor: '#9a9',
+        marginTop: 0,
+        backgroundColor: '#000',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 15,

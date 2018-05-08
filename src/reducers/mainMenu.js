@@ -5,6 +5,7 @@ import {
     SAVE_GAME,
     UPDATE_GAME,
     REMOVE_GAME,
+    LOAD_GAME,
 } from './../actions';
 
 const initialState = {
@@ -78,9 +79,14 @@ const mainMenu = (state = initialState, action) => {
             maxScore: state.maxScore,
             activeGame: state.activeGame,
             savedGames: [
-                state.savedGames.slice(0,action.index),
-                state.savedGames.slice(action.index+1),
+                ...state.savedGames.slice(0,action.index),
+                ...state.savedGames.slice(action.index+1),
             ],
+        }
+    case LOAD_GAME:
+        return {
+            ...state,
+            activeGame: action.index,
         }
     default:
         return state;
