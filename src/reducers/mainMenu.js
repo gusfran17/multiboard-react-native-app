@@ -3,7 +3,7 @@ import {
     UPDATE_NEW_GAME_MAX_SCORE,
     START_NEW_GAME,
     SAVE_GAME,
-    UPDATE_GAME,
+    UPDATE_SAVED_GAME,
     REMOVE_GAME,
     LOAD_GAME,
 } from './../actions';
@@ -33,17 +33,13 @@ const mainMenu = (state = initialState, action) => {
     switch (action.type) {
     case UPDATE_NEW_GAME_WIN_OR_LOSE:
         return ({
+            ...state,
             maxScoreWins: action.maxScoreWins,
-            maxScore: state.maxScore,
-            activeGame: state.activeGame,
-            savedGames: state.savedGames,
         });
     case UPDATE_NEW_GAME_MAX_SCORE:
         return ({
-            maxScoreWins: state.maxScoreWins,
+            ...state,
             maxScore: action.maxScore,
-            activeGame: state.activeGame,
-            savedGames: state.savedGames,
         });
     case START_NEW_GAME:
         return {
@@ -51,33 +47,37 @@ const mainMenu = (state = initialState, action) => {
             activeGame: -1,
         };
     case SAVE_GAME:
+        console.log(action.game);
         return ({
-            maxScoreWins: state.maxScoreWins,
-            maxScore: state.maxScore,
+            ...state,
             activeGame: state.savedGames.length,
             savedGames: [
                 ...state.savedGames,
                 action.game,
             ],
         });
-    case UPDATE_GAME:
+    case UPDATE_SAVED_GAME:
         const savedGame = action.game;
+        console.log(savedGame);
+        const savedGameCopy = {
+            data: {
+                ...savedGame.data,
+            },
+            players: [
+                ...savedGame.players,
+            ],
+        };
         return {
-            maxScoreWins: state.maxScoreWins,
-            maxScore: state.maxScore,
-            activeGame: state.activeGame,
+            ...state,
             savedGames: [
                 ...state.savedGames.slice(0,action.index),
-                savedGame,
+                savedGameCopy,
                 ...state.savedGames.slice(action.index+1),
             ],
-        }
-
+        };
     case REMOVE_GAME:
         return {
-            maxScoreWins: state.maxScoreWins,
-            maxScore: state.maxScore,
-            activeGame: state.activeGame,
+            ...state,
             savedGames: [
                 ...state.savedGames.slice(0,action.index),
                 ...state.savedGames.slice(action.index+1),

@@ -1,6 +1,6 @@
 import { takeLatest, call, select, put, } from 'redux-saga/effects';
 import { CHECK_GAME_STATUS, UPDATE_GAME_STATUS, updateDisplayStats, updateGameStatus, updatePlayerStatus, } from './../actions';
-import { gameSelector, settingsSelector, } from './../selectors';
+import { gameSelector, settingsSelector, playersSelector, } from './../selectors';
 import { WON, LOST, PLAYING, ENDED, IN_COURSE, } from './../utility/constants';
 
 function* putGameStatus(gameEnded, currentStatus) {
@@ -45,13 +45,14 @@ function* replacePlayersStatus(players, currentStatus, newStatus) {
 
 function* checkGameStatus({ status, }) {
     const game = yield select(gameSelector);
+    const players = yield select(playersSelector);
     let gameEnded = false;
     let finished= 0;
     let player;
     if (game.maxScoreWins) {
         // Game ended is set in counter component
-        for (let index = 0; index < game.players.length; index++) {
-            player = game.players[index];
+        for (let index = 0; index < players.length; index++) {
+            player = players[index];
             if (player.status === WON) {
                 finished++;
             }
@@ -59,27 +60,27 @@ function* checkGameStatus({ status, }) {
         if (finished>0) {
             // game is in ENDED status and those still playing are losers
             yield call(putGameStatus, true, game.gameStatus);
-            yield call(replacePlayersStatus, game.players, PLAYING, LOST);
+            yield call(replacePlayersStatus, players, PLAYING, LOST);
         } else {
             // set game to IN_COURSE when only winner goes back to playing
             yield call(putGameStatus, false, game.gameStatus);
-            yield call(replacePlayersStatus, game.players, LOST, PLAYING);
+            yield call(replacePlayersStatus, players, LOST, PLAYING);
         }
     } else {
-        for (let index = 0; index < game.players.length; index++) {
-            player = game.players[index];
+        for (let index = 0; index < players.length; index++) {
+            player = players[index];
             if (player.status === LOST) {
                 finished ++;
             }
         }
-        if (finished >= game.players.length - 1 && game.players.length > 1) {
+        if (finished >= players.length - 1 && players.length > 1) {
             // game is in ENDED status and those still playing are winner
             yield call(putGameStatus, true, game.gameStatus);
-            yield call(replacePlayersStatus, game.players, PLAYING, WON);
+            yield call(replacePlayersStatus, players, PLAYING, WON);
         } else {
             // set game to IN_COURSE when only winners goes back to playing
             yield call(putGameStatus, false, game.gameStatus);
-            yield call(replacePlayersStatus, game.players, WON, PLAYING);
+            yield call(replacePlayersStatus, players, WON, PLAYING);
         }
     }
 }

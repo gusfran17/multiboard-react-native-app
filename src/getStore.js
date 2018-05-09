@@ -7,7 +7,7 @@ import { composeWithDevTools, } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import { createReduxBoundAddListener, createReactNavigationReduxMiddleware, } from 'react-navigation-redux-helpers';
 import { updatePlayersStatusSaga, updateGameStatusSaga, saveGameSaga, } from './sagas';
-import { game, mainMenu, nav, } from './reducers';
+import { game, mainMenu, nav, gamePlayers, } from './reducers';
 import screenTracking from './utility/gaTracking';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -32,6 +32,7 @@ const combinedReducer = combineReducers({
     game,
     mainMenu,
     nav,
+    gamePlayers,
 });
 
 const persistConfig = {

@@ -52,18 +52,18 @@ const PositionsTable = props => {
     }
 
     const getGamesListComponet = savedGames => {
-        const gamesListComponet = savedGames.map((game, index) => {
+        const gamesListComponet = savedGames.map((savedGame, index) => {
             return (
-                <View key={game.index} style={styles.detail}>
-                    <Text style={[ styles.col1, styles.label, ]}>{formatDateShort(game.saved)}</Text>
-                    <Text style={[ styles.col2, styles.label, ]}>{game.gameName}</Text>
+                <View key={savedGame.index} style={styles.detail}>
+                    <Text style={[ styles.col1, styles.label, ]}>{formatDateShort(savedGame.data.saved)}</Text>
+                    <Text style={[ styles.col2, styles.label, ]}>{savedGame.data.gameName}</Text>
                     <TouchableOpacity
-                        onPress={()=>{removeGame(game.index, game.gameName)}}
+                        onPress={()=>{removeGame(savedGame.index, savedGame.data.gameName)}}
                         style={[ styles.col3Load, styles.button, ]}>
                         <Icon size={30} name="delete" color='#fff'/>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={()=>{loadGame(game, game.index)}}
+                        onPress={()=>{loadGame(savedGame, savedGame.index)}}
                         style={[ styles.col3Load, styles.button, ]}>
                         <Icon size={30} name="slideshow" color='#fff'/>
                     </TouchableOpacity>

@@ -30,11 +30,11 @@ export {
     UPDATE_NEW_GAME_WIN_OR_LOSE,
     UPDATE_NEW_GAME_MAX_SCORE,
     SAVE_GAME,
-    UPDATE_GAME,
+    UPDATE_SAVED_GAME,
     REMOVE_GAME,
     updateNewGameWinOrLose,
     updateNewGameMaxScore,
     saveGame,
-    updateGame,
+    updateSavedGame,
     removeGame
 } from './mainMenu';

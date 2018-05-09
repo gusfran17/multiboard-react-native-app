@@ -5,7 +5,7 @@ import { RightHeader, } from './../../components'
 
 const mapStateToProps = state => (
     {
-        playersAmount: state.game.players.length,
+        playersAmount: state.gamePlayers.players.length,
         playerInfoDisplayed: state.game.displayStats,
     }
 );

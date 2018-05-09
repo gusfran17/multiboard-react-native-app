@@ -25,6 +25,7 @@ class MainMenu extends Component {
         maxScore: PropTypes.number.isRequired,
         maxScoreWins: PropTypes.bool.isRequired,
         savedGames: PropTypes.array.isRequired,
+        playersEdited: PropTypes.bool.isRequired,
     }
 
     static navigationOptions = ({ navigation, }) => {
@@ -114,7 +115,7 @@ class MainMenu extends Component {
     }
 
     startNewGame = () => {
-        if (this.props.activeGame.edited) {
+        if (this.props.activeGame.edited || this.props.playersEdited) {
             Alert.alert(
                 'New game',
                 'If you don´t save your game in progress you´ll lose all your data. Are you want to do this?',
@@ -136,7 +137,7 @@ class MainMenu extends Component {
     }
 
     continueGame = animation => {
-        if (this.props.activeGame.edited) {
+        if (this.props.activeGame.edited || this.props.playersEdited) {
             return (
                 <AnimatedButton
                     onPress={() => {this.props.navigation.navigate(Scoreboard)}}
@@ -163,7 +164,7 @@ class MainMenu extends Component {
 
     render() {
         let { bringMenusAnimationOne, bringMenusAnimationTwo, springAnimation1, springAnimation2, springAnimation3, springAnimation4, } = this.state;
-        let edited = this.props.activeGame.edited;
+        let edited = this.props.activeGame.edited || this.props.playersEdited;
         let savedGames = this.props.savedGames.length > 0;
         return (
             <View

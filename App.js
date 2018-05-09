@@ -6,7 +6,7 @@ import { store, persistor, } from './src/getStore';
 import preloadImages from './src/utility/imagesPreloader';
 
 // preloadImages(results => {});
-// persistor.purge();
+persistor.purge();
 console.disableYellowBox = true;
 export default class App extends Component {
     render() {
