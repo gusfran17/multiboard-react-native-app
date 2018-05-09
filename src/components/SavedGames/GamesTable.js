@@ -3,54 +3,10 @@ import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView, } from 're
 import { Icon, } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import { formatDateShort, } from './../../utility/format';
-import { Scoreboard, } from './../../utility/constants';
 import { GrowToHeight, } from './../Animation';
 import { sortSavedGames, } from './../../utility/sort';
 
 const PositionsTable = props => {
-    const loadGame = (game,index) => {
-        if (props.activeGameNotSaved) {
-            Alert.alert(
-                'Load game',
-                'You hava a game in progress. If you load this game you will lose all your unsaved data. Are you want to do this?',
-                [
-                    {
-                        text: 'Cancel', onPress: () => {},
-                    },
-                    {
-                        text: 'OK', onPress: () => {
-                            props.loadGame(game, index);
-                            props.navigation.navigate(Scoreboard);
-                        },
-                    },
-                ],
-                { cancelable: false, }
-            );
-        } else {
-            props.loadGame(game, index);
-            props.navigation.navigate(Scoreboard);
-        }
-    }
-
-    const removeGame = (index, gameName) => {
-        Alert.alert(
-            `Remove game "${gameName}"`,
-            'Are you sure that you want to delete this game?',
-            [
-                {
-                    text: 'Cancel', onPress: () => {},
-                },
-                {
-                    text: 'OK', onPress: () => {
-                        props.removeGame(index);
-                    },
-                },
-            ],
-            { cancelable: false, }
-        );
-
-    }
-
     const getGamesListComponet = savedGames => {
         const gamesListComponet = savedGames.map((savedGame, index) => {
             return (
@@ -58,12 +14,12 @@ const PositionsTable = props => {
                     <Text style={[ styles.col1, styles.label, ]}>{formatDateShort(savedGame.data.saved)}</Text>
                     <Text style={[ styles.col2, styles.label, ]}>{savedGame.data.gameName}</Text>
                     <TouchableOpacity
-                        onPress={()=>{removeGame(savedGame.index, savedGame.data.gameName)}}
+                        onPress={()=>{props.removeGame(savedGame.index)}}
                         style={[ styles.col3Load, styles.button, ]}>
                         <Icon size={30} name="delete" color='#fff'/>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={()=>{loadGame(savedGame, savedGame.index)}}
+                        onPress={()=>{props.loadGame(savedGame.index)}}
                         style={[ styles.col3Load, styles.button, ]}>
                         <Icon size={30} name="slideshow" color='#fff'/>
                     </TouchableOpacity>

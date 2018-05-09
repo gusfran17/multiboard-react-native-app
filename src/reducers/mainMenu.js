@@ -47,7 +47,6 @@ const mainMenu = (state = initialState, action) => {
             activeGame: -1,
         };
     case SAVE_GAME:
-        console.log(action.game);
         return ({
             ...state,
             activeGame: state.savedGames.length,

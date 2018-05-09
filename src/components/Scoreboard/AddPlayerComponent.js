@@ -13,16 +13,29 @@ class AddPlayerComponent extends Component {
     static propTypes = {
         addPlayer: PropTypes.func.isRequired,
         checkGameStatus: PropTypes.func.isRequired,
+        isValidPlayer: PropTypes.func.isRequired,
+        showPlayersInfoReading: PropTypes.bool.isRequired,
     }
 
     addPlayer = () => {
-        this.props.addPlayer(this.state.name);
+        if (this.props.isValidPlayer(this.state.name)) {
+            this.props.addPlayer(this.state.name);
+            this.props.checkGameStatus();
+        }
         this.setState({name:"",});
-        this.props.checkGameStatus();
+
     }
+
+    showPlayersInfoReading = () => {
+        if (this.props.showPlayersInfoReading) {
+            return <Text style={styles.playersInfoReading}>Tap on a player to see his details.</Text>
+        }
+    }
+
     render(){
         return (
             <View style={styles.addPlayerContainer}>
+                {this.showPlayersInfoReading()}
                 <View style={styles.addPlayerForm}>
                     <TextInput
                         style={styles.addPlayerInput}
@@ -91,6 +104,14 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color: '#999',
         fontWeight: '900',
+    },
+    playersInfoReading: {
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 12,
+        margin: 0,
+        padding: 0,
+        color: '#FFF',
     },
 });
 

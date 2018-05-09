@@ -23,6 +23,7 @@ class SaveGameComponent extends Component {
         saved: PropTypes.object,
         edited: PropTypes.bool.isRequired,
         saveProgress: PropTypes.func.isRequired,
+        showEmptyNameAlert: PropTypes.func.isRequired,
     }
 
     componentWillMount() {
@@ -34,7 +35,7 @@ class SaveGameComponent extends Component {
             this.props.saveProgress(this.state.gameName);
             this.setState({ allowEditGame: false, });
         } else {
-            alert('The game name cannot be empty.');
+            this.props.showEmptyNameAlert();
         }
         this.setState({ saveProgressDelay: 100, });
     }

@@ -2,6 +2,7 @@ import React, { Component, } from 'react';
 import { Platform, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, ImageBackground, KeyboardAvoidingView,} from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
+import { Alert, } from './../';
 import { Header, Player, AddPlayerComponent, } from './';
 import { PlayerInfo, } from './../PlayerInfo';
 import { GameStats, } from './../GameStats';
@@ -10,10 +11,78 @@ import { WON, LOST, PLAYING, ENDED, } from './../../utility/constants';
 import { sortPlayersMaxScoreLoses, sortPlayersMaxScoreWins, } from './../../utility/sort';
 import BringFromBottom from './../Animation/BringFromBottom';
 
-const Scoreboard = props => {
+class Scoreboard extends Component {
 
-    const getPlayers = () => {
-        const playersComponent = props.players.map((player, index) => {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showWrongNameAlert: false,
+            showDeleteWinnerAlert: false,
+        };
+    }
+
+    static navigationOptions = ({ navigation, }) => {
+        const params = navigation.state.params || {};
+        return {
+            headerRight: <RightHeader
+                navigation={navigation}
+            />,
+            headerStyle: {
+                backgroundColor: '#ff00ff00',
+                height: 85,
+                borderBottomWidth: 0,
+            },
+            headerTintColor: '#fff',
+            headerTransparent: true,
+        };
+    };
+
+    static propTypes = {
+        players: PropTypes.array.isRequired,
+        updateScoreDispatcher: PropTypes.func.isRequired,
+        updatePlayerStatusDispatcher: PropTypes.func.isRequired,
+        removePlayerDispatcher: PropTypes.func.isRequired,
+        addPlayerDispatcher: PropTypes.func.isRequired,
+        selectPlayerDispatcher: PropTypes.func.isRequired,
+        updateDisplayStatsDispatcher: PropTypes.func.isRequired,
+        updateGameStatusDispatcher: PropTypes.func.isRequired,
+        checkGameStatusDispatcher: PropTypes.func.isRequired,
+        navigation: PropTypes.object,
+        maxScore: PropTypes.number.isRequired,
+        maxScoreWins: PropTypes.bool.isRequired,
+        gameStatus: PropTypes.string.isRequired,
+        selectedPlayer: PropTypes.number.isRequired,
+        displayStats: PropTypes.bool.isRequired,
+    }
+
+    isValidPlayer = name => {
+        let playerExists = false;
+        if (name) {
+            for (let player of this.props.players) {
+                console.log(player);
+                if (player.name.trim().toUpperCase() === name.trim().toUpperCase()) {
+                    playerExists = true;
+                }
+            }
+            if (!playerExists) {
+                return true;
+            }
+        }
+        this.setState({
+            showWrongNameAlert: true,
+        });
+        return false;
+    };
+
+    hideWrongNameAlert = () => {
+        this.setState({
+            ...this.state,
+            showWrongNameAlert: false,
+        });
+    };
+
+    getPlayers = () => {
+        const playersComponent = this.props.players.map((player, index) => {
             return (
                 <View key={player.name}>
                     <Player
@@ -21,15 +90,16 @@ const Scoreboard = props => {
                         score={player.score}
                         index={index}
                         status={player.status}
-                        maxScore={props.maxScore}
-                        maxScoreWins={props.maxScoreWins}
-                        gameStatus={props.gameStatus}
-                        removePlayer={props.removePlayerDispatcher}
-                        updateScore={props.updateScoreDispatcher}
-                        updatePlayerStatus={props.updatePlayerStatusDispatcher}
-                        selectPlayer={props.selectPlayerDispatcher}
-                        updateGameStatus={props.updateGameStatusDispatcher}
-                        checkGameStatus={props.checkGameStatusDispatcher}
+                        maxScore={this.props.maxScore}
+                        maxScoreWins={this.props.maxScoreWins}
+                        gameStatus={this.props.gameStatus}
+                        removePlayer={this.props.removePlayerDispatcher}
+                        updateScore={this.props.updateScoreDispatcher}
+                        updatePlayerStatus={this.props.updatePlayerStatusDispatcher}
+                        selectPlayer={this.props.selectPlayerDispatcher}
+                        updateGameStatus={this.props.updateGameStatusDispatcher}
+                        checkGameStatus={this.props.checkGameStatusDispatcher}
+                        showDeleteWinnerAlert={this.showDeleteWinnerAlert}
                     />
                 </View>
             )
@@ -37,27 +107,41 @@ const Scoreboard = props => {
         return playersComponent;
     }
 
-    const showStats = () => {
+    showDeleteWinnerAlert = () => {
+        this.setState({
+            ...this.state,
+            showDeleteWinnerAlert: true,
+        });
+    }
+
+    hideDeleteWinnerAlert = () => {
+        this.setState({
+            ...this.state,
+            showDeleteWinnerAlert: false,
+        });
+    }
+
+    showStats = () => {
         let gameStatsComponent;
-        if (props.displayStats) {
-            if (props.players.length > 0) {
+        if (this.props.displayStats) {
+            if (this.props.players.length > 0) {
                 gameStatsComponent = <GameStats
-                    updateDisplayStats={props.updateDisplayStatsDispatcher}
-                    players={props.players}
+                    updateDisplayStats={this.props.updateDisplayStatsDispatcher}
+                    players={this.props.players}
                     timed={false}
-                    maxScoreWins={props.maxScoreWins}
-                    gameFinished={props.gameStatus === ENDED}/>;
+                    maxScoreWins={this.props.maxScoreWins}
+                    gameFinished={this.props.gameStatus === ENDED}/>;
             }
         }
         return gameStatsComponent;
     }
 
-    const getSelectedPlayer = () => {
+    getSelectedPlayer = () => {
         let selectedPlayer;
-        if (props.selectedPlayer > -1) {
-            selectedPlayer = props.players[props.selectedPlayer];
-            const sortedPlayers = props.maxScoreWins? sortPlayersMaxScoreWins(props.players.slice()): sortPlayersMaxScoreLoses(props.players.slice());
-            for (let index = 0; index < props.players.length; index++) {
+        if (this.props.selectedPlayer > -1) {
+            selectedPlayer = this.props.players[this.props.selectedPlayer];
+            const sortedPlayers = this.props.maxScoreWins? sortPlayersMaxScoreWins(this.props.players.slice()): sortPlayersMaxScoreLoses(this.props.players.slice());
+            for (let index = 0; index < this.props.players.length; index++) {
                 if (sortedPlayers[index].name === selectedPlayer.name) {
                     selectedPlayer.rank = index + 1;
                 }
@@ -66,83 +150,74 @@ const Scoreboard = props => {
         return selectedPlayer;
     }
 
-    const playersComponent = getPlayers();
-
-
-    return (
-        <ImageBackground
-            style={styles.container}
-            resizeMode="cover"
-            source={require('./../../assets/images/back_nice.png')}>
-            <PlayerInfo
-                player={getSelectedPlayer()}
-                selectPlayer={props.selectPlayerDispatcher}
-            />
-            {showStats()}
-            <BringFromBottom
-                style={scoreboardContainer}>
-                <KeyboardAvoidingView
-                    behavior="position"
-                    enabled={true}
-                    keyboardVerticalOffset={(Platform.OS === 'ios') ? 50:0}
-                >
-                    <Header
-                        players={props.players}
-                        maxScore={props.maxScore}
-                        maxScoreWins={props.maxScoreWins}
-                    />
-                    <View>
-                        {playersComponent}
-                    </View>
-                    <AddPlayerComponent
-                        addPlayer={props.addPlayerDispatcher}
-                        navigation={props.navigation}
-                        checkGameStatus={props.checkGameStatusDispatcher}
-                    />
-                </KeyboardAvoidingView>
-            </BringFromBottom>
-        </ImageBackground>
-    );
+    render() {
+        return (
+            <ImageBackground
+                style={styles.container}
+                resizeMode="cover"
+                source={require('./../../assets/images/back_nice.png')}>
+                <PlayerInfo
+                    player={this.getSelectedPlayer()}
+                    selectPlayer={this.props.selectPlayerDispatcher}
+                />
+                {this.showStats()}
+                <BringFromBottom
+                    style={scoreboardContainer}>
+                    <KeyboardAvoidingView
+                        behavior="position"
+                        enabled={true}
+                        keyboardVerticalOffset={(Platform.OS === 'ios') ? 50:0}
+                    >
+                        <Header
+                            players={this.props.players}
+                            maxScore={this.props.maxScore}
+                            maxScoreWins={this.props.maxScoreWins}
+                        />
+                        <View>
+                            {this.getPlayers()}
+                        </View>
+                        <AddPlayerComponent
+                            addPlayer={this.props.addPlayerDispatcher}
+                            navigation={this.props.navigation}
+                            checkGameStatus={this.props.checkGameStatusDispatcher}
+                            isValidPlayer={this.isValidPlayer}
+                            showPlayersInfoReading={this.props.players.length>0}
+                        />
+                    </KeyboardAvoidingView>
+                </BringFromBottom>
+                <Alert
+                    show={this.state.showWrongNameAlert}
+                    showProgress={false}
+                    title="Wrong name"
+                    message={`Player names cannot be blank or repeated.`}
+                    showCancelButton={false}
+                    showConfirmButton={true}
+                    confirmText="Ok"
+                    onConfirmPressed={() => {
+                        this.hideWrongNameAlert();
+                    }}
+                />
+                <Alert
+                    show={this.state.showDeleteWinnerAlert}
+                    showProgress={false}
+                    message="You cannot delete the winner"
+                    showCancelButton={false}
+                    showConfirmButton={true}
+                    confirmText="Ok"
+                    onConfirmPressed={() => {
+                        this.hideDeleteWinnerAlert();
+                    }}
+                />
+            </ImageBackground>
+        );
+    }
 }
 
-Scoreboard.navigationOptions = ({ navigation, }) => {
-    const params = navigation.state.params || {};
-    return {
-        headerRight: <RightHeader
-            navigation={navigation}
-        />,
-        headerStyle: {
-            backgroundColor: '#ff00ff00',
-            height: 85,
-            borderBottomWidth: 0,
-        },
-        headerTintColor: '#fff',
-        headerTransparent: true,
-    };
-};
 
 const scoreboardContainer = {
     marginBottom: 100,
     marginTop: -20,
 };
-
-Scoreboard.propTypes = {
-    players: PropTypes.array.isRequired,
-    updateScoreDispatcher: PropTypes.func.isRequired,
-    updatePlayerStatusDispatcher: PropTypes.func.isRequired,
-    removePlayerDispatcher: PropTypes.func.isRequired,
-    addPlayerDispatcher: PropTypes.func.isRequired,
-    selectPlayerDispatcher: PropTypes.func.isRequired,
-    updateDisplayStatsDispatcher: PropTypes.func.isRequired,
-    updateGameStatusDispatcher: PropTypes.func.isRequired,
-    checkGameStatusDispatcher: PropTypes.func.isRequired,
-    navigation: PropTypes.object,
-    maxScore: PropTypes.number.isRequired,
-    maxScoreWins: PropTypes.bool.isRequired,
-    gameStatus: PropTypes.string.isRequired,
-    selectedPlayer: PropTypes.number.isRequired,
-    displayStats: PropTypes.bool.isRequired,
-}
 
 const styles = StyleSheet.create({
     container: {

@@ -58,39 +58,23 @@ const initialState = {
     players: emptyPlayers,
 };
 
-const isValidPlayer = (name,players) => {
-    let playerExists = false;
-    for (let player of players) {
-        if (player.name.trim().toUpperCase() === name.trim().toUpperCase()) {
-            playerExists = true;
-        }
-    }
-    if (name && !playerExists) {
-        return true;
-    }
-    alert('Names should not be repeated or blank');
-    return false;
-};
-
 const gamePlayers = (state = initialState, action) => {
     switch(action.type) {
     case ADD_PLAYER:
-        if (isValidPlayer(action.name, state.players))
-            return {
-                edited: true,
-                players:[
-                    ...state.players,
-                    {
-                        name: action.name.trim().toUpperCase(),
-                        score: 0,
-                        status: PLAYING,
-                        created: new Date(),
-                        updated: undefined,
-                        finished: undefined,
-                    },
-                ],
-            };
-        else return state;
+        return {
+            edited: true,
+            players:[
+                ...state.players,
+                {
+                    name: action.name.trim().toUpperCase(),
+                    score: 0,
+                    status: PLAYING,
+                    created: new Date(),
+                    updated: undefined,
+                    finished: undefined,
+                },
+            ],
+        };
     case REMOVE_PLAYER:
         return {
             edited: true,

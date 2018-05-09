@@ -27,7 +27,6 @@ class MaxScoreControl extends Component {
         }
         if (!valid) {
             alert('Please enter only numbers.');
-            inputRef.clear();
         }
         const newScore = Number(text.replace(/[^0-9]/g, ''));
         this.setState({ newScore, });

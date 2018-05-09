@@ -18,3 +18,6 @@ export {
     BringFromBottom,
     GrowToHeight
 } from './Animation';
+export {
+    Alert
+} from './Alert';

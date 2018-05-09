@@ -12,7 +12,7 @@ const Player = props => {
             props.removePlayer(props.index);
         }
         else {
-            alert('You cannot delete the winner');
+            props.showDeleteWinnerAlert();
         }
     }
 
@@ -32,7 +32,7 @@ const Player = props => {
         />
         : props.status===LOST?
             <Badge
-                value="Loser"
+                value="Lost"
                 textStyle={{color: "white", fontWeight: "900", fontSize: 10,}}
                 containerStyle={{ backgroundColor: "#b66",}}
             />: undefined;
@@ -89,6 +89,7 @@ Player.propTypes = {
     updatePlayerStatus: PropTypes.func.isRequired,
     updateGameStatus: PropTypes.func.isRequired,
     checkGameStatus: PropTypes.func.isRequired,
+    showDeleteWinnerAlert: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -132,7 +133,6 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         marginLeft: -30,
         fontWeight: '900',
-        textDecorationLine: 'underline',
     },
 });
 
