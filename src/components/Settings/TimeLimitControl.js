@@ -1,12 +1,14 @@
 import React, { Component,} from 'react';
-import { StyleSheet, Text, View, TextInput, } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity,} from 'react-native';
 import PropTypes from 'prop-types';
+import { Icon, } from 'react-native-elements';
 
 class TimeLimitControl extends Component {
     constructor(props) {
         super(props);
         this.state = {
             time: props.time,
+            editing: false,
         };
     }
 
@@ -16,7 +18,7 @@ class TimeLimitControl extends Component {
         showWrongTimeAlert: PropTypes.func.isRequired,
     };
 
-    onChanged = (text, inputRef) => {
+    onChanged = text => {
         let time = this.formatTimeDisplay(text);
         this.setState({ time, });
     }
@@ -56,22 +58,42 @@ class TimeLimitControl extends Component {
         };
     }
 
+    onBlur = () => {
+        this.setState({ editing: false,});
+        this.updateTime();
+    }
+
+    onFocus = () => {
+        this.inputRef.focus();
+        this.setState({ editing: true,});
+    }
+
     render() {
-        let inputRef;
         return (
             <View style={styles.counter}>
                 <View style={styles.scoreValue}>
                     <TextInput
-                        ref={input => { inputRef = input }}
+                        ref={input => { this.inputRef = input }}
                         keyboardType="numeric"
                         style={styles.scoreValueText}
                         value={this.state.time.toString()}
-                        onChangeText={text=> this.onChanged(text, inputRef)}
+                        onChangeText={text=> this.onChanged(text)}
                         onSubmitEditing={this.updateTime}
                         onKeyPress={() => {this.setState({ time:'...', })}}
-                        onBlur={this.updateTime}
+                        onBlur={this.onBlur}
+                        onFocus={this.onFocus}
                         underlineColorAndroid='rgba(0,0,0,0)'
                     />
+                    <TouchableOpacity
+                        style={styles.edit}
+                        onPress={this.onFocus}
+                    >
+                        <Icon
+                            name={this.state.editing? "done":"edit"}
+                            size={20}
+                            color="#fff"
+                        />
+                    </TouchableOpacity>
                 </View>
             </View>
         );
@@ -111,6 +133,11 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: '900',
         fontSize: 15,
+    },
+    edit: {
+        position: 'absolute',
+        right: 10,
+        top: -5,
     },
 });
 
