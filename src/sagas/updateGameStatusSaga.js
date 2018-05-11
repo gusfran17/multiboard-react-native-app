@@ -16,7 +16,6 @@ function* replacePlayersStatus(players, currentStatus, newStatus) {
     for (let index = 0; index < players.length; index++) {
         const player = players[index];
         if (player.status === currentStatus) {
-            console.log('cur', currentStatus, 'new', newStatus);
             yield put(updatePlayerStatus(index, newStatus));
         }
     }

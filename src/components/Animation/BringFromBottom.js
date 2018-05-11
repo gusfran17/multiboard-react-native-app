@@ -13,6 +13,7 @@ class BringFromBottom extends React.Component {
     static propTypes = {
         children: PropTypes.node,
         style: PropTypes.object,
+        delay: PropTypes.number,
     }
 
     componentDidMount() {
@@ -20,7 +21,7 @@ class BringFromBottom extends React.Component {
             this.state.bringUp,
             {
                 toValue: 100,
-                delay: 300,
+                delay: this.props.delay? this.props.delay:300,
                 useNativeDriver: true,
             }
         ).start();

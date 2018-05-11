@@ -5,10 +5,16 @@ import { Icon, } from 'react-native-elements';
 import { Scoreboard, } from './../../utility/constants';
 import { StatefullAnimatedButton, } from './../Button';
 
-const MainMenuSettingsFooter = props => {
+const FooterNewGame = props => {
 
     const startNewGame = () => {
-        props.startNewGame({ maxScore: props.maxScore, maxScoreWins: props.maxScoreWins, });
+        const settings = {
+            maxScore: props.maxScore,
+            maxScoreWins: props.maxScoreWins,
+            timed: props.timed,
+            time: props.time,
+        };
+        props.startNewGame(settings);
         props.navigation.navigate(Scoreboard);
     }
 
@@ -16,7 +22,7 @@ const MainMenuSettingsFooter = props => {
         <View style={styles.footer}>
             <StatefullAnimatedButton
                 onPress={startNewGame}
-                text="Start new game"
+                text="Start"
                 width={150}
                 delay={1000}
             />
@@ -30,11 +36,13 @@ const MainMenuSettingsFooter = props => {
     );
 }
 
-MainMenuSettingsFooter.propTypes = {
+FooterNewGame.propTypes = {
     navigation: PropTypes.object,
     startNewGame: PropTypes.func.isRequired,
     maxScore: PropTypes.number.isRequired,
     maxScoreWins: PropTypes.bool.isRequired,
+    timed: PropTypes.bool.isRequired,
+    time: PropTypes.string.isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -45,9 +53,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#222',
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
-        paddingTop: 40,
+        paddingTop: 25,
         paddingBottom: 15,
     },
 });
 
-export default MainMenuSettingsFooter;
+export default FooterNewGame;

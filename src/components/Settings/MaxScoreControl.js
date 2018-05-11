@@ -1,6 +1,5 @@
 import React, { Component,} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, } from 'react-native';
-import { connect, } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class MaxScoreControl extends Component {
@@ -18,16 +17,7 @@ class MaxScoreControl extends Component {
     };
 
     onChanged = (text, inputRef) => {
-        let numbers = '0123456789';
-        let valid = true;
-        for (var i=0; i < text.length; i++) {
-            if(numbers.indexOf(text[i]) === -1 ) {
-                valid = false;
-            }
-        }
-        if (!valid) {
-            alert('Please enter only numbers.');
-        }
+        this.setState({ ...this.state, newScore: this.state.newScoreRefresh, });
         const newScore = Number(text.replace(/[^0-9]/g, ''));
         this.setState({ newScore, });
     }
@@ -54,7 +44,7 @@ class MaxScoreControl extends Component {
                         style={styles.scoreValueText}
                         value={this.state.newScore.toString()}
                         onChangeText={text=> this.onChanged(text, inputRef)}
-                        onKeyPress={() => {this.setState({newScore: '...',})}}
+                        onKeyPress={() => {this.setState({newScore: '...', newScoreRefresh:this.state.newScore,})}}
                         onSubmitEditing={() =>{ this.props.updateMaxScore(this.state.newScore)}}
                         onBlur={() => { if (this.state.newScore) this.props.updateMaxScore(this.state.newScore);}}
                         underlineColorAndroid='rgba(0,0,0,0)'

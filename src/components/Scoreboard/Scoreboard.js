@@ -18,6 +18,8 @@ class Scoreboard extends Component {
         this.state = {
             showWrongNameAlert: false,
             showDeleteWinnerAlert: false,
+            showTimerAlert: false,
+            showGameEndedAlert: false,
         };
     }
 
@@ -53,13 +55,14 @@ class Scoreboard extends Component {
         gameStatus: PropTypes.string.isRequired,
         selectedPlayer: PropTypes.number.isRequired,
         displayStats: PropTypes.bool.isRequired,
+        timed: PropTypes.bool.isRequired,
+        time: PropTypes.string.isRequired,
     }
 
     isValidPlayer = name => {
         let playerExists = false;
         if (name) {
             for (let player of this.props.players) {
-                console.log(player);
                 if (player.name.trim().toUpperCase() === name.trim().toUpperCase()) {
                     playerExists = true;
                 }
@@ -121,6 +124,34 @@ class Scoreboard extends Component {
         });
     }
 
+    showTimerAlert = () => {
+        this.setState({
+            ...this.state,
+            showTimerAlert: true,
+        });
+    }
+
+    hideTimerAlert = () => {
+        this.setState({
+            ...this.state,
+            showTimerAlert: false,
+        });
+    }
+
+    showGameEndedAlert = () => {
+        this.setState({
+            ...this.state,
+            showGameEndedAlert: true,
+        });
+    }
+
+    hideGameEndedAlert = () => {
+        this.setState({
+            ...this.state,
+            showGameEndedAlert: false,
+        });
+    }
+
     showStats = () => {
         let gameStatsComponent;
         if (this.props.displayStats) {
@@ -131,6 +162,8 @@ class Scoreboard extends Component {
                     timed={false}
                     maxScoreWins={this.props.maxScoreWins}
                     gameFinished={this.props.gameStatus === ENDED}/>;
+            } else {
+                this.props.updateDisplayStatsDispatcher(false);
             }
         }
         return gameStatsComponent;
@@ -144,6 +177,7 @@ class Scoreboard extends Component {
             for (let index = 0; index < this.props.players.length; index++) {
                 if (sortedPlayers[index].name === selectedPlayer.name) {
                     selectedPlayer.rank = index + 1;
+                    selectedPlayer.created = sortedPlayers[index].created.toString();
                 }
             }
         }
@@ -172,6 +206,12 @@ class Scoreboard extends Component {
                             players={this.props.players}
                             maxScore={this.props.maxScore}
                             maxScoreWins={this.props.maxScoreWins}
+                            timed={this.props.timed}
+                            time={this.props.time}
+                            showWrongTimeAlert={this.showWrongTimeAlert}
+                            showTimerAlert={this.showTimerAlert}
+                            showGameEndedAlert={this.showGameEndedAlert}
+                            gameStatus={this.props.gameStatus}
                         />
                         <View>
                             {this.getPlayers()}
@@ -206,6 +246,30 @@ class Scoreboard extends Component {
                     confirmText="Ok"
                     onConfirmPressed={() => {
                         this.hideDeleteWinnerAlert();
+                    }}
+                />
+                <Alert
+                    show={this.state.showTimerAlert}
+                    showProgress={false}
+                    title="Time is out!!!"
+                    message="Check the scores to find your positions."
+                    showCancelButton={false}
+                    showConfirmButton={true}
+                    confirmText="Ok"
+                    onConfirmPressed={() => {
+                        this.hideTimerAlert();
+                        this.props.updateDisplayStatsDispatcher(true);
+                    }}
+                />
+                <Alert
+                    show={this.state.showGameEndedAlert}
+                    showProgress={false}
+                    message="You cannot use the stopwatch once the game is ended."
+                    showCancelButton={false}
+                    showConfirmButton={true}
+                    confirmText="Ok"
+                    onConfirmPressed={() => {
+                        this.hideGameEndedAlert();
                     }}
                 />
             </ImageBackground>

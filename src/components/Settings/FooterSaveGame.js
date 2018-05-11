@@ -6,7 +6,7 @@ import { MainMenu, } from './../../utility/constants';
 import { StatefullAnimatedButton, } from './../Button';
 
 
-class SaveGameComponent extends Component {
+class FooterSaveGame extends Component {
 
     constructor(props) {
         super(props);
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
         paddingTop: 15,
-        paddingBottom: 15,
+        paddingBottom: 10,
     },
     optionButton: {
         height: 44,
@@ -241,4 +241,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SaveGameComponent;
+export default FooterSaveGame;

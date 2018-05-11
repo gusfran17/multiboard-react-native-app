@@ -1,5 +1,7 @@
 import React, { Component, } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native';
+import PropTypes from 'prop-types';
+import { ENDED, } from './../../utility/constants';
 
 class Stopwatch extends Component {
     constructor(props) {
@@ -11,25 +13,44 @@ class Stopwatch extends Component {
         };
     }
 
+    static propTypes = {
+        timed: PropTypes.bool.isRequired,
+        time: PropTypes.string.isRequired,
+        showTimerAlert: PropTypes.func.isRequired,
+        gameStatus: PropTypes.string.isRequired,
+        showGameEndedAlert: PropTypes.func.isRequired,
+    }
+
     componentDidMount() {
         this.interval = setInterval(this.onTick);
     }
 
     componentWillUnmount() {
         clearInterval(this.interval);
+        clearInterval(this.checkAlarmInterval);
+
     }
 
     onStart = () => {
+        const timeParts = this.props.time.split(':');
+        const minutes = Number(timeParts[0]);
+        const seconds = Number(timeParts[1]);
+        const timeLimit = ((minutes*60) + seconds)*1000;
         this.setState({
             running: true,
             previousTime: Date.now(),
+            timeLimit,
         });
+        if (this.props.timed) {
+            this.checkAlarmInterval = setInterval(this.checkTimeStatus, 100);
+        }
     };
 
     onStop = () => {
         this.setState({
             running: false,
         });
+        clearInterval(this.checkAlarmInterval);
     };
 
     onReset = () => {
@@ -37,15 +58,21 @@ class Stopwatch extends Component {
             elapsedTime: 0,
             previousTime: Date.now(),
         });
+        clearInterval(this.checkAlarmInterval);
     };
 
     onTick = () => {
         if (this.state.running) {
-            const now = Date.now();
-            this.setState({
-                elapsedTime: this.state.elapsedTime + (now - this.state.previousTime),
-                previousTime: Date.now(),
-            });
+            if (this.props.gameStatus !== ENDED) {
+                const now = Date.now();
+                this.setState({
+                    elapsedTime: this.state.elapsedTime + (now - this.state.previousTime),
+                    previousTime: Date.now(),
+                });
+            } else {
+                this.onStop();
+                this.props.showGameEndedAlert();
+            }
         }
     };
 
@@ -57,6 +84,20 @@ class Stopwatch extends Component {
         return number;
     }
 
+    timeLimit = () => {
+        if (this.props.timed) {
+            return <Text style={styles.timeLimitLabel}>Alert will go of at {this.props.time}:00</Text>;
+        }
+    }
+
+    checkTimeStatus = () => {
+        if (this.state.elapsedTime >= this.state.timeLimit) {
+            this.onStop();
+            this.setState({ elapsedTime: this.state.timeLimit,});
+            this.props.showTimerAlert();
+        }
+    }
+
     render() {
         const minutes = this.formatNumberLength(Math.floor((this.state.elapsedTime / 60000) % 60), 2);
         const seconds = this.formatNumberLength(Math.floor((this.state.elapsedTime / 1000) % 60), 2);
@@ -65,7 +106,7 @@ class Stopwatch extends Component {
             <View style={styles.stopwatch}>
                 <Text style={styles.stopwatchTitle}>STOPWATCH</Text>
                 <Text style={styles.stopwatchTimer}>{minutes}:{seconds}:{miliseconds}</Text>
-                <View style={styles.timerButtons}>
+                <View style={[styles.timerButtons, {marginBottom: this.props.timed? 5: 15,},]}>
                     {   this.state.running ?
                         <TouchableOpacity
                             style={[styles.timerButton, styles.timerButtonLeft,]}
@@ -90,6 +131,7 @@ class Stopwatch extends Component {
                         <Text style={styles.timerButtonText}>Reset</Text>
                     </TouchableOpacity>
                 </View>
+                {this.timeLimit()}
             </View>
         );
     }
@@ -122,7 +164,6 @@ const styles = StyleSheet.create({
     },
     timerButtons: {
         flexDirection: 'row',
-        marginBottom: 15,
     },
     timerButton: {
         flex: 1,
@@ -149,6 +190,15 @@ const styles = StyleSheet.create({
         letterSpacing: 2,
         fontWeight: '900',
         fontSize: 12,
+    },
+    timeLimitLabel: {
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 12,
+        margin: 0,
+        padding: 0,
+        color: '#FFF',
+        marginBottom: 10,
     },
 });
 

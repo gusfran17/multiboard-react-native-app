@@ -1,6 +1,8 @@
 import {
     UPDATE_NEW_GAME_WIN_OR_LOSE,
     UPDATE_NEW_GAME_MAX_SCORE,
+    UPDATE_TIMED_NEW_GAME,
+    UPDATE_TIME_LIMIT_NEW_GAME,
     START_NEW_GAME,
     SAVE_GAME,
     UPDATE_SAVED_GAME,
@@ -13,21 +15,9 @@ const initialState = {
     maxScore: 10,
     activeGame: -1,
     savedGames: [],
+    timed: false,
+    time: '01:00',
 }
-
-const isValidGame = (name,games) => {
-    let gameExists = false;
-    for (let game of games) {
-        if (game.gameName === name) {
-            gameExists = true;
-        }
-    }
-    if (name && !gameExists) {
-        return true;
-    }
-    alert('There is an existing game with that name. Names should not be repeated or blank');
-    return false;
-};
 
 const mainMenu = (state = initialState, action) => {
     switch (action.type) {
@@ -40,6 +30,16 @@ const mainMenu = (state = initialState, action) => {
         return ({
             ...state,
             maxScore: action.maxScore,
+        });
+    case UPDATE_TIMED_NEW_GAME:
+        return ({
+            ...state,
+            timed: action.timed,
+        });
+    case UPDATE_TIME_LIMIT_NEW_GAME:
+        return ({
+            ...state,
+            time: action.time,
         });
     case START_NEW_GAME:
         return {
@@ -57,7 +57,6 @@ const mainMenu = (state = initialState, action) => {
         });
     case UPDATE_SAVED_GAME:
         const savedGame = action.game;
-        console.log(savedGame);
         const savedGameCopy = {
             data: {
                 ...savedGame.data,

@@ -50,6 +50,7 @@
     "react": "16.3.2",
     "react-native": "0.54.0",
     "react-native-awesome-alerts": "^1.0.7",
+    "react-native-checkbox": "^2.0.0",
     "react-native-elements": "^0.19.1",
     "react-native-exit-app": "^1.0.0",
     "react-native-google-analytics-bridge": "^5.6.3",

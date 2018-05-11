@@ -12,6 +12,8 @@ export {
     CHECK_GAME_STATUS,
     UPDATE_WIN_OR_LOSE,
     UPDATE_MAX_SCORE,
+    UPDATE_TIMED_GAME,
+    UPDATE_TIME_LIMIT,
     addPlayer,
     removePlayer,
     updateScore,
@@ -24,16 +26,22 @@ export {
     startNewGame,
     saveProgress,
     loadGame,
-    checkGameStatus
+    checkGameStatus,
+    updateTimedGame,
+    updateTimeLimit
 } from './game';
 export {
     UPDATE_NEW_GAME_WIN_OR_LOSE,
     UPDATE_NEW_GAME_MAX_SCORE,
+    UPDATE_TIMED_NEW_GAME,
+    UPDATE_TIME_LIMIT_NEW_GAME,
     SAVE_GAME,
     UPDATE_SAVED_GAME,
     REMOVE_GAME,
     updateNewGameWinOrLose,
     updateNewGameMaxScore,
+    updateTimedNewGame,
+    updateTimeLimitNewGame,
     saveGame,
     updateSavedGame,
     removeGame

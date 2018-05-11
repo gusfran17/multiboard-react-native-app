@@ -12,6 +12,8 @@ const mapStateToProps = state => {
             maxScoreWins: state.game.maxScoreWins,
             displayStats: state.game.displayStats,
             gameStatus: state.game.gameStatus,
+            timed: state.game.timed,
+            time: state.game.time,
         }
     );
 };

@@ -2,7 +2,7 @@ import React, { Component, } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Switch, ImageBackground, KeyboardAvoidingView, } from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
-import { MaxScoreSetting, WinLoseSetting, SaveGameComponent, MainMenuSettingsFooter, } from './';
+import { MaxScoreSetting, WinLoseSetting, FooterSaveGame, FooterNewGame, TimeSetting, TimeLimitSetting, } from './';
 import { NavigationHeader, Alert, } from './../../components';
 import { NewGameSettings, MainMenu, Scoreboard, } from './../../utility/constants';
 import BringFromBottom from './../Animation/BringFromBottom';
@@ -13,6 +13,7 @@ class Settings extends Component {
         super(props);
         this.state = {
             showEmptyNameAlert: false,
+            showWrongTimeAlert: false,
         };
     }
 
@@ -21,7 +22,10 @@ class Settings extends Component {
             headerTitle: navigation.state.routeName === NewGameSettings?
                 <NavigationHeader
                     title="New Game"
-                />: null,
+                />:
+                <NavigationHeader
+                    title="Settings"
+                />,
             headerStyle: {
                 backgroundColor: '#0000',
                 height: 85,
@@ -34,18 +38,22 @@ class Settings extends Component {
         };
     };
 
-    propTypes = {
+    static propTypes = {
         maxScore: PropTypes.number.isRequired,
         maxScoreWins: PropTypes.bool.isRequired,
         updateWinOrLoseDispatcher: PropTypes.func.isRequired,
         updateMaxScoreDispatcher: PropTypes.func.isRequired,
         saveProgressDispatcher: PropTypes.func,
         startNewGameDispatcher: PropTypes.func,
+        updateTimedGameDispatcher: PropTypes.func,
+        updateTimeLimitDispatcher: PropTypes.func,
         navigation: PropTypes.object,
         players: PropTypes.array.isRequired,
         gameName: PropTypes.string,
         saved: PropTypes.object,
         edited: PropTypes.bool,
+        timed: PropTypes.bool.isRequired,
+        time: PropTypes.string.isRequired,
     }
 
     showEmptyNameAlert = () => {
@@ -62,21 +70,49 @@ class Settings extends Component {
         });
     }
 
+    showWrongTimeAlert = () => {
+        this.setState({
+            ...this.state,
+            showWrongTimeAlert: true,
+        });
+    }
+
+    hideWrongTimeAlert = () => {
+        this.setState({
+            ...this.state,
+            showWrongTimeAlert: false,
+        });
+    }
+
+    timeLimitInput = () => {
+        if (this.props.timed) {
+            return (
+                <TimeLimitSetting
+                    description={ "Time alert at (mm:ss)"}
+                    timed= {this.props.timed}
+                    time= {this.props.time}
+                    updateTimeLimit={this.props.updateTimeLimitDispatcher}
+                    showWrongTimeAlert={this.showWrongTimeAlert}
+                />
+            );
+        }
+    }
+
     render() {
         return (
             <ImageBackground
                 resizeMode="cover"
-                style={[styles.container, this.props.navigation.state.routeName === NewGameSettings? styles.settingsNewGame: styles.settingsCurrentGame,]}
+                style={styles.container}
                 source={require('./../../assets/images/falling_dices_final.png')}>
                 <BringFromBottom>
                     <KeyboardAvoidingView
                         behavior="position"
                         enabled={true}
-                        style={{alignSelf: 'stretch',margin: 15,}}
+                        style={{alignSelf: 'stretch',marginLeft: 15, marginRight: 15,}}
                     >
                         <View style={styles.settingsContainer}>
                             <View style={styles.header}>
-                                <Text style={styles.title}>Settings</Text>
+
                             </View>
                             <View style={styles.settings}>
                                 <WinLoseSetting
@@ -85,27 +121,29 @@ class Settings extends Component {
                                     toggleWinLose={this.props.updateWinOrLoseDispatcher}
                                 />
                                 <MaxScoreSetting
-                                    inputType="max-score"
                                     description={ "Top score to " + (this.props.maxScoreWins? "win":"lose")}
                                     maxScore={this.props.maxScore}
                                     updateMaxScore={this.props.updateMaxScoreDispatcher}
                                 />
-                                <MaxScoreSetting
-                                    inputType="max-score"
-                                    description={ "Top score to " + (this.props.maxScoreWins? "win":"lose")}
-                                    maxScore={this.props.maxScore}
-                                    updateMaxScore={this.props.updateMaxScoreDispatcher}
+                                <TimeSetting
+                                    description={ "Timed game"}
+                                    timed= {this.props.timed}
+                                    time= {this.props.time}
+                                    updateTimedGame={this.props.updateTimedGameDispatcher}
                                 />
+                                {this.timeLimitInput()}
                             </View>
                             {this.props.navigation.state.routeName === NewGameSettings?
-                                <MainMenuSettingsFooter
+                                <FooterNewGame
                                     navigation={this.props.navigation}
                                     maxScore={this.props.maxScore}
                                     maxScoreWins={this.props.maxScoreWins}
+                                    timed={this.props.timed}
+                                    time={this.props.time}
                                     startNewGame={this.props.startNewGameDispatcher}
                                 />
                                 :
-                                <SaveGameComponent
+                                <FooterSaveGame
                                     edited={this.props.edited}
                                     gameName={this.props.gameName}
                                     saved={this.props.saved}
@@ -128,6 +166,17 @@ class Settings extends Component {
                         this.hideEmptyNameAlert();
                     }}
                 />
+                <Alert
+                    show={this.state.showWrongTimeAlert}
+                    showProgress={false}
+                    message="You´ve enter a wrong time. (ei. 01:70 should be 02:10)"
+                    showCancelButton={false}
+                    showConfirmButton={true}
+                    confirmText="Ok"
+                    onConfirmPressed={() => {
+                        this.hideWrongTimeAlert();
+                    }}
+                />
             </ImageBackground>
         );
     }
@@ -143,13 +192,7 @@ const styles = StyleSheet.create({
     },
     settingsContainer: {
         backgroundColor: '#444',
-        borderRadius: 20,
-    },
-    settingsNewGame: {
-        marginTop: 0,
-    },
-    settingsCurrentGame: {
-        marginTop: 0,
+        borderRadius: 25,
     },
     SettingsContainer: {
         flex: 1,
@@ -162,16 +205,17 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         borderBottomWidth: 2,
         borderBottomColor: '#444',
+        padding: 20,
     },
     title: {
         flex: 1,
         alignSelf: 'stretch',
         textAlign: 'center',
         color: '#fff',
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: '900',
         letterSpacing: 2,
-        padding: 35,
+        padding: 25,
     },
 });
 

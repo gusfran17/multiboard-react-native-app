@@ -1,6 +1,6 @@
 import React, { Component, } from 'react';
 import { connect, } from 'react-redux';
-import { updateWinOrLose, updateMaxScore, saveProgress, } from './../actions';
+import { updateWinOrLose, updateMaxScore, saveProgress, updateTimedGame, updateTimeLimit, } from './../actions';
 import { Settings, } from './../components'
 
 const mapStateToProps = state => (
@@ -11,6 +11,8 @@ const mapStateToProps = state => (
         gameName: state.game.gameName,
         saved: state.game.saved? new Date(state.game.saved): state.game.saved,
         edited: state.game.edited || state.gamePlayers.edited,
+        timed: state.game.timed,
+        time: state.game.time,
     }
 );
 
@@ -23,6 +25,12 @@ const mapDispatchToProps = dispatch => ({
     },
     saveProgressDispatcher: gameName => {
         dispatch(saveProgress(gameName));
+    },
+    updateTimedGameDispatcher: timed => {
+        dispatch(updateTimedGame(timed));
+    },
+    updateTimeLimitDispatcher: timed => {
+        dispatch(updateTimeLimit(timed));
     },
 });
 

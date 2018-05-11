@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const AnimatedButton = props => {
     return (
-        <Animated.View style={{height: 58, width: props.width, alignSelf: 'center', transform: [{ scale: props.animation, }, {perspective: 1000, },], opacity: props.animation,}}>
+        <Animated.View style={{height: 54, width: props.width, alignSelf: 'center', transform: [{ scale: props.animation, }, {perspective: 1000, },], opacity: props.animation,}}>
             <TouchableOpacity
                 style={styles.optionButton}
                 onPress={props.onPress}
@@ -26,7 +26,7 @@ AnimatedButton.propTypes = {
 
 const styles = StyleSheet.create({
     optionButton: {
-        height: 44,
+        height: 40,
         flex: 1,
         backgroundColor: '#333',
         marginBottom: 15,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#999',
         fontWeight: '900',
-        margin: 13,
+        margin: 10,
     },
 });
 

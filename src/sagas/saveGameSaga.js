@@ -6,7 +6,6 @@ import { WON, LOST, PLAYING, ENDED, IN_COURSE, } from './../utility/constants';
 function* saveGameProgress({ type, gameName, }) {
     const game = yield select(gameSelector);
     const players = yield select(playersSelector);
-    console.log(players);
     const savedGame = { data: game, players, };
     const activeGame = yield select(activeGameSelector);
     if (activeGame>=0) {

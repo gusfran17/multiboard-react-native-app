@@ -24,8 +24,8 @@ const Alert = props => (
         contentContainerStyle={{ borderRadius: 10, backgroundColor: '#555', padding: 15,}}
         cancelButtonTextStyle={{ color: '#FFF', fontWeight: '900', }}
         confirmButtonTextStyle={{ color: '#FFF', fontWeight: '900', }}
-        cancelButtonStyle={{ color: '#FFF', fontWeight: '900', margin: 10,}}
-        confirmButtonStyle={{ color: '#FFF', fontWeight: '900', margin: 10,}}
+        cancelButtonStyle={{ margin: 10,}}
+        confirmButtonStyle={{ margin: 10,}}
     />
 );
 
@@ -33,11 +33,11 @@ Alert.propTypes = {
     show: PropTypes.bool.isRequired,
     showProgress: PropTypes.bool.isRequired,
     message: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
     showCancelButton: PropTypes.bool.isRequired,
     showConfirmButton: PropTypes.bool.isRequired,
     confirmText: PropTypes.string.isRequired,
-    cancelText: PropTypes.string.isRequired,
+    cancelText: PropTypes.string,
     onConfirmPressed: PropTypes.func,
     onCancelPressed: PropTypes.func,
 }

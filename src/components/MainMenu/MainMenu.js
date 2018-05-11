@@ -179,7 +179,7 @@ class MainMenu extends Component {
                         <AnimatedButton
                             onPress={this.startNewGame}
                             animation={springAnimation1}
-                            text="New Game"
+                            text={edited? "New Game": "Start"}
                             width={250}
                         />
                         {this.continueGame(springAnimation2)}

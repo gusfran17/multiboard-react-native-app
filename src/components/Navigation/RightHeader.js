@@ -53,7 +53,7 @@ class RightHeader extends Component {
                     <Animated.View style={{ transform: [{ translateY: animation1, },],}}>
                         <TouchableOpacity
                             style={styles.tool}
-                            onPress={() => { console.log(this.props.playersAmount); if (this.props.playersAmount > 0) this.props.updateDisplayStatsDispatcher(!this.props.playerInfoDisplayed)}}>
+                            onPress={() => { if (this.props.playersAmount > 0) this.props.updateDisplayStatsDispatcher(!this.props.playerInfoDisplayed)}}>
                             <Icon
                                 size={30}
                                 name='list'

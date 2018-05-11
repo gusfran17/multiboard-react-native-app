@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
     switchContainer: {
         flex: 1,
         alignSelf: 'center',
-        marginLeft: 5,
-        marginRight: 5,
+        paddingLeft: 5,
+        paddingRight: 5,
     },
     switchComponent: {
         alignSelf: 'center',

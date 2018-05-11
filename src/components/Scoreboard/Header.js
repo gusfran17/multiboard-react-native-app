@@ -11,7 +11,13 @@ const Header = props => (
             maxScore={props.maxScore}
             maxScoreWins={props.maxScoreWins}
         />
-        <Stopwatch/>
+        <Stopwatch
+            timed={props.timed}
+            time={props.time}
+            showTimerAlert={props.showTimerAlert}
+            showGameEndedAlert={props.showGameEndedAlert}
+            gameStatus={props.gameStatus}
+        />
     </View>
 );
 
@@ -24,6 +30,11 @@ Header.propTypes = {
     ).isRequired,
     maxScore: PropTypes.number.isRequired,
     maxScoreWins: PropTypes.bool.isRequired,
+    timed: PropTypes.bool.isRequired,
+    time: PropTypes.string.isRequired,
+    showTimerAlert: PropTypes.func.isRequired,
+    gameStatus: PropTypes.string.isRequired,
+    showGameEndedAlert: PropTypes.func.isRequired,
 }
 
 const styles = StyleSheet.create({

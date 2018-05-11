@@ -22,6 +22,8 @@ export const START_NEW_GAME = 'Settings/START_NEW_GAME';
 export const SAVE_PROGRESS = 'Settings/SAVE_PROGRESS';
 export const LOAD_GAME = 'Settings/LOAD_GAME';
 export const CHECK_GAME_STATUS = 'Settings/CHECK_GAME_STATUS';
+export const UPDATE_TIMED_GAME = 'Settings/UPDATE_TIMED_GAME';
+export const UPDATE_TIME_LIMIT = 'Settings/UPDATE_TIME_LIMIT';
 
 export const updateWinOrLose = makeActionCreator(UPDATE_WIN_OR_LOSE, 'maxScoreWins');
 export const updateMaxScore = makeActionCreator(UPDATE_MAX_SCORE, 'maxScore');
@@ -31,3 +33,5 @@ export const startNewGame = makeActionCreator(START_NEW_GAME, 'settings');
 export const saveProgress = makeActionCreator(SAVE_PROGRESS, 'gameName');
 export const loadGame = makeActionCreator(LOAD_GAME, 'game', 'index');
 export const checkGameStatus = makeActionCreator(CHECK_GAME_STATUS, 'game');
+export const updateTimedGame = makeActionCreator(UPDATE_TIMED_GAME, 'timed');
+export const updateTimeLimit = makeActionCreator(UPDATE_TIME_LIMIT, 'time');
