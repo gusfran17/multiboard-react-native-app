@@ -86,7 +86,7 @@ class Stopwatch extends Component {
 
     timeLimit = () => {
         if (this.props.timed) {
-            return <Text style={styles.timeLimitLabel}>Alert will go of at {this.props.time}:00</Text>;
+            return <Text style={styles.timeLimitLabel}>Alert will go of at {this.props.time}</Text>;
         }
     }
 
@@ -101,11 +101,10 @@ class Stopwatch extends Component {
     render() {
         const minutes = this.formatNumberLength(Math.floor((this.state.elapsedTime / 60000) % 60), 2);
         const seconds = this.formatNumberLength(Math.floor((this.state.elapsedTime / 1000) % 60), 2);
-        const miliseconds = this.formatNumberLength(Math.floor((this.state.elapsedTime / 10) % 100), 2);
         return (
             <View style={styles.stopwatch}>
                 <Text style={styles.stopwatchTitle}>STOPWATCH</Text>
-                <Text style={styles.stopwatchTimer}>{minutes}:{seconds}:{miliseconds}</Text>
+                <Text style={styles.stopwatchTimer}>{minutes}:{seconds}</Text>
                 <View style={[styles.timerButtons, {marginBottom: this.props.timed? 5: 15,},]}>
                     {   this.state.running ?
                         <TouchableOpacity

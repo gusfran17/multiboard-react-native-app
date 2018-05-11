@@ -11,13 +11,15 @@ const Header = props => (
             maxScore={props.maxScore}
             maxScoreWins={props.maxScoreWins}
         />
-        <Stopwatch
-            timed={props.timed}
-            time={props.time}
-            showTimerAlert={props.showTimerAlert}
-            showGameEndedAlert={props.showGameEndedAlert}
-            gameStatus={props.gameStatus}
-        />
+        {props.timed?
+            <Stopwatch
+                timed={props.timed}
+                time={props.time}
+                showTimerAlert={props.showTimerAlert}
+                showGameEndedAlert={props.showGameEndedAlert}
+                gameStatus={props.gameStatus}
+            />: undefined
+        }
     </View>
 );
 
