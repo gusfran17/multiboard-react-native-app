@@ -14,6 +14,7 @@ import { WON, LOST, PLAYING, ENDED, } from './../../utility/constants';
 import { sortPlayersMaxScoreLoses, sortPlayersMaxScoreWins, } from './../../utility/sort';
 import BringFromBottom from './../Animation/BringFromBottom';
 import { PushController, } from './../PushController';
+import { formatMiliseconds, } from './../../utility/format';
 
 class Scoreboard extends Component {
 
@@ -24,7 +25,7 @@ class Scoreboard extends Component {
                 navigation={navigation}
             />,
             headerStyle: {
-                backgroundColor: '#ff00ff00',
+                backgroundColor: '#00000000',
                 height: 85,
                 borderBottomWidth: 0,
             },
@@ -61,11 +62,18 @@ class Scoreboard extends Component {
             showDeleteWinnerAlert: false,
             showTimerAlert: false,
             showGameEndedAlert: false,
-            pushNotification: true,
         };
     }
 
     componentDidMount() {
+        if (this.props.timed) {
+            PushNotification.configure({
+                onNotification: notification => {
+                    // console.log('NOTIFICATION: ', notification);
+                },
+                popInitialNotification: true,
+            });
+        }
         AppState.addEventListener('change', this.handleAppStateChange);
     }
 
@@ -74,6 +82,21 @@ class Scoreboard extends Component {
     }
 
     handleAppStateChange = appState => {
+        const limitTime = formatMiliseconds(this.props.time);
+        console.log( this.header.stopwatch.getTime());
+        if (appState === 'background' && this.props.timed) {
+            PushNotification.localNotificationSchedule({
+                ticker: "Time is out!!!",
+                message: Platform.OS === 'ios'? "Time is out!!! Check your scores.":"Check your scores.",
+                date: new Date(Date.now() + (limitTime-this.header.stopwatch.getTime())),
+                vibration: 300,
+                playSound: true,
+                title: "Time is out!!!",
+            });
+        }
+        if (appState === 'active') {
+            PushNotification.cancelAllLocalNotifications();
+        }
     }
 
     isValidPlayer = name => {
@@ -152,12 +175,6 @@ class Scoreboard extends Component {
     }
 
     showTimerAlert = () => {
-        if (this.state.pushNotification) {
-            PushNotification.localNotificationSchedule({
-                message: "Time is out!!!",
-                date: new Date(Date.now()),
-            });
-        }
         this.setState({
 
             showTimerAlert: true,
@@ -167,18 +184,6 @@ class Scoreboard extends Component {
     hideTimerAlert = () => {
         this.setState({
             showTimerAlert: false,
-        });
-    }
-
-    showGameEndedAlert = () => {
-        this.setState({
-            showGameEndedAlert: true,
-        });
-    }
-
-    hideGameEndedAlert = () => {
-        this.setState({
-            showGameEndedAlert: false,
         });
     }
 
@@ -239,7 +244,6 @@ class Scoreboard extends Component {
                             maxScoreWins={this.props.maxScoreWins}
                             timed={this.props.timed}
                             showTimerAlert={this.showTimerAlert}
-                            showGameEndedAlert={this.showGameEndedAlert}
                             myRef={header => {this.header = header;}}
                         />
                         <View>
@@ -287,26 +291,15 @@ class Scoreboard extends Component {
                     confirmText="Ok"
                     onConfirmPressed={() => {
                         this.hideTimerAlert();
-                        this.props.updateDisplayStatsDispatcher(true);
+                        if (this.props.players.length > 0){
+                            this.props.updateDisplayStatsDispatcher(true)
+                        };
                     }}
                 />
-                <Alert
-                    show={this.state.showGameEndedAlert}
-                    showProgress={false}
-                    message="You cannot use the stopwatch once the game is ended."
-                    showCancelButton={false}
-                    showConfirmButton={true}
-                    confirmText="Ok"
-                    onConfirmPressed={() => {
-                        this.hideGameEndedAlert();
-                    }}
-                />
-                {this.props.timed? <PushController/>: null}
             </ImageBackground>
         );
     }
 }
-
 
 const scoreboardContainer = {
     marginBottom: 100,

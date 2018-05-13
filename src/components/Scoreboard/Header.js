@@ -18,7 +18,6 @@ class Header extends Component {
         timed: PropTypes.bool.isRequired,
         myRef: PropTypes.func.isRequired,
         showTimerAlert: PropTypes.func.isRequired,
-        showGameEndedAlert: PropTypes.func.isRequired,
     }
 
     componentDidMount() {
@@ -37,7 +36,6 @@ class Header extends Component {
                     <Stopwatch
                         myRef={stopwatch => {this.stopwatch = stopwatch}}
                         showTimerAlert={this.props.showTimerAlert}
-                        showGameEndedAlert={this.props.showGameEndedAlert}
                     />: undefined
                 }
             </View>

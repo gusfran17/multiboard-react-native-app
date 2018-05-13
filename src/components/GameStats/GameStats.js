@@ -13,10 +13,6 @@ const GameStats = props => {
         :
         sortPlayersMaxScoreLoses(props.players.slice());
     const gameFinishedTitleComponent = () => {
-        let winningTimeComponent;
-        if (props.gameFinished && props.maxScoreWins && props.timed && sortedPlayers[0].elapsedTime) {
-            winningTimeComponent= <Text style={styles.winingTime}>Finished: {formatTime(sortedPlayers[0].elapsedTime)}</Text>;
-        }
         if (props.gameFinished) {
             return (
                 <View>
@@ -26,7 +22,6 @@ const GameStats = props => {
                     <Text style={styles.titleWin}>
                         WON!!!
                     </Text>
-                    {winningTimeComponent}
                 </View>
             );
         }
@@ -39,7 +34,8 @@ const GameStats = props => {
             <PositionsTable
                 players={sortedPlayers}
                 timed={props.timed}
-                showTime={props.gameFinished && !props.maxScoreWins && props.timed}
+                showTime={props.gameFinished && props.timed}
+                maxScoreWins={props.maxScoreWins}
                 time={props.time}
             />
             <StatefullAnimatedButton
@@ -107,15 +103,6 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 15,
         textDecorationLine: 'underline',
-    },
-    winingTime: {
-        textAlign: 'center',
-        color: '#fff',
-        paddingTop: 10,
-        paddingBottom: 0,
-        paddingLeft: 5,
-        paddingRight: 5,
-        fontSize: 20,
     },
 });
 

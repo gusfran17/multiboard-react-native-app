@@ -1,9 +1,7 @@
 import React, { Component, } from 'react';
-import { addNavigationHelpers, NavigationActions, } from "react-navigation";
 import { connect, } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MainStack, } from './containers';
-import Stopwatch from './components/Scoreboard/Stopwatch';
 import { addListener, } from './getStore';
 
 class Game extends Component {
@@ -14,11 +12,11 @@ class Game extends Component {
     render() {
         return (
             <MainStack
-                navigation={addNavigationHelpers({
+                navigation={{
                     dispatch: this.props.dispatch,
                     state: this.props.nav,
                     addListener,
-                })}
+                }}
             />
         );
     }

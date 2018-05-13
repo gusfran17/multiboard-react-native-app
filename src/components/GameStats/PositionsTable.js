@@ -4,8 +4,42 @@ import { Icon, } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import { GrowToHeight, } from './../Animation';
 import { formatTime, } from './../../utility/format';
+import { WON, LOST, PLAYING, } from './../../utility/constants';
 
 const PositionsTable = props => {
+
+    const timeColumnMaxScoreWins = player => {
+        let elapsedTime;
+        if (props.showTime) {
+            if (player.status === WON) {
+                elapsedTime = player.elapsedTime.toString();
+            } else {
+                elapsedTime = '---';
+            }
+        }
+        return (
+            <Text style={[ styles.col3, styles.label, ]}>
+                {isNaN(elapsedTime)? elapsedTime:formatTime(elapsedTime)}
+            </Text>
+        );
+    }
+
+    const timeColumnMaxScoreLoses = (player, lastElapsedTime) => {
+        let elapsedTime;
+        if (props.showTime) {
+            if (player.status === LOST) {
+                elapsedTime = player.elapsedTime.toString();
+            } else {
+                elapsedTime = lastElapsedTime;
+            }
+        }
+        return (
+            <Text style={[ styles.col3, styles.label, ]}>
+                {formatTime(elapsedTime)}
+            </Text>
+        );
+    }
+
     const playersListComponet = props.players.map((player, index) => {
         return (
             <View key={index} style={styles.detail}>
@@ -13,20 +47,15 @@ const PositionsTable = props => {
                 <Text style={[ styles.col2, styles.label, ]}>{player.name}</Text>
                 <Text style={[ styles.col3, styles.label, ]}>{player.score}</Text>
                 {
-                    props.showTime?
-                        <Text style={[ styles.col3, styles.label, ]}>
-                            {player.elapsedTime?
-                                formatTime(player.elapsedTime)
-                                :
-                                props.time
-                            }
-                        </Text>
+                    props.maxScoreWins?
+                        timeColumnMaxScoreWins(player)
                         :
-                        undefined
+                        timeColumnMaxScoreLoses(player, props.players[1].elapsedTime)
                 }
             </View>
         );
     });
+
     return (
         <GrowToHeight
             height={props.players.length <= 4? (80+(props.players.length*50)):280}
@@ -55,6 +84,7 @@ const PositionsTable = props => {
 PositionsTable.propTypes = {
     players: PropTypes.array.isRequired,
     showTime:  PropTypes.bool.isRequired,
+    maxScoreWins:  PropTypes.bool.isRequired,
     time:  PropTypes.string.isRequired,
 }
 

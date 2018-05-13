@@ -37,6 +37,7 @@ class SavedGames extends Component {
                 borderBottomWidth: 0,
             },
             headerTintColor: '#fff',
+            headerMode: 'screen',
         };
     };
 
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#000',
-        marginTop: -80,
+        marginTop: 0,
     },
     savedGamesContainer: {
         flexDirection: 'column',

@@ -15,7 +15,7 @@ class Settings extends Component {
             showEmptyNameAlert: false,
             showWrongTimeAlert: false,
             showWinLoseOptions: false,
-            showTimedGameSettingsAlert: true,
+            showTimedGameSettingsAlert: false,
         };
     }
 
@@ -60,10 +60,7 @@ class Settings extends Component {
 
     componentDidMount() {
         if (this.props.timed) {
-            this.setState({
-                ...this.state,
-                showTimedGameSettingsAlert: true,
-            });
+            this.showTimedGameSettingsAlert();
         }
     }
 
@@ -106,6 +103,13 @@ class Settings extends Component {
         this.setState({
             ...this.state,
             showWinLoseOptions: false,
+        });
+    }
+
+    showTimedGameSettingsAlert = () => {
+        this.setState({
+            ...this.state,
+            showTimedGameSettingsAlert: true,
         });
     }
 

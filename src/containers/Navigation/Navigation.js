@@ -1,12 +1,12 @@
 import React from 'react';
-import { StackNavigator, } from 'react-navigation';
+import { createStackNavigator, } from 'react-navigation';
 import Settings from './../Settings';
 import Scoreboard from './../Scoreboard';
 import MainMenu from './../MainMenu';
 import SavedGames from './../SavedGames';
 import NewGameSettings from './../NewGameSettings'
 
-const GameStack = StackNavigator({
+const GameStack = createStackNavigator({
     Scoreboard: {
         screen: Scoreboard,
     },
@@ -16,18 +16,12 @@ const GameStack = StackNavigator({
 },
 {
     mode: 'modal',
-    headerMode: 'none',
+    headerMode: 'screen',
 });
 
-const MainStack = StackNavigator({
+const MainStack = createStackNavigator({
     MainMenu: {
         screen: MainMenu,
-        navigationOptions: {
-            headerStyle: {
-                backgroundColor: '#000',
-            },
-            headerTintColor: '#222',
-        },
     },
     Game: {
         screen: GameStack,
@@ -38,6 +32,10 @@ const MainStack = StackNavigator({
     SavedGames: {
         screen: SavedGames,
     },
+},
+{
+    initialRouteName: 'MainMenu',
+    headerMode: 'none',
 });
 
 

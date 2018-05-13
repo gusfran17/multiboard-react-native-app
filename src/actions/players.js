@@ -11,6 +11,6 @@ export const UPDATE_PLAYER_ELAPSED_TIME = 'Player/UPDATE_PLAYER_ELAPSED_TIME';
 export const addPlayer = makeActionCreator(ADD_PLAYER, 'name');
 export const removePlayer = makeActionCreator(REMOVE_PLAYER, 'index');
 export const updateScore = makeActionCreator(UPDATE_PLAYER_SCORE, 'index', 'delta');
-export const updatePlayerStatus = makeActionCreator(UPDATE_PLAYER_STATUS, 'index', 'status', 'elpasedTime');
+export const updatePlayerStatus = makeActionCreator(UPDATE_PLAYER_STATUS, 'index', 'status', 'elapsedTime');
 export const selectPlayer = makeActionCreator(SELECT_PLAYER, 'index');
 export const updatePlayerElapsedTime = makeActionCreator(UPDATE_PLAYER_ELAPSED_TIME, 'index', 'elapsedTime');

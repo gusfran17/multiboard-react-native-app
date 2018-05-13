@@ -10,6 +10,7 @@ class Stopwatch extends Component {
         this.state = {
             previousTime: Date.now(),
             elapsedTime: props.elapsedTime,
+            gameEndedStop: true,
         };
     }
 
@@ -22,38 +23,29 @@ class Stopwatch extends Component {
         updateTimeRunningDispatcher: PropTypes.func.isRequired,
         myRef: PropTypes.func.isRequired,
         showTimerAlert: PropTypes.func.isRequired,
-        showGameEndedAlert: PropTypes.func.isRequired,
     }
 
     componentDidMount() {
         this.props.myRef(this);
         this.interval = setInterval(this.onTick);
-        this.checkAlarmInterval = setInterval(this.checkTimeStatus, 100);
     }
 
     componentWillUnmount() {
         clearInterval(this.interval);
-        clearInterval(this.checkAlarmInterval);
-
     }
 
     onStart = () => {
-        if (this.props.gameStatus !== ENDED ) {
-            const timeLimit = formatMiliseconds(this.props.time);
-            this.setState({
-                previousTime: Date.now(),
-                timeLimit,
-            });
-            this.props.updateTimeRunningDispatcher(true);
-        } else {
-            this.props.showGameEndedAlert();
-        }
+        const timeLimit = formatMiliseconds(this.props.time);
+        this.setState({
+            previousTime: Date.now(),
+            timeLimit,
+        });
+        this.props.updateTimeRunningDispatcher(true);
     };
 
     onStop = () => {
         this.props.updateTimeRunningDispatcher(false);
-        this.props.updateElapsedTimeDispatcher(this.state.elapsedTime);
-        clearInterval(this.checkAlarmInterval);
+        this.props.updateElapsedTimeDispatcher(this.state.timeLimit);
     };
 
     onReset = () => {
@@ -62,20 +54,24 @@ class Stopwatch extends Component {
             previousTime: Date.now(),
         });
         this.props.updateElapsedTimeDispatcher(0);
-        clearInterval(this.checkAlarmInterval);
     };
 
     onTick = () => {
         if (this.props.running) {
-            if (this.props.gameStatus !== ENDED) {
-                const now = Date.now();
-                this.setState({
-                    elapsedTime: this.state.elapsedTime + (now - this.state.previousTime),
-                    previousTime: Date.now(),
-                });
-            } else {
-                this.onStop();
-            }
+            const now = Date.now();
+            this.setState({
+                elapsedTime: this.state.elapsedTime + (now - this.state.previousTime),
+                previousTime: Date.now(),
+            });
+        }
+        if (this.props.running && this.state.elapsedTime >= this.state.timeLimit) {
+            this.onStop();
+            this.setState({ elapsedTime: this.state.timeLimit,}, this.props.showTimerAlert());
+        } else if (this.props.gameStatus === ENDED && this.state.gameEndedStop) {
+            this.setState({ gameEndedStop: false,});
+            this.onStop();
+        } else if (this.props.gameStatus !== ENDED && !this.state.gameEndedStop) {
+            this.setState({ gameEndedStop: true,});
         }
     };
 
@@ -85,14 +81,6 @@ class Stopwatch extends Component {
             number = `0${number}`;
         }
         return number;
-    }
-
-    checkTimeStatus = () => {
-        if (this.state.elapsedTime >= this.state.timeLimit) {
-            this.onStop();
-            this.setState({ elapsedTime: this.state.timeLimit,});
-            this.props.showTimerAlert();
-        }
     }
 
     getTime = () => {
@@ -129,7 +117,7 @@ class Stopwatch extends Component {
                         <Text style={styles.timerButtonText}>Reset</Text>
                     </TouchableOpacity>
                 </View>
-                <Text style={styles.timeLimitLabel}>Alert will go of at {this.props.time}</Text>;
+                <Text style={styles.timeLimitLabel}>Alert will go off at {this.props.time}</Text>
             </View>
         );
     }
