@@ -7,6 +7,7 @@ const mapStateToProps = state => (
     {
         playersAmount: state.gamePlayers.players.length,
         playerInfoDisplayed: state.game.displayStats,
+        running: state.stopwatch.running,
     }
 );
 

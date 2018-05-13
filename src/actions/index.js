@@ -1,9 +1,4 @@
 export {
-    ADD_PLAYER,
-    REMOVE_PLAYER,
-    UPDATE_PLAYER_SCORE,
-    UPDATE_PLAYER_STATUS,
-    SELECT_PLAYER,
     UPDATE_DISPLAY_STATS,
     UPDATE_GAME_STATUS,
     START_NEW_GAME,
@@ -14,11 +9,8 @@ export {
     UPDATE_MAX_SCORE,
     UPDATE_TIMED_GAME,
     UPDATE_TIME_LIMIT,
-    addPlayer,
-    removePlayer,
-    updateScore,
-    updatePlayerStatus,
-    selectPlayer,
+    UPDATE_TIME_RUNNING,
+    UPDATE_ELAPSED_TIME,
     updateWinOrLose,
     updateMaxScore,
     updateDisplayStats,
@@ -28,8 +20,24 @@ export {
     loadGame,
     checkGameStatus,
     updateTimedGame,
-    updateTimeLimit
+    updateTimeLimit,
+    updateTimeRunning,
+    updateElapsedTime
 } from './game';
+export {
+    ADD_PLAYER,
+    REMOVE_PLAYER,
+    UPDATE_PLAYER_SCORE,
+    UPDATE_PLAYER_STATUS,
+    UPDATE_PLAYER_ELAPSED_TIME,
+    SELECT_PLAYER,
+    addPlayer,
+    removePlayer,
+    updateScore,
+    updatePlayerStatus,
+    selectPlayer,
+    updatePlayerElapsedTime
+} from './players';
 export {
     UPDATE_NEW_GAME_WIN_OR_LOSE,
     UPDATE_NEW_GAME_MAX_SCORE,

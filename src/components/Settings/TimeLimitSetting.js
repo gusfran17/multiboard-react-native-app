@@ -9,15 +9,11 @@ const TimeLimitSettings = props => {
     return (
         <View style={styles.setting}>
             <SettingDescriptionLabel text={props.description}/>
-            <View style={styles.switchContainer}>
-                <View style={styles.switchComponent}>
-                    <TimeLimitControl
-                        time={props.time}
-                        updateTimedGame={props.updateTimeLimit}
-                        showWrongTimeAlert={props.showWrongTimeAlert}
-                    />
-                </View>
-            </View>
+            <TimeLimitControl
+                time={props.time}
+                updateTimedGame={props.updateTimeLimit}
+                showWrongTimeAlert={props.showWrongTimeAlert}
+            />
         </View>
     );
 }

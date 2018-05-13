@@ -5,28 +5,45 @@ import PositionsTable from './PositionsTable'
 import { WON, LOST, PLAYING, } from './../../utility/constants';
 import { sortPlayersMaxScoreLoses, sortPlayersMaxScoreWins, } from './../../utility/sort';
 import { StatefullAnimatedButton, } from './../Button';
+import { formatTime, } from './../../utility/format';
 
 const GameStats = props => {
-    const sortedPlayers = props.maxScoreWins? sortPlayersMaxScoreWins(props.players.slice()): sortPlayersMaxScoreLoses(props.players.slice());
-    const gameFinishedTitleComponent = props.gameFinished?
-        <View>
-            <Text style={styles.titleName}>
-                {sortedPlayers[0].name}
-            </Text>
-            <Text style={styles.titleWin}>
-                WON!!!
-            </Text>
-        </View>
-        :undefined;
+    const sortedPlayers = props.maxScoreWins?
+        sortPlayersMaxScoreWins(props.players.slice())
+        :
+        sortPlayersMaxScoreLoses(props.players.slice());
+    const gameFinishedTitleComponent = () => {
+        let winningTimeComponent;
+        if (props.gameFinished && props.maxScoreWins && props.timed && sortedPlayers[0].elapsedTime) {
+            winningTimeComponent= <Text style={styles.winingTime}>Finished: {formatTime(sortedPlayers[0].elapsedTime)}</Text>;
+        }
+        if (props.gameFinished) {
+            return (
+                <View>
+                    <Text style={styles.titleName}>
+                        {sortedPlayers[0].name}
+                    </Text>
+                    <Text style={styles.titleWin}>
+                        WON!!!
+                    </Text>
+                    {winningTimeComponent}
+                </View>
+            );
+        }
+    }
+
     return (
         <View style={[ styles.container, ]}>
-            {gameFinishedTitleComponent}
+            {gameFinishedTitleComponent()}
             <Text style={styles.subTitle}>Scores</Text>
             <PositionsTable
                 players={sortedPlayers}
+                timed={props.timed}
+                showTime={props.gameFinished && !props.maxScoreWins && props.timed}
+                time={props.time}
             />
             <StatefullAnimatedButton
-                onPress={() => {props.updateDisplayStats(false)}}
+                onPress={() => {props.updateDisplayStats(false);}}
                 text="Continue"
                 width={120}
                 delay={700}
@@ -39,6 +56,7 @@ GameStats.propTypes = {
     players: PropTypes.array.isRequired,
     maxScoreWins: PropTypes.bool.isRequired,
     timed: PropTypes.bool.isRequired,
+    time: PropTypes.string.isRequired,
     gameFinished: PropTypes.bool.isRequired,
     updateDisplayStats: PropTypes.func.isRequired,
 }
@@ -89,6 +107,15 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 15,
         textDecorationLine: 'underline',
+    },
+    winingTime: {
+        textAlign: 'center',
+        color: '#fff',
+        paddingTop: 10,
+        paddingBottom: 0,
+        paddingLeft: 5,
+        paddingRight: 5,
+        fontSize: 20,
     },
 });
 

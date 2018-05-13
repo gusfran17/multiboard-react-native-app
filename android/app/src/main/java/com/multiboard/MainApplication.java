@@ -4,12 +4,13 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
+import com.github.wumke.RNExitApp.RNExitAppPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
-import com.github.wumke.RNExitApp.RNExitAppPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,8 +28,9 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new VectorIconsPackage(),
-              new GoogleAnalyticsBridgePackage(),
-                new RNExitAppPackage()
+            new ReactNativePushNotificationPackage(),
+            new GoogleAnalyticsBridgePackage(),
+            new RNExitAppPackage()
       );
     }
 

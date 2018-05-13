@@ -2,10 +2,10 @@ import React, { Component, } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Switch, ImageBackground, KeyboardAvoidingView, } from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
-import { MaxScoreSetting, WinLoseSetting, FooterSaveGame, FooterNewGame, TimeSetting, TimeLimitSetting, } from './';
+import { MaxScoreSetting, WinLoseSetting, FooterSaveGame, FooterNewGame, TimeSetting, TimeLimitSetting, TimeLimitOptions, } from './';
 import { NavigationHeader, Alert, } from './../../components';
 import { NewGameSettings, MainMenu, Scoreboard, } from './../../utility/constants';
-import BringFromBottom from './../Animation/BringFromBottom';
+import { BringFromBottom, GrowToHeight, } from './../Animation';
 
 class Settings extends Component {
 
@@ -14,6 +14,8 @@ class Settings extends Component {
         this.state = {
             showEmptyNameAlert: false,
             showWrongTimeAlert: false,
+            showWinLoseOptions: false,
+            showTimedGameSettingsAlert: true,
         };
     }
 
@@ -56,6 +58,15 @@ class Settings extends Component {
         time: PropTypes.string.isRequired,
     }
 
+    componentDidMount() {
+        if (this.props.timed) {
+            this.setState({
+                ...this.state,
+                showTimedGameSettingsAlert: true,
+            });
+        }
+    }
+
     showEmptyNameAlert = () => {
         this.setState({
             ...this.state,
@@ -81,6 +92,27 @@ class Settings extends Component {
         this.setState({
             ...this.state,
             showWrongTimeAlert: false,
+        });
+    }
+
+    showWinLoseOptions = () => {
+        this.setState({
+            ...this.state,
+            showWinLoseOptions: true,
+        });
+    }
+
+    hideWinLoseOptions = () => {
+        this.setState({
+            ...this.state,
+            showWinLoseOptions: false,
+        });
+    }
+
+    hideTimedGameSettingsAlert = () => {
+        this.setState({
+            ...this.state,
+            showTimedGameSettingsAlert: false,
         });
     }
 
@@ -116,12 +148,12 @@ class Settings extends Component {
                             </View>
                             <View style={styles.settings}>
                                 <WinLoseSetting
-                                    description="Top score to win or lose"
+                                    description="Top score to:"
                                     maxScoreWins={this.props.maxScoreWins}
-                                    toggleWinLose={this.props.updateWinOrLoseDispatcher}
+                                    showWinLoseOptions={this.showWinLoseOptions}
                                 />
                                 <MaxScoreSetting
-                                    description={ "Top score to " + (this.props.maxScoreWins? "win":"lose")}
+                                    description={ "Top score (to " + (this.props.maxScoreWins? "win)":"lose)")}
                                     maxScore={this.props.maxScore}
                                     updateMaxScore={this.props.updateMaxScoreDispatcher}
                                 />
@@ -177,6 +209,30 @@ class Settings extends Component {
                         this.hideWrongTimeAlert();
                     }}
                 />
+                {this.props.navigation.state.routeName !== NewGameSettings?
+                    <Alert
+                        show={this.state.showTimedGameSettingsAlert}
+                        showProgress={false}
+                        message="Any change to top score or win or lose settings in a timed game will cause all progress to be reset."
+                        showCancelButton={false}
+                        showConfirmButton={true}
+                        confirmText="Ok"
+                        onConfirmPressed={() => {
+                            this.hideTimedGameSettingsAlert();
+                        }}
+                    />
+                    :
+                    null
+                }
+
+                {this.state.showWinLoseOptions?
+                    <TimeLimitOptions
+                        hideWinLoseOptions={this.hideWinLoseOptions}
+                        updateWinOrLose={this.props.updateWinOrLoseDispatcher}
+                    />
+                    :
+                    undefined
+                }
             </ImageBackground>
         );
     }

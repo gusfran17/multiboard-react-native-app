@@ -5,7 +5,6 @@ import {
     UPDATE_DISPLAY_STATS,
     UPDATE_GAME_STATUS,
     UPDATE_TIMED_GAME,
-    UPDATE_TIME_LIMIT,
     START_NEW_GAME,
     SAVE_PROGRESS,
     UPDATE_GAME_NAME,
@@ -30,7 +29,6 @@ const initialState = {
     edited: false,
     saved: undefined,
     timed: false,
-    time: '01:00',
 };
 
 const game = (state = initialState, action) => {
@@ -77,14 +75,7 @@ const game = (state = initialState, action) => {
             maxScoreWins: action.settings.maxScoreWins,
             maxScore: action.settings.maxScore,
             timed: action.settings.timed,
-            time: action.settings.time,
         };
-    case UPDATE_TIME_LIMIT:
-        return {
-            ...state,
-            edited: true,
-            time: action.time,
-        }
     case SAVE_PROGRESS:
         return {
             ...state,

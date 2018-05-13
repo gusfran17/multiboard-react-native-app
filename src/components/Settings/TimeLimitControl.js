@@ -70,12 +70,12 @@ class TimeLimitControl extends Component {
 
     render() {
         return (
-            <View style={styles.counter}>
-                <View style={styles.scoreValue}>
+            <View style={styles.container}>
+                <View style={styles.innerContainer}>
                     <TextInput
                         ref={input => { this.inputRef = input }}
                         keyboardType="numeric"
-                        style={styles.scoreValueText}
+                        style={styles.value}
                         value={this.state.time.toString()}
                         onChangeText={text=> this.onChanged(text)}
                         onSubmitEditing={this.updateTime}
@@ -101,43 +101,31 @@ class TimeLimitControl extends Component {
 }
 
 const styles = StyleSheet.create({
-    counter: {
+    container: {
         flex: 2,
-        flexDirection: 'row',
-    },
-    updateScoreMinus: {
-        width: 40,
-        backgroundColor: '#dd2323',
-        flexDirection: 'row',
+        alignSelf: 'stretch',
+        height: 54,
         alignItems: 'center',
+        flexDirection: 'column',
+        backgroundColor: '#2b2b2b',
     },
-    updateScorePlus: {
-        width: 40,
-        backgroundColor: '#33bb33',
+    innerContainer: {
+        alignSelf: 'stretch',
         flexDirection: 'row',
+        justifyContent: 'center',
+        height: 54,
         alignItems: 'center',
+        backgroundColor: '#2b2b2b',
     },
-    updateScoreIcon: {
-        flex: 1,
+    value: {
         textAlign: 'center',
-        color: '#fff',
-    },
-    scoreValue: {
-        flex: 3,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    scoreValueText: {
-        flex: 1,
-        textAlign: 'center',
-        color: '#fff',
         fontWeight: '900',
-        fontSize: 15,
+        color: '#FFF',
     },
     edit: {
         position: 'absolute',
         right: 10,
-        top: -5,
+        top: 10,
     },
 });
 

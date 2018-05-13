@@ -1,18 +1,5 @@
 import { makeActionCreator, } from './../utility';
 
-// PLAYERS
-export const ADD_PLAYER = 'Player/ADD_PLAYER';
-export const REMOVE_PLAYER = 'Player/REMOVE_PLAYER';
-export const UPDATE_PLAYER_SCORE = 'Player/UPDATE_PLAYER_SCORE';
-export const UPDATE_PLAYER_STATUS = 'Player/UPDATE_PLAYER_STATUS';
-export const SELECT_PLAYER = 'Player/SELECT_PLAYER';
-
-export const addPlayer = makeActionCreator(ADD_PLAYER, 'name');
-export const removePlayer = makeActionCreator(REMOVE_PLAYER, 'index');
-export const updateScore = makeActionCreator(UPDATE_PLAYER_SCORE, 'index', 'delta');
-export const updatePlayerStatus = makeActionCreator(UPDATE_PLAYER_STATUS, 'index', 'status');
-export const selectPlayer = makeActionCreator(SELECT_PLAYER, 'index');
-
 // SETTINGS
 export const UPDATE_WIN_OR_LOSE = 'Settings/UPDATE_WIN_OR_LOSE';
 export const UPDATE_MAX_SCORE = 'Settings/UPDATE_MAX_SCORE';
@@ -24,6 +11,8 @@ export const LOAD_GAME = 'Settings/LOAD_GAME';
 export const CHECK_GAME_STATUS = 'Settings/CHECK_GAME_STATUS';
 export const UPDATE_TIMED_GAME = 'Settings/UPDATE_TIMED_GAME';
 export const UPDATE_TIME_LIMIT = 'Settings/UPDATE_TIME_LIMIT';
+export const UPDATE_TIME_RUNNING = 'Settings/UPDATE_TIME_RUNNING';
+export const UPDATE_ELAPSED_TIME = 'Settings/UPDATE_ELAPSED_TIME';
 
 export const updateWinOrLose = makeActionCreator(UPDATE_WIN_OR_LOSE, 'maxScoreWins');
 export const updateMaxScore = makeActionCreator(UPDATE_MAX_SCORE, 'maxScore');
@@ -35,3 +24,5 @@ export const loadGame = makeActionCreator(LOAD_GAME, 'game', 'index');
 export const checkGameStatus = makeActionCreator(CHECK_GAME_STATUS, 'game');
 export const updateTimedGame = makeActionCreator(UPDATE_TIMED_GAME, 'timed');
 export const updateTimeLimit = makeActionCreator(UPDATE_TIME_LIMIT, 'time');
+export const updateTimeRunning = makeActionCreator(UPDATE_TIME_RUNNING, 'running');
+export const updateElapsedTime = makeActionCreator(UPDATE_ELAPSED_TIME, 'elapsedTime');

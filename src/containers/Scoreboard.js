@@ -1,7 +1,10 @@
 import React, { Component, } from 'react';
 import { connect, } from 'react-redux';
 import { Scoreboard, } from './../components/Scoreboard';
-import { addPlayer, removePlayer, updateScore, selectPlayer, updateDisplayStats, updatePlayerStatus, updateGameStatus, checkGameStatus, } from './../actions';
+import { addPlayer, removePlayer, updateScore,
+    selectPlayer, updateDisplayStats, updatePlayerStatus,
+    updateGameStatus, checkGameStatus, updatePlayerElapsedTime,
+    updateElapsedTime, updateTimeRunning, } from './../actions';
 
 const mapStateToProps = state => {
     return (
@@ -13,7 +16,7 @@ const mapStateToProps = state => {
             displayStats: state.game.displayStats,
             gameStatus: state.game.gameStatus,
             timed: state.game.timed,
-            time: state.game.time,
+            time: state.stopwatch.time,
         }
     );
 };
@@ -34,8 +37,8 @@ const mapDispatchToProps = dispatch => ({
     updateDisplayStatsDispatcher: displayStats => {
         dispatch(updateDisplayStats(displayStats));
     },
-    updatePlayerStatusDispatcher: (index, status) => {
-        dispatch(updatePlayerStatus(index, status));
+    updatePlayerStatusDispatcher: (index, status, elapsedTime) => {
+        dispatch(updatePlayerStatus(index, status, elapsedTime));
     },
     updateGameStatusDispatcher: gameStatus => {
         dispatch(updateGameStatus(gameStatus));

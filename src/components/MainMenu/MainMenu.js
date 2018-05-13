@@ -28,7 +28,7 @@ class MainMenu extends Component {
         maxScore: PropTypes.number.isRequired,
         maxScoreWins: PropTypes.bool.isRequired,
         savedGames: PropTypes.array.isRequired,
-        playersEdited: PropTypes.bool.isRequired,
+        edited: PropTypes.bool.isRequired,
     }
 
     static navigationOptions = ({ navigation, }) => {
@@ -118,7 +118,7 @@ class MainMenu extends Component {
     }
 
     startNewGame = () => {
-        if (this.props.activeGame.edited || this.props.playersEdited) {
+        if (this.props.edited) {
             this.setState({...this.state, showGameInProgressAlert: true, });
         } else {
             this.props.navigation.navigate(NewGameSettings);
@@ -130,7 +130,7 @@ class MainMenu extends Component {
     }
 
     continueGame = animation => {
-        if (this.props.activeGame.edited || this.props.playersEdited) {
+        if (this.props.edited) {
             return (
                 <AnimatedButton
                     onPress={() => {this.props.navigation.navigate(Scoreboard)}}
@@ -157,7 +157,7 @@ class MainMenu extends Component {
 
     render() {
         let { bringMenusAnimationOne, bringMenusAnimationTwo, springAnimation1, springAnimation2, springAnimation3, springAnimation4, } = this.state;
-        let edited = this.props.activeGame.edited || this.props.playersEdited;
+        let edited = this.props.edited;
         let savedGames = this.props.savedGames.length > 0;
         let animationSavedGameButton = !edited? springAnimation2: springAnimation3;
         let animationExitButton = edited && savedGames? springAnimation4: !edited && !savedGames? springAnimation2: springAnimation3;

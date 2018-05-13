@@ -1,6 +1,6 @@
 import React, { Component, } from 'react';
 import { Icon, } from 'react-native-elements';
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Animated, } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Animated, ActivityIndicator, } from 'react-native';
 import PropTypes from 'prop-types';
 
 class RightHeader extends Component {
@@ -43,6 +43,7 @@ class RightHeader extends Component {
         updateDisplayStatsDispatcher: PropTypes.func.isRequired,
         navigation: PropTypes.object,
         playerInfoDisplayed: PropTypes.bool.isRequired,
+        running: PropTypes.bool.isRequired,
     }
 
     render() {
@@ -61,6 +62,10 @@ class RightHeader extends Component {
                             </Icon>
                         </TouchableOpacity>
                     </Animated.View>
+                    {this.props.running?
+                        <ActivityIndicator size="small" style={styles.activityIndicator} color="#FFF" />
+                        :null
+                    }
                     <Animated.View style={{ transform: [{ translateY: animation2, },],}}>
                         <TouchableOpacity
                             style={styles.tool}
@@ -94,6 +99,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         alignContent: 'center',
+    },
+    activityIndicator: {
+        backgroundColor: '#333',
+        padding: 12,
+        marginLeft: 10,
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignContent: 'center',
+        position: 'absolute',
+        right: 0,
+        zIndex: 1000,
     },
 });
 

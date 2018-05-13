@@ -1,42 +1,48 @@
-import React from 'react';
+import React, {Component,} from 'react';
 import { StyleSheet, Text, View, } from 'react-native';
 import PropTypes from 'prop-types';
-import Stopwatch from './Stopwatch';
+import { Stopwatch, } from './../../containers';
 import Stats from './Stats';
 
-const Header = props => (
-    <View style={styles.header}>
-        <Stats
-            players={props.players}
-            maxScore={props.maxScore}
-            maxScoreWins={props.maxScoreWins}
-        />
-        {props.timed?
-            <Stopwatch
-                timed={props.timed}
-                time={props.time}
-                showTimerAlert={props.showTimerAlert}
-                showGameEndedAlert={props.showGameEndedAlert}
-                gameStatus={props.gameStatus}
-            />: undefined
-        }
-    </View>
-);
+class Header extends Component {
 
-Header.propTypes = {
-    players: PropTypes.arrayOf(
-        PropTypes.shape({
-            name: PropTypes.string,
-            score: PropTypes.number,
-        })
-    ).isRequired,
-    maxScore: PropTypes.number.isRequired,
-    maxScoreWins: PropTypes.bool.isRequired,
-    timed: PropTypes.bool.isRequired,
-    time: PropTypes.string.isRequired,
-    showTimerAlert: PropTypes.func.isRequired,
-    gameStatus: PropTypes.string.isRequired,
-    showGameEndedAlert: PropTypes.func.isRequired,
+    static propTypes = {
+        players: PropTypes.arrayOf(
+            PropTypes.shape({
+                name: PropTypes.string,
+                score: PropTypes.number,
+            })
+        ).isRequired,
+        maxScore: PropTypes.number.isRequired,
+        maxScoreWins: PropTypes.bool.isRequired,
+        timed: PropTypes.bool.isRequired,
+        myRef: PropTypes.func.isRequired,
+        showTimerAlert: PropTypes.func.isRequired,
+        showGameEndedAlert: PropTypes.func.isRequired,
+    }
+
+    componentDidMount() {
+        this.props.myRef(this);
+    }
+
+    render() {
+        return (
+            <View style={styles.header}>
+                <Stats
+                    players={this.props.players}
+                    maxScore={this.props.maxScore}
+                    maxScoreWins={this.props.maxScoreWins}
+                />
+                {this.props.timed?
+                    <Stopwatch
+                        myRef={stopwatch => {this.stopwatch = stopwatch}}
+                        showTimerAlert={this.props.showTimerAlert}
+                        showGameEndedAlert={this.props.showGameEndedAlert}
+                    />: undefined
+                }
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({

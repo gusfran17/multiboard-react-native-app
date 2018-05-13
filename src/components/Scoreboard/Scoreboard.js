@@ -1,7 +1,10 @@
 import React, { Component, } from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, ImageBackground, KeyboardAvoidingView,} from 'react-native';
+import { Platform, StyleSheet, Text, View,
+    ScrollView, TextInput, TouchableOpacity,
+    ImageBackground, KeyboardAvoidingView, AppState,} from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
+import PushNotification from 'react-native-push-notification';
 import { Alert, } from './../';
 import { Header, Player, AddPlayerComponent, } from './';
 import { PlayerInfo, } from './../PlayerInfo';
@@ -10,18 +13,9 @@ import { RightHeader, } from './../../containers';
 import { WON, LOST, PLAYING, ENDED, } from './../../utility/constants';
 import { sortPlayersMaxScoreLoses, sortPlayersMaxScoreWins, } from './../../utility/sort';
 import BringFromBottom from './../Animation/BringFromBottom';
+import { PushController, } from './../PushController';
 
 class Scoreboard extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            showWrongNameAlert: false,
-            showDeleteWinnerAlert: false,
-            showTimerAlert: false,
-            showGameEndedAlert: false,
-        };
-    }
 
     static navigationOptions = ({ navigation, }) => {
         const params = navigation.state.params || {};
@@ -59,6 +53,29 @@ class Scoreboard extends Component {
         time: PropTypes.string.isRequired,
     }
 
+    constructor(props) {
+        super(props);
+        this.handleAppStateChange = this.handleAppStateChange.bind(this);
+        this.state = {
+            showWrongNameAlert: false,
+            showDeleteWinnerAlert: false,
+            showTimerAlert: false,
+            showGameEndedAlert: false,
+            pushNotification: true,
+        };
+    }
+
+    componentDidMount() {
+        AppState.addEventListener('change', this.handleAppStateChange);
+    }
+
+    componentWillUnmount() {
+        AppState.removeEventListener('change', this.handleAppStateChange);
+    }
+
+    handleAppStateChange = appState => {
+    }
+
     isValidPlayer = name => {
         let playerExists = false;
         if (name) {
@@ -79,10 +96,20 @@ class Scoreboard extends Component {
 
     hideWrongNameAlert = () => {
         this.setState({
-            ...this.state,
+
             showWrongNameAlert: false,
         });
     };
+
+    updatePlayerStatus = (index,status) => {
+        if (this.props.timed && (status === WON || status === LOST)) {
+            const elapsedTime = this.header.stopwatch.getTime();
+            console.log('elapsedTime: ', elapsedTime, this.header.stopwatch.getTime);
+            this.props.updatePlayerStatusDispatcher(index, status, elapsedTime);
+        } else {
+            this.props.updatePlayerStatusDispatcher(index, status, 0);
+        }
+    }
 
     getPlayers = () => {
         const playersComponent = this.props.players.map((player, index) => {
@@ -98,7 +125,7 @@ class Scoreboard extends Component {
                         gameStatus={this.props.gameStatus}
                         removePlayer={this.props.removePlayerDispatcher}
                         updateScore={this.props.updateScoreDispatcher}
-                        updatePlayerStatus={this.props.updatePlayerStatusDispatcher}
+                        updatePlayerStatus={this.updatePlayerStatus}
                         selectPlayer={this.props.selectPlayerDispatcher}
                         updateGameStatus={this.props.updateGameStatusDispatcher}
                         checkGameStatus={this.props.checkGameStatusDispatcher}
@@ -112,42 +139,45 @@ class Scoreboard extends Component {
 
     showDeleteWinnerAlert = () => {
         this.setState({
-            ...this.state,
+
             showDeleteWinnerAlert: true,
         });
     }
 
     hideDeleteWinnerAlert = () => {
         this.setState({
-            ...this.state,
+
             showDeleteWinnerAlert: false,
         });
     }
 
     showTimerAlert = () => {
+        if (this.state.pushNotification) {
+            PushNotification.localNotificationSchedule({
+                message: "Time is out!!!",
+                date: new Date(Date.now()),
+            });
+        }
         this.setState({
-            ...this.state,
+
             showTimerAlert: true,
         });
     }
 
     hideTimerAlert = () => {
         this.setState({
-            ...this.state,
             showTimerAlert: false,
         });
     }
 
     showGameEndedAlert = () => {
         this.setState({
-            ...this.state,
             showGameEndedAlert: true,
         });
     }
 
     hideGameEndedAlert = () => {
         this.setState({
-            ...this.state,
             showGameEndedAlert: false,
         });
     }
@@ -159,7 +189,8 @@ class Scoreboard extends Component {
                 gameStatsComponent = <GameStats
                     updateDisplayStats={this.props.updateDisplayStatsDispatcher}
                     players={this.props.players}
-                    timed={false}
+                    timed={this.props.timed}
+                    time={this.props.time}
                     maxScoreWins={this.props.maxScoreWins}
                     gameFinished={this.props.gameStatus === ENDED}/>;
             } else {
@@ -207,11 +238,9 @@ class Scoreboard extends Component {
                             maxScore={this.props.maxScore}
                             maxScoreWins={this.props.maxScoreWins}
                             timed={this.props.timed}
-                            time={this.props.time}
-                            showWrongTimeAlert={this.showWrongTimeAlert}
                             showTimerAlert={this.showTimerAlert}
                             showGameEndedAlert={this.showGameEndedAlert}
-                            gameStatus={this.props.gameStatus}
+                            myRef={header => {this.header = header;}}
                         />
                         <View>
                             {this.getPlayers()}
@@ -272,6 +301,7 @@ class Scoreboard extends Component {
                         this.hideGameEndedAlert();
                     }}
                 />
+                {this.props.timed? <PushController/>: null}
             </ImageBackground>
         );
     }

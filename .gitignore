@@ -19,8 +19,6 @@ xcuserdata
 DerivedData
 *.hmap
 *.ipa
-*.dSYM*
-*.dSYM.zip
 *.xcuserstate
 project.xcworkspace
 
@@ -41,7 +39,7 @@ yarn-error.log
 # BUCK
 buck-out/
 \.buckd/
-# *.keystore
+*.keystore
 
 # fastlane
 #
@@ -53,27 +51,3 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
-
-# Pods
-ios/Pods
-
-# Using Yarn
-package-lock.json
-
-# Jest
-coverage
-.jest
-
-# Temporary files
-.tmp
-
-# Editor
-.vscode
-
-# For Gems
-vendor
-
-ios/GoogleService-Info.plist
-
-# Sourcemaps and bugsnag
-sourcemap.*

@@ -3,6 +3,7 @@ import {
     REMOVE_PLAYER,
     UPDATE_PLAYER_SCORE,
     UPDATE_PLAYER_STATUS,
+    UPDATE_PLAYER_ELAPSED_TIME,
     START_NEW_GAME,
     SAVE_PROGRESS,
     LOAD_GAME,
@@ -24,6 +25,7 @@ const stubPlayers = [
         created: new Date(),
         updated: undefined,
         finished: undefined,
+        elpasedTime: undefined,
     },
     {
         name: 'SANCHO',
@@ -32,6 +34,7 @@ const stubPlayers = [
         created: new Date(),
         updated: undefined,
         finished: undefined,
+        elpasedTime: undefined,
     },
     {
         name: 'PANZA',
@@ -40,6 +43,7 @@ const stubPlayers = [
         created: new Date(),
         updated: undefined,
         finished: undefined,
+        elpasedTime: undefined,
     },
     {
         name: 'SANTOS',
@@ -48,6 +52,7 @@ const stubPlayers = [
         created: new Date(),
         updated: undefined,
         finished: undefined,
+        elpasedTime: undefined,
     },
 ];
 
@@ -72,6 +77,7 @@ const gamePlayers = (state = initialState, action) => {
                     created: new Date(),
                     updated: undefined,
                     finished: undefined,
+                    elpasedTime: undefined,
                 },
             ],
         };
@@ -86,7 +92,7 @@ const gamePlayers = (state = initialState, action) => {
     case UPDATE_PLAYER_SCORE:
         const player = {
             ...state.players[action.index],
-            score: state.players[action.index].score + action.delta,
+            score: action.delta,
             updated: new Date(),
         };
         return {
@@ -109,16 +115,31 @@ const gamePlayers = (state = initialState, action) => {
             newStatus = LOST;
             newFinished = new Date();
         }
+        console.log(action);
         const insertPlayer = {
             ...updatedPlayer,
             status: newStatus,
             finished: newFinished,
+            elapsedTime: action.elapsedTime,
         };
         return {
             edited: true,
             players: [
                 ...state.players.slice(0, action.index),
                 insertPlayer,
+                ...state.players.slice(action.index + 1),
+            ],
+        };
+    case UPDATE_PLAYER_ELAPSED_TIME:
+        const updatedPlayerET = {
+            ...state.players[action.index],
+            elapsedTime: action.elapsedTime,
+        };
+        return {
+            edited: true,
+            players: [
+                ...state.players.slice(0, action.index),
+                updatedPlayerET,
                 ...state.players.slice(action.index + 1),
             ],
         };

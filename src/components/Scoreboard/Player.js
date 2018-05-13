@@ -66,7 +66,6 @@ const Player = props => {
                 maxScore={props.maxScore}
                 maxScoreWins={props.maxScoreWins}
                 gameStatus={props.gameStatus}
-                updateGameStatus={props.updateGameStatus}
                 updatePlayerStatus={props.updatePlayerStatus}
                 updateScore={props.updateScore}
                 checkGameStatus={props.checkGameStatus}
@@ -87,7 +86,6 @@ Player.propTypes = {
     updateScore: PropTypes.func.isRequired,
     selectPlayer: PropTypes.func.isRequired,
     updatePlayerStatus: PropTypes.func.isRequired,
-    updateGameStatus: PropTypes.func.isRequired,
     checkGameStatus: PropTypes.func.isRequired,
     showDeleteWinnerAlert: PropTypes.func.isRequired,
 };

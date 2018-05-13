@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView, } from 'react-nat
 import { Icon, } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import { GrowToHeight, } from './../Animation';
+import { formatTime, } from './../../utility/format';
 
 const PositionsTable = props => {
     const playersListComponet = props.players.map((player, index) => {
@@ -11,6 +12,18 @@ const PositionsTable = props => {
                 <Text style={[ styles.col1, styles.label, ]}>{index+1}</Text>
                 <Text style={[ styles.col2, styles.label, ]}>{player.name}</Text>
                 <Text style={[ styles.col3, styles.label, ]}>{player.score}</Text>
+                {
+                    props.showTime?
+                        <Text style={[ styles.col3, styles.label, ]}>
+                            {player.elapsedTime?
+                                formatTime(player.elapsedTime)
+                                :
+                                props.time
+                            }
+                        </Text>
+                        :
+                        undefined
+                }
             </View>
         );
     });
@@ -24,6 +37,12 @@ const PositionsTable = props => {
                     <Text style={[ styles.col1, styles.titleLabel, ]}>Rank</Text>
                     <Text style={[ styles.col2, styles.titleLabel, ]}>Name</Text>
                     <Text style={[ styles.col3, styles.titleLabel, ]}>Score</Text>
+                    {
+                        props.showTime?
+                            <Text style={[ styles.col3, styles.titleLabel, ]}>Time</Text>
+                            :
+                            undefined
+                    }
                 </View>
                 <ScrollView>
                     {playersListComponet}
@@ -35,6 +54,8 @@ const PositionsTable = props => {
 
 PositionsTable.propTypes = {
     players: PropTypes.array.isRequired,
+    showTime:  PropTypes.bool.isRequired,
+    time:  PropTypes.string.isRequired,
 }
 
 const animatedContainerStyle = {
@@ -87,7 +108,7 @@ const styles = StyleSheet.create({
         flex: 2,
     },
     col3: {
-        textAlign: 'left',
+        textAlign: 'center',
         flex: 1,
     },
 });

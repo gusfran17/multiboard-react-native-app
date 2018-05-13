@@ -31,5 +31,26 @@ export const formatDateShort = date => {
     } else {
         return '---';
     }
+}
 
+export const formatNumberLength = (num, length) => {
+    let number = num.toString();
+    while (number.length < length) {
+        number = `0${number}`;
+    }
+    return number;
+}
+
+export const formatMiliseconds = time => {
+    const timeParts = time.split(':');
+    const minutes = Number(timeParts[0]);
+    const seconds = Number(timeParts[1]);
+    const timeLimit = ((minutes*60) + seconds)*1000;
+    return timeLimit;
+}
+
+export const formatTime = elapsedTime => {
+    const minutes = formatNumberLength(Math.floor((elapsedTime / 60000) % 60), 2);
+    const seconds = formatNumberLength(Math.floor((elapsedTime / 1000) % 60), 2);
+    return `${minutes}:${seconds}`;
 }

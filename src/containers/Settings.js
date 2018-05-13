@@ -10,9 +10,9 @@ const mapStateToProps = state => (
         players: state.gamePlayers.players,
         gameName: state.game.gameName,
         saved: state.game.saved? new Date(state.game.saved): state.game.saved,
-        edited: state.game.edited || state.gamePlayers.edited,
+        edited: state.game.edited || state.gamePlayers.edited || state.stopwatch.edited,
         timed: state.game.timed,
-        time: state.game.time,
+        time: state.stopwatch.time,
     }
 );
 

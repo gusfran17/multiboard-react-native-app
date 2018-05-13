@@ -10,7 +10,7 @@ const WinLoseSetting = props => {
             <SettingDescriptionLabel text={props.description}/>
             <WinLoseControl
                 maxScoreWins={props.maxScoreWins}
-                toggleWinLose={props.toggleWinLose}
+                showWinLoseOptions={props.showWinLoseOptions}
             />
         </View>
     );
@@ -19,7 +19,7 @@ const WinLoseSetting = props => {
 WinLoseSetting.propTypes = {
     description: PropTypes.string.isRequired,
     maxScoreWins: PropTypes.bool.isRequired,
-    toggleWinLose: PropTypes.func.isRequired,
+    showWinLoseOptions: PropTypes.func.isRequired,
 }
 
 const styles = StyleSheet.create({

@@ -23,7 +23,7 @@ const Counter = props => {
                 props.checkGameStatus();
             }
         }
-        props.updateScore(props.index, delta);
+        props.updateScore(props.index, props.score + delta);
     }
 
     const updateScoreMaxScoreLoses = delta => {
@@ -40,7 +40,7 @@ const Counter = props => {
             props.updatePlayerStatus(props.index, status);
             props.checkGameStatus();
         }
-        props.updateScore(props.index, delta);
+        props.updateScore(props.index, props.score + delta);
     }
 
     return (
@@ -73,7 +73,6 @@ Counter.propTypes = {
     gameStatus: PropTypes.string.isRequired,
     updateScore: PropTypes.func.isRequired,
     updatePlayerStatus: PropTypes.func.isRequired,
-    updateGameStatus: PropTypes.func.isRequired,
     checkGameStatus: PropTypes.func.isRequired,
 };
 

@@ -5,3 +5,4 @@ export TimeLimitSetting from './TimeLimitSetting';
 export Settings from './Settings';
 export FooterSaveGame from './FooterSaveGame';
 export FooterNewGame from './FooterNewGame';
+export TimeLimitOptions from './TimeLimitOptions';
