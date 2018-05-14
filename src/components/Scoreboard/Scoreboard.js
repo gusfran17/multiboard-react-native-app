@@ -179,6 +179,9 @@ class Scoreboard extends Component {
     }
 
     showTimerAlert = () => {
+        if (this.props.players.length > 0){
+            this.props.updateDisplayStatsDispatcher(false);
+        };
         this.setState({
             showTimerAlert: true,
         });
@@ -303,7 +306,7 @@ class Scoreboard extends Component {
                     onConfirmPressed={() => {
                         this.hideTimerAlert();
                         if (this.props.players.length > 0){
-                            this.props.updateDisplayStatsDispatcher(true)
+                            this.props.updateDisplayStatsDispatcher(true);
                         };
                     }}
                 />
