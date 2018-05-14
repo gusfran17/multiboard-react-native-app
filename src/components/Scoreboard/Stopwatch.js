@@ -45,7 +45,12 @@ class Stopwatch extends Component {
 
     onStop = () => {
         this.props.updateTimeRunningDispatcher(false);
-        this.props.updateElapsedTimeDispatcher(this.state.timeLimit);
+        if (this.state.timeLimit) {
+            this.props.updateElapsedTimeDispatcher(this.state.timeLimit);
+        } else {
+            this.props.updateElapsedTimeDispatcher(this.state.elapsedTime);
+        }
+
     };
 
     onReset = () => {

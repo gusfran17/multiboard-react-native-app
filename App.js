@@ -1,7 +1,7 @@
 import React, { Component, } from 'react';
 import { Provider, } from 'react-redux';
 import { PersistGate, } from 'redux-persist/integration/react'
-import Game from './src/index';
+import MainStack from './src/index';
 import { store, persistor, } from './src/getStore';
 import preloadImages from './src/utility/imagesPreloader';
 
@@ -13,7 +13,7 @@ export default class App extends Component {
         return (
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
-                    <Game/>
+                    <MainStack/>
                 </PersistGate>
             </Provider>
         );

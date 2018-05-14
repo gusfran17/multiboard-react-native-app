@@ -7,7 +7,7 @@ const TimeLimitOptions = props => (
     <View style={styles.overlayContainer}>
         <View style={styles.overlay}/>
         <TouchableOpacity style={styles.overlayContainer} onPressOut={props.hideWinLoseOptions}>
-            <GrowToHeight style={{ position: 'absolute', top: 120, }}>
+            <GrowToHeight style={{ position: 'absolute', top: 120, }} delay={0}>
                 <TouchableOpacity
                     onPress={() => {props.updateWinOrLose(true); props.hideWinLoseOptions();}}>
                     <Text style={styles.winLoseOption}>WIN</Text>

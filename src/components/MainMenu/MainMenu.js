@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import RNExitApp from 'react-native-exit-app';
 import { Alert, } from './../';
 import { NewGameSettings, Scoreboard, SavedGames, } from './../../utility/constants';
-import { AnimatedButton, } from './../Button';
+import { StatefullAnimatedButton, } from './../Button';
 
 class MainMenu extends Component {
 
@@ -13,13 +13,13 @@ class MainMenu extends Component {
         this.state = {
             bringMenusAnimationOne: new Animated.Value(-70),
             bringMenusAnimationTwo: new Animated.Value(800),
-            springAnimation1: new Animated.Value(0),
-            springAnimation2: new Animated.Value(0),
-            springAnimation3: new Animated.Value(0),
-            springAnimation4: new Animated.Value(0),
-            springAnimation5: new Animated.Value(0),
+            springAnimation1: 1400,
+            springAnimation2: 1650,
+            springAnimation3: 1900,
+            springAnimation4: 2150,
+            springAnimation5: 2400,
             showGameInProgressAlert: false,
-        }
+        };
     }
 
     static propTypes = {
@@ -39,81 +39,34 @@ class MainMenu extends Component {
     };
 
     componentDidMount() {
+        this.startAnimation();
+        this.setState({ key: Math.random(), });
+    }
+
+    startAnimation = () => {
         const bounciness = 12;
         const speed = 2;
         const delay = 250;
         const delayOffset = 1400;
-        Animated.sequence([
-            Animated.parallel([
-                Animated.timing(
-                    this.state.bringMenusAnimationOne,
-                    {
-                        toValue: 70,
-                        duration: 400,
-                        delay: delayOffset - 700,
-                        useNativeDriver: true,
-                    }
-                ),
-                Animated.timing(
-                    this.state.bringMenusAnimationTwo,
-                    {
-                        delay: delayOffset - 600,
-                        toValue: 100,
-                        duration: 600,
-                        useNativeDriver: true,
-                    }
-                ),
-                Animated.spring(
-                    this.state.springAnimation1,
-                    {
-                        delay: delayOffset,
-                        toValue: 1,
-                        speed,
-                        bounciness,
-                        useNativeDriver: true,
-                    }
-                ),
-                Animated.spring(
-                    this.state.springAnimation2,
-                    {
-                        delay: delayOffset + delay,
-                        toValue: 1,
-                        speed,
-                        bounciness,
-                        useNativeDriver: true,
-                    }
-                ),
-                Animated.spring(
-                    this.state.springAnimation3,
-                    {
-                        delay: delayOffset + (delay*2),
-                        toValue: 1,
-                        speed,
-                        bounciness,
-                        useNativeDriver: true,
-                    }
-                ),
-                Animated.spring(
-                    this.state.springAnimation4,
-                    {
-                        delay: delayOffset + (delay*3),
-                        toValue: 1,
-                        speed,
-                        bounciness,
-                        useNativeDriver: true,
-                    }
-                ),
-                Animated.spring(
-                    this.state.springAnimation5,
-                    {
-                        delay: delayOffset + (delay*4),
-                        toValue: 1,
-                        speed,
-                        bounciness,
-                        useNativeDriver: true,
-                    }
-                ),
-            ]),
+        Animated.parallel([
+            Animated.timing(
+                this.state.bringMenusAnimationOne,
+                {
+                    toValue: 70,
+                    duration: 400,
+                    delay: delayOffset - 700,
+                    useNativeDriver: true,
+                }
+            ),
+            Animated.timing(
+                this.state.bringMenusAnimationTwo,
+                {
+                    delay: delayOffset - 600,
+                    toValue: 100,
+                    duration: 600,
+                    useNativeDriver: true,
+                }
+            ),
         ]).start();
     }
 
@@ -132,9 +85,9 @@ class MainMenu extends Component {
     continueGame = animation => {
         if (this.props.edited) {
             return (
-                <AnimatedButton
+                <StatefullAnimatedButton
                     onPress={() => {this.props.navigation.navigate(Scoreboard)}}
-                    animation={animation}
+                    delay={animation}
                     text="Continue game"
                     width={250}
                 />
@@ -145,9 +98,9 @@ class MainMenu extends Component {
     savedGames  = animation => {
         if (this.props.savedGames.length > 0) {
             return (
-                <AnimatedButton
+                <StatefullAnimatedButton
                     onPress={() => {this.props.navigation.navigate(SavedGames)}}
-                    animation={animation}
+                    delay={animation}
                     text="Saved Games"
                     width={250}
                 />
@@ -176,17 +129,17 @@ class MainMenu extends Component {
                 <Animated.View style={{...menuContainer, transform: [{ translateY: bringMenusAnimationTwo, },], }}>
                     <Text style={styles.header}>Main Menu</Text>
                     <View style={styles.body}>
-                        <AnimatedButton
+                        <StatefullAnimatedButton
                             onPress={this.startNewGame}
-                            animation={springAnimation1}
+                            delay={springAnimation1}
                             text="New Game"
                             width={250}
                         />
                         {this.continueGame(springAnimation2)}
                         {this.savedGames(animationSavedGameButton)}
-                        <AnimatedButton
+                        <StatefullAnimatedButton
                             onPress={() => {RNExitApp.exitApp();}}
-                            animation={animationExitButton}
+                            delay={animationExitButton}
                             text="Exit"
                             width={250}
                         />

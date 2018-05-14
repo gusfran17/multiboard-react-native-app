@@ -1,7 +1,8 @@
 import React, { Component, } from 'react';
 import { Platform, StyleSheet, Text, View,
     ScrollView, TextInput, TouchableOpacity,
-    ImageBackground, KeyboardAvoidingView, AppState,} from 'react-native';
+    ImageBackground, KeyboardAvoidingView,
+    AppState, Vibration,} from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
 import PushNotification from 'react-native-push-notification';
@@ -62,10 +63,12 @@ class Scoreboard extends Component {
             showDeleteWinnerAlert: false,
             showTimerAlert: false,
             showGameEndedAlert: false,
+            background: false,
         };
     }
 
     componentDidMount() {
+        console.log('componentDidMount');
         if (this.props.timed) {
             PushNotification.configure({
                 onNotification: notification => {
@@ -83,8 +86,9 @@ class Scoreboard extends Component {
 
     handleAppStateChange = appState => {
         const limitTime = formatMiliseconds(this.props.time);
-        console.log( this.header.stopwatch.getTime());
+        if (this.props.timed) console.log(this.header.stopwatch.getTime());
         if (appState === 'background' && this.props.timed) {
+            this.setState({background: true,});
             PushNotification.localNotificationSchedule({
                 ticker: "Time is out!!!",
                 message: Platform.OS === 'ios'? "Time is out!!! Check your scores.":"Check your scores.",
@@ -95,6 +99,7 @@ class Scoreboard extends Component {
             });
         }
         if (appState === 'active') {
+            this.setState({background: false,});
             PushNotification.cancelAllLocalNotifications();
         }
     }
@@ -162,7 +167,6 @@ class Scoreboard extends Component {
 
     showDeleteWinnerAlert = () => {
         this.setState({
-
             showDeleteWinnerAlert: true,
         });
     }
@@ -176,9 +180,16 @@ class Scoreboard extends Component {
 
     showTimerAlert = () => {
         this.setState({
-
             showTimerAlert: true,
         });
+        if (!this.state.background) {
+            const androidPattern = [200, 200, 800, ];
+            const iosPattern = [300,300, 100, 100, 100, 100, 300, 300, 100, 100, 100, 100,];
+            if (Platform.os == 'ios')
+                Vibration.vibrate(iosPattern);
+            else
+                Vibration.vibrate(androidPattern);
+        }
     }
 
     hideTimerAlert = () => {

@@ -8,7 +8,7 @@ const Alert = props => (
         showProgress={props.showProgress}
         title= {props.title}
         message={props.message}
-        closeOnTouchOutside={true}
+        closeOnTouchOutside={false}
         closeOnHardwareBackPress={false}
         showCancelButton={props.showCancelButton}
         showConfirmButton={props.showConfirmButton}

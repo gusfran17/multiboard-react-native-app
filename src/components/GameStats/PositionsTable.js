@@ -16,28 +16,28 @@ const PositionsTable = props => {
             } else {
                 elapsedTime = '---';
             }
+            return (
+                <Text style={[ styles.col3, styles.label, ]}>
+                    {isNaN(elapsedTime)? elapsedTime:formatTime(elapsedTime)}
+                </Text>
+            );
         }
-        return (
-            <Text style={[ styles.col3, styles.label, ]}>
-                {isNaN(elapsedTime)? elapsedTime:formatTime(elapsedTime)}
-            </Text>
-        );
     }
 
     const timeColumnMaxScoreLoses = (player, lastElapsedTime) => {
         let elapsedTime;
         if (props.showTime) {
             if (player.status === LOST) {
-                elapsedTime = player.elapsedTime.toString();
+                elapsedTime = player.elapsedTime? player.elapsedTime.toString(): '---';
             } else {
                 elapsedTime = lastElapsedTime;
             }
+            return (
+                <Text style={[ styles.col3, styles.label, ]}>
+                    {isNaN(elapsedTime)? '---':formatTime(elapsedTime)}
+                </Text>
+            );
         }
-        return (
-            <Text style={[ styles.col3, styles.label, ]}>
-                {formatTime(elapsedTime)}
-            </Text>
-        );
     }
 
     const playersListComponet = props.players.map((player, index) => {
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     col2: {
-        textAlign: 'left',
+        textAlign: 'center',
         flex: 2,
     },
     col3: {

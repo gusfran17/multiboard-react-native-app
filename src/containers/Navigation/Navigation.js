@@ -7,12 +7,8 @@ import SavedGames from './../SavedGames';
 import NewGameSettings from './../NewGameSettings'
 
 const GameStack = createStackNavigator({
-    Scoreboard: {
-        screen: Scoreboard,
-    },
-    Settings: {
-        screen: Settings,
-    },
+    Scoreboard:  Scoreboard,
+    Settings: Settings,
 },
 {
     mode: 'modal',
@@ -20,18 +16,10 @@ const GameStack = createStackNavigator({
 });
 
 const MainStack = createStackNavigator({
-    MainMenu: {
-        screen: MainMenu,
-    },
-    Game: {
-        screen: GameStack,
-    },
-    NewGameSettings: {
-        screen: NewGameSettings,
-    },
-    SavedGames: {
-        screen: SavedGames,
-    },
+    MainMenu: MainMenu,
+    Game: GameStack,
+    NewGameSettings: NewGameSettings,
+    SavedGames: SavedGames,
 },
 {
     initialRouteName: 'MainMenu',
