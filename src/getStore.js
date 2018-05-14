@@ -19,14 +19,26 @@ const reactNavigationMiddleware = createReactNavigationReduxMiddleware(
 // this needs to be called after crteateReactNavigationReduxMiddleware in order to work
 export const addListener = createReduxBoundAddListener("root");
 
-const enhancer = composeWithDevTools(
-    applyMiddleware(
-        sagaMiddleware,
-        reactNavigationMiddleware,
-        screenTracking,
-        //logger,
-    ),
-);
+let enhancer
+if (__DEV__) {
+    enhancer = composeWithDevTools(
+        applyMiddleware(
+            sagaMiddleware,
+            reactNavigationMiddleware,
+            screenTracking,
+            //logger,
+        ),
+    );
+} else {
+    enhancer = compose(
+        applyMiddleware(
+            sagaMiddleware,
+            //reactNavigationMiddleware,
+            screenTracking,
+        ),
+    );
+}
+
 
 const combinedReducer = combineReducers({
     game,
