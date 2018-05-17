@@ -64,6 +64,9 @@ const mainMenu = (state = initialState, action) => {
             players: [
                 ...savedGame.players,
             ],
+            stopwatch: {
+                ...savedGame.stopwatch,
+            },
         };
         return {
             ...state,

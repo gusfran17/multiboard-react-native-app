@@ -2,6 +2,7 @@ import React, { Component, } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Switch, ImageBackground, KeyboardAvoidingView, } from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
+import { KeyboardAwareScrollView, } from 'react-native-keyboard-aware-scrollview';
 import { MaxScoreSetting, WinLoseSetting, FooterSaveGame, FooterNewGame, TimeSetting, TimeLimitSetting, TimeLimitOptions, } from './';
 import { NavigationHeader, Alert, } from './../../components';
 import { NewGameSettings, MainMenu, Scoreboard, } from './../../utility/constants';
@@ -140,8 +141,9 @@ class Settings extends Component {
                 resizeMode="cover"
                 style={styles.container}
                 source={require('./../../assets/images/falling_dices_final.png')}>
-                <BringFromBottom>
-                    <KeyboardAvoidingView
+                <BringFromBottom
+                    style={animationContainer}>
+                    <KeyboardAwareScrollView
                         behavior="position"
                         enabled={true}
                         style={{alignSelf: 'stretch',marginLeft: 15, marginRight: 15,}}
@@ -189,12 +191,12 @@ class Settings extends Component {
                                 />
                             }
                         </View>
-                    </KeyboardAvoidingView>
+                    </KeyboardAwareScrollView>
                 </BringFromBottom>
                 <Alert
                     show={this.state.showEmptyNameAlert}
                     showProgress={false}
-                    message="The name cannot be empty."
+                    message="The name cannot be empty or longer than 30 characters."
                     showCancelButton={false}
                     showConfirmButton={true}
                     confirmText="Ok"
@@ -241,6 +243,11 @@ class Settings extends Component {
         );
     }
 }
+
+const animationContainer = {
+    flex: 1,
+    marginBottom: 100,
+};
 
 const styles = StyleSheet.create({
     container: {

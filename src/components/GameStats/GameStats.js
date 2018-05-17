@@ -28,22 +28,25 @@ const GameStats = props => {
     }
 
     return (
-        <View style={[ styles.container, ]}>
-            {gameFinishedTitleComponent()}
-            <Text style={styles.subTitle}>Scores</Text>
-            <PositionsTable
-                players={sortedPlayers}
-                timed={props.timed}
-                showTime={props.gameFinished && props.timed}
-                maxScoreWins={props.maxScoreWins}
-                time={props.time}
-            />
-            <StatefullAnimatedButton
-                onPress={() => {props.updateDisplayStats(false);}}
-                text="Continue"
-                width={120}
-                delay={700}
-            />
+        <View style={styles.overlayContainer}>
+            <View style={styles.overlay}/>
+            <View style={[ styles.container, ]}>
+                {gameFinishedTitleComponent()}
+                <Text style={styles.subTitle}>Scores</Text>
+                <PositionsTable
+                    players={sortedPlayers}
+                    timed={props.timed}
+                    showTime={props.gameFinished && props.timed}
+                    maxScoreWins={props.maxScoreWins}
+                    time={props.time}
+                />
+                <StatefullAnimatedButton
+                    onPress={() => {props.updateDisplayStats(false);}}
+                    text="Continue"
+                    width={120}
+                    delay={700}
+                />
+            </View>
         </View>
     );
 }
@@ -58,6 +61,29 @@ GameStats.propTypes = {
 }
 
 const styles = StyleSheet.create({
+    overlayContainer: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+        zIndex: 10,
+    },
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        backgroundColor: '#666',
+        opacity: 0.3,
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 10,
+    },
     container: {
         position: 'absolute',
         top: 100,

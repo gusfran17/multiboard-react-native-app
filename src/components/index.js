@@ -9,7 +9,8 @@ export {
 } from './MainMenu';
 export {
     NavigationHeader,
-    RightHeader
+    RightHeader,
+    LeftHeader
 } from './Navigation';
 export {
     SavedGames
@@ -19,5 +20,6 @@ export {
     GrowToHeight
 } from './Animation';
 export {
-    Alert
+    Alert,
+    CustomAlert
 } from './Alert';

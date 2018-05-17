@@ -11,7 +11,7 @@ class MainMenu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            bringMenusAnimationOne: new Animated.Value(-70),
+            bringMenusAnimationOne: new Animated.Value(-120),
             bringMenusAnimationTwo: new Animated.Value(800),
             springAnimation1: 1400,
             springAnimation2: 1650,
@@ -158,6 +158,7 @@ class MainMenu extends Component {
                         this.hideGameInProgressAlert();
                     }}
                     onConfirmPressed={() => {
+                        this.hideGameInProgressAlert();
                         this.props.navigation.navigate(NewGameSettings);
                     }}
                 />

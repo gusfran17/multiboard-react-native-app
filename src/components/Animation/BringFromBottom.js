@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, ScrollView, } from 'react-native';
+import { Animated, View, } from 'react-native';
 import PropTypes from 'prop-types';
 
 class BringFromBottom extends React.Component {
@@ -31,7 +31,7 @@ class BringFromBottom extends React.Component {
         let { bringUp, } = this.state;
 
         return (
-            <Animated.ScrollView
+            <Animated.View
                 style={{
                     transform: [{ translateY: bringUp, },],
                     alignSelf: 'stretch',
@@ -39,7 +39,7 @@ class BringFromBottom extends React.Component {
                 }}
             >
                 {this.props.children}
-            </Animated.ScrollView>
+            </Animated.View>
         );
     }
 }

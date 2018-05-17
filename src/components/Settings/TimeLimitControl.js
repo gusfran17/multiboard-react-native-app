@@ -1,5 +1,5 @@
 import React, { Component,} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity,} from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Platform, } from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
 
@@ -79,7 +79,7 @@ class TimeLimitControl extends Component {
                         value={this.state.time.toString()}
                         onChangeText={text=> this.onChanged(text)}
                         onSubmitEditing={this.updateTime}
-                        onKeyPress={() => {this.setState({ time:'...', })}}
+                        onKeyPress={() => { if (Platform.OS === 'ios') this.setState({ time:'...', });}}
                         onBlur={this.onBlur}
                         onFocus={this.onFocus}
                         underlineColorAndroid='rgba(0,0,0,0)'

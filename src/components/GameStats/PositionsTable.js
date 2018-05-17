@@ -73,7 +73,7 @@ const PositionsTable = props => {
                             undefined
                     }
                 </View>
-                <ScrollView>
+                <ScrollView style={styles.postions}>
                     {playersListComponet}
                 </ScrollView>
             </View>
@@ -105,6 +105,9 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 15,
         flexDirection: 'column',
+    },
+    postions: {
+        maxHeight: 225,
     },
     detail: {
         flexDirection: 'row',

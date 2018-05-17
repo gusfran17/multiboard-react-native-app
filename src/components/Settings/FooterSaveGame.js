@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
 import { MainMenu, } from './../../utility/constants';
 import { StatefullAnimatedButton, } from './../Button';
+import { trimName, } from './../../utility/format';
 
 
 class FooterSaveGame extends Component {
@@ -31,7 +32,7 @@ class FooterSaveGame extends Component {
     }
 
     saveProgress = () => {
-        if (this.state.gameName) {
+        if (this.state.gameName && this.state.gameName.length < 31) {
             this.props.saveProgress(this.state.gameName);
             this.setState({ allowEditGame: false, });
         } else {
@@ -87,7 +88,7 @@ class FooterSaveGame extends Component {
                                 <Text style={[styles.savedGameNameLabel,]}>
                                     Game:
                                 </Text>
-                                {` ${this.props.gameName}`}
+                                {trimName(` ${this.props.gameName}`, 25)}
 
                             </Text>
                             <TouchableOpacity

@@ -6,11 +6,12 @@ import { Platform, StyleSheet, Text, View,
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
 import PushNotification from 'react-native-push-notification';
-import { Alert, } from './../';
+import { KeyboardAwareScrollView, } from 'react-native-keyboard-aware-scrollview';
+import { Alert, CustomAlert, } from './../';
 import { Header, Player, AddPlayerComponent, } from './';
 import { PlayerInfo, } from './../PlayerInfo';
 import { GameStats, } from './../GameStats';
-import { RightHeader, } from './../../containers';
+import { RightHeader, LeftHeader, } from './../../containers';
 import { WON, LOST, PLAYING, ENDED, } from './../../utility/constants';
 import { sortPlayersMaxScoreLoses, sortPlayersMaxScoreWins, } from './../../utility/sort';
 import BringFromBottom from './../Animation/BringFromBottom';
@@ -22,6 +23,9 @@ class Scoreboard extends Component {
     static navigationOptions = ({ navigation, }) => {
         const params = navigation.state.params || {};
         return {
+            headerLeft: <LeftHeader
+                title="Bridge game"
+            />,
             headerRight: <RightHeader
                 navigation={navigation}
             />,
@@ -52,6 +56,7 @@ class Scoreboard extends Component {
         selectedPlayer: PropTypes.number.isRequired,
         displayStats: PropTypes.bool.isRequired,
         timed: PropTypes.bool.isRequired,
+        running: PropTypes.bool.isRequired,
         time: PropTypes.string.isRequired,
     }
 
@@ -64,19 +69,12 @@ class Scoreboard extends Component {
             showTimerAlert: false,
             showGameEndedAlert: false,
             background: false,
+            appState: 'active',
         };
     }
 
     componentDidMount() {
         console.log('componentDidMount');
-        if (this.props.timed) {
-            PushNotification.configure({
-                onNotification: notification => {
-                    // console.log('NOTIFICATION: ', notification);
-                },
-                popInitialNotification: true,
-            });
-        }
         AppState.addEventListener('change', this.handleAppStateChange);
     }
 
@@ -85,28 +83,69 @@ class Scoreboard extends Component {
     }
 
     handleAppStateChange = appState => {
-        const limitTime = formatMiliseconds(this.props.time);
-        if (this.props.timed) console.log(this.header.stopwatch.getTime());
-        if (appState === 'background' && this.props.timed) {
-            this.setState({background: true,});
-            PushNotification.localNotificationSchedule({
-                ticker: "Time is out!!!",
-                message: Platform.OS === 'ios'? "Time is out!!! Check your scores.":"Check your scores.",
-                date: new Date(Date.now() + (limitTime-this.header.stopwatch.getTime())),
-                vibration: 300,
-                playSound: true,
-                title: "Time is out!!!",
-            });
+        console.log('%%%%%handleAppStateChange%%%%%%%%%');
+        console.log(appState, this.state);
+        if (appState === 'inactive') {
+            if (!this.state.background && this.props.timed && this.props.running) {
+                console.log('IS PUSHING NOTIFICATIONS inactive');
+                PushNotification.localNotification({
+                    ticker: "The timer is running in background",
+                    message: Platform.OS === 'ios'?
+                        "The timer is running in background. You will be notified when the time is out."
+                        :
+                        "You will be notified when the time is out.",
+                    vibration: 300,
+                    playSound: true,
+                    title: "The timer is running in background",
+                    color: "#666",
+                });
+            }
+        }
+        if (appState === 'background') {
+            this.setState({background: true, });
+            if (this.props.timed && this.props.running) {
+                console.log('IS PUSHING NOTIFICATIONS background');
+                PushNotification.localNotification({
+                    ticker: "The timer is running in background",
+                    message: Platform.OS === 'ios'?
+                        "The timer is running in background. You will be notified when the time is out."
+                        :
+                        "You will be notified when the time is out.",
+                    vibration: 300,
+                    playSound: true,
+                    title: "The timer is running in background",
+                });
+            }
         }
         if (appState === 'active') {
             this.setState({background: false,});
-            PushNotification.cancelAllLocalNotifications();
+        }
+    }
+
+    scheduleNotification = () => {
+        const delay = 1000;
+        const currentTime = this.header.stopwatch.getTime();
+        const limitTime = formatMiliseconds(this.props.time);
+        const difference = limitTime - currentTime;
+        console.log('IS PUSHING NOTIFICATIONS SCHEDULED');
+        console.log((limitTime-currentTime + delay))
+        console.log(difference);
+        if (difference > 1000) {
+            PushNotification.localNotificationSchedule({
+                ticker: "Time is out!!!",
+                message: Platform.OS === 'ios'? "Time is out!!! Check your scores.":"Check your scores.",
+                date: new Date(Date.now() + (limitTime-currentTime + delay)),
+                vibration: 300,
+                playSound: true,
+                title: "Time is out!!!",
+                color: "#666",
+            });
         }
     }
 
     isValidPlayer = name => {
         let playerExists = false;
-        if (name) {
+        if (name && name.length < 31) {
             for (let player of this.props.players) {
                 if (player.name.trim().toUpperCase() === name.trim().toUpperCase()) {
                     playerExists = true;
@@ -179,20 +218,24 @@ class Scoreboard extends Component {
     }
 
     showTimerAlert = () => {
-        if (this.props.players.length > 0){
-            this.props.updateDisplayStatsDispatcher(false);
-        };
+        console.log('showTimerAlert');
         this.setState({
             showTimerAlert: true,
+        }, () => {
+            if (this.props.players.length > 0){
+                this.props.updateDisplayStatsDispatcher(false);
+            };
+            if (!this.state.background) {
+                const androidPattern = [200, 200, 800, ];
+                const iosPattern = [300,300, 100, 100, 100, 100, 300, 300, 100, 100, 100, 100,];
+                if (Platform.OS == 'ios')
+                    Vibration.vibrate(iosPattern);
+                else
+                    Vibration.vibrate(androidPattern);
+            } else {
+                PushNotification.cancelAllLocalNotifications();
+            }
         });
-        if (!this.state.background) {
-            const androidPattern = [200, 200, 800, ];
-            const iosPattern = [300,300, 100, 100, 100, 100, 300, 300, 100, 100, 100, 100,];
-            if (Platform.os == 'ios')
-                Vibration.vibrate(iosPattern);
-            else
-                Vibration.vibrate(androidPattern);
-        }
     }
 
     hideTimerAlert = () => {
@@ -247,17 +290,14 @@ class Scoreboard extends Component {
                 {this.showStats()}
                 <BringFromBottom
                     style={scoreboardContainer}>
-                    <KeyboardAvoidingView
-                        behavior="position"
-                        enabled={true}
-                        keyboardVerticalOffset={(Platform.OS === 'ios') ? 50:0}
-                    >
+                    <KeyboardAwareScrollView>
                         <Header
                             players={this.props.players}
                             maxScore={this.props.maxScore}
                             maxScoreWins={this.props.maxScoreWins}
                             timed={this.props.timed}
                             showTimerAlert={this.showTimerAlert}
+                            scheduleNotification={this.scheduleNotification}
                             myRef={header => {this.header = header;}}
                         />
                         <View>
@@ -270,13 +310,13 @@ class Scoreboard extends Component {
                             isValidPlayer={this.isValidPlayer}
                             showPlayersInfoReading={this.props.players.length>0}
                         />
-                    </KeyboardAvoidingView>
+                    </KeyboardAwareScrollView>
                 </BringFromBottom>
                 <Alert
                     show={this.state.showWrongNameAlert}
                     showProgress={false}
                     title="Wrong name"
-                    message={`Player names cannot be blank or repeated.`}
+                    message={`Player names cannot be blank, repeated or longer than 30 characters`}
                     showCancelButton={false}
                     showConfirmButton={true}
                     confirmText="Ok"
@@ -295,27 +335,27 @@ class Scoreboard extends Component {
                         this.hideDeleteWinnerAlert();
                     }}
                 />
-                <Alert
-                    show={this.state.showTimerAlert}
-                    showProgress={false}
-                    title="Time is out!!!"
-                    message="Check the scores to find your positions."
-                    showCancelButton={false}
-                    showConfirmButton={true}
-                    confirmText="Ok"
-                    onConfirmPressed={() => {
-                        this.hideTimerAlert();
-                        if (this.props.players.length > 0){
-                            this.props.updateDisplayStatsDispatcher(true);
-                        };
-                    }}
-                />
+                {this.state.showTimerAlert?
+                    <CustomAlert
+                        title="Time is out!!!"
+                        message="Check the scores to find your positions."
+                        confirmText="Ok"
+                        onConfirmPressed={() => {
+                            this.hideTimerAlert();
+                            if (this.props.players.length > 0){
+                                this.props.updateDisplayStatsDispatcher(true);
+                            };
+                        }}
+                    />: undefined
+                }
+                {this.props.timed? <PushController/>: undefined}
             </ImageBackground>
         );
     }
 }
 
 const scoreboardContainer = {
+    flex: 1,
     marginBottom: 100,
     marginTop: -20,
 };

@@ -115,7 +115,6 @@ const gamePlayers = (state = initialState, action) => {
             newStatus = LOST;
             newFinished = new Date();
         }
-        console.log(action);
         const insertPlayer = {
             ...updatedPlayer,
             status: newStatus,

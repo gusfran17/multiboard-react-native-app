@@ -57,7 +57,8 @@ class RightHeader extends Component {
                             onPress={() => { if (this.props.playersAmount > 0) this.props.updateDisplayStatsDispatcher(!this.props.playerInfoDisplayed)}}>
                             <Icon
                                 size={30}
-                                name='list'
+                                name='format-list-numbers'
+                                type='material-community'
                                 color={this.props.playersAmount > 0? '#fff': '#666' }>
                             </Icon>
                         </TouchableOpacity>

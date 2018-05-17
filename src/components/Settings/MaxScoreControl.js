@@ -1,5 +1,5 @@
 import React, { Component,} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, } from 'react-native';
 import PropTypes from 'prop-types';
 
 class MaxScoreControl extends Component {
@@ -33,7 +33,7 @@ class MaxScoreControl extends Component {
             <View style={styles.counter}>
                 <TouchableOpacity
                     style={styles.updateScoreMinus}
-                    onPress={() => { this.addToMaxScore(-1);}}
+                    onPress={() => { if (this.state.newScore > 1) this.addToMaxScore(-1);}}
                 >
                     <Text style={styles.updateScoreIcon}>-</Text>
                 </TouchableOpacity>
@@ -44,7 +44,7 @@ class MaxScoreControl extends Component {
                         style={styles.scoreValueText}
                         value={this.state.newScore.toString()}
                         onChangeText={text=> this.onChanged(text, inputRef)}
-                        onKeyPress={() => {this.setState({newScore: '...', newScoreRefresh:this.state.newScore,})}}
+                        onKeyPress={() => {if (Platform.OS === 'ios') this.setState({newScore: '...', newScoreRefresh:this.state.newScore,})}}
                         onSubmitEditing={() =>{ this.props.updateMaxScore(this.state.newScore)}}
                         onBlur={() => { if (this.state.newScore) this.props.updateMaxScore(this.state.newScore);}}
                         underlineColorAndroid='rgba(0,0,0,0)'

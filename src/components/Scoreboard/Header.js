@@ -18,6 +18,7 @@ class Header extends Component {
         timed: PropTypes.bool.isRequired,
         myRef: PropTypes.func.isRequired,
         showTimerAlert: PropTypes.func.isRequired,
+        scheduleNotification: PropTypes.func.isRequired,
     }
 
     componentDidMount() {
@@ -36,6 +37,7 @@ class Header extends Component {
                     <Stopwatch
                         myRef={stopwatch => {this.stopwatch = stopwatch}}
                         showTimerAlert={this.props.showTimerAlert}
+                        scheduleNotification={this.props.scheduleNotification}
                     />: undefined
                 }
             </View>

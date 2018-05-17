@@ -54,3 +54,11 @@ export const formatTime = elapsedTime => {
     const seconds = formatNumberLength(Math.floor((elapsedTime / 1000) % 60), 2);
     return `${minutes}:${seconds}`;
 }
+
+export const trimName = (name, length) => {
+    if (name.length > length){
+        let shortName = `${name.substring(0,length-2)}...`;
+        return shortName;
+    }
+    return name;
+}

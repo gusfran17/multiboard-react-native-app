@@ -7,7 +7,8 @@ class PushController extends Component {
     componentDidMount() {
         PushNotification.configure({
             onNotification: notification => {
-                // console.log('NOTIFICATION: ', notification);
+                console.log('NOTIFICATION: ', notification);
+                notification.finish((...args)=>{console.log(args)});
             },
         });
     }

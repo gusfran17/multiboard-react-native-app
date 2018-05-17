@@ -8,6 +8,7 @@ function* saveGameProgress({ type, gameName, }) {
     const players = yield select(playersSelector);
     const stopwatch = yield select(stopwatchSelector);
     const savedGame = { data: game, players, stopwatch, };
+    console.log(savedGame);
     const activeGame = yield select(activeGameSelector);
     if (activeGame>=0) {
         yield put(updateSavedGame(activeGame, savedGame));

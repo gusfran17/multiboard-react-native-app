@@ -7,10 +7,12 @@ import { formatMiliseconds, formatTime, } from './../../utility/format';
 class Stopwatch extends Component {
     constructor(props) {
         super(props);
+        const timeLimit = formatMiliseconds(this.props.time);
         this.state = {
             previousTime: Date.now(),
             elapsedTime: props.elapsedTime,
             gameEndedStop: true,
+            timeLimit,
         };
     }
 
@@ -23,6 +25,7 @@ class Stopwatch extends Component {
         updateTimeRunningDispatcher: PropTypes.func.isRequired,
         myRef: PropTypes.func.isRequired,
         showTimerAlert: PropTypes.func.isRequired,
+        scheduleNotification: PropTypes.func.isRequired,
     }
 
     componentDidMount() {
@@ -41,14 +44,15 @@ class Stopwatch extends Component {
             timeLimit,
         });
         this.props.updateTimeRunningDispatcher(true);
+        this.props.scheduleNotification();
     };
 
     onStop = () => {
         this.props.updateTimeRunningDispatcher(false);
-        if (this.state.timeLimit) {
-            this.props.updateElapsedTimeDispatcher(this.state.timeLimit);
-        } else {
+        if (this.state.elapsedTime) {
             this.props.updateElapsedTimeDispatcher(this.state.elapsedTime);
+        } else {
+            this.props.updateElapsedTimeDispatcher(this.state.timeLimit);
         }
 
     };

@@ -7,7 +7,7 @@ import preloadImages from './src/utility/imagesPreloader';
 
 // preloadImages(results => {});
 // persistor.purge();
-console.disableYellowBox = true;
+// console.disableYellowBox = true;
 export default class App extends Component {
     render() {
         return (

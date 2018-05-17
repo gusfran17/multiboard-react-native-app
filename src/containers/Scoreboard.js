@@ -17,6 +17,7 @@ const mapStateToProps = state => {
             gameStatus: state.game.gameStatus,
             timed: state.game.timed,
             time: state.stopwatch.time,
+            running: state.stopwatch.running,
         }
     );
 };
