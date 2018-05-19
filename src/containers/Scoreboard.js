@@ -9,7 +9,7 @@ import { addPlayer, removePlayer, updateScore,
 const mapStateToProps = state => {
     return (
         {
-            players: state.gamePlayers.players,
+            players: state.players.players,
             selectedPlayer: state.game.selectedPlayer,
             maxScore: state.game.maxScore,
             maxScoreWins: state.game.maxScoreWins,

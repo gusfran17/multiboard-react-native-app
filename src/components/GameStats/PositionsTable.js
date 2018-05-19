@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, } from 'react-native';
 import { Icon, } from 'react-native-elements';
 import PropTypes from 'prop-types';
-import { GrowToHeight, } from './../Animation';
+import { GrowToScrollView, } from './../Animation';
 import { formatTime, } from './../../utility/format';
 import { WON, LOST, PLAYING, } from './../../utility/constants';
 
@@ -57,7 +57,7 @@ const PositionsTable = props => {
     });
 
     return (
-        <GrowToHeight
+        <GrowToScrollView
             height={props.players.length <= 4? (80+(props.players.length*50)):280}
             delay={0}
             style={animatedContainerStyle}>
@@ -77,7 +77,7 @@ const PositionsTable = props => {
                     {playersListComponet}
                 </ScrollView>
             </View>
-        </GrowToHeight>
+        </GrowToScrollView>
     );
 }
 

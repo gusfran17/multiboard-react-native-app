@@ -1,5 +1,4 @@
 export game from './game';
 export mainMenu from './mainMenu';
-export nav from './nav';
-export gamePlayers from './gamePlayers';
+export players from './players';
 export stopwatch from './stopwatch';

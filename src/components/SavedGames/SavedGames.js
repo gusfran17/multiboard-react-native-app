@@ -5,7 +5,7 @@ import { Alert, } from './../';
 import { Scoreboard, } from './../../utility/constants';
 import GamesTable from './GamesTable';
 import { StatefullAnimatedButton, } from './../Button';
-import { GrowToHeight, } from './../Animation';
+import { GrowToScrollView, } from './../Animation';
 
 class SavedGames extends Component {
 
@@ -82,7 +82,7 @@ class SavedGames extends Component {
             <ImageBackground
                 style={[ styles.container, ]}
                 source={require('./../../assets/images/dark_dice.png')}>
-                <GrowToHeight
+                <GrowToScrollView
                     height={250}
                     delay={200}
                     style={animatedContainerStyle}>
@@ -102,7 +102,7 @@ class SavedGames extends Component {
                             delay={900}
                         />
                     </View>
-                </GrowToHeight>
+                </GrowToScrollView>
                 <Alert
                     show={this.state.showLoadAlert}
                     showProgress={true}

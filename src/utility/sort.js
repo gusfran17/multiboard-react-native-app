@@ -59,10 +59,10 @@ export const sortPlayersMaxScoreLoses = players => {
 
 export const sortSavedGames = savedGames => {
     const compare = (game1, game2) => {
-        if (new Date(game1.saved) > new Date(game2.saved)) {
-            return 1;
-        } else if (new Date(game1.saved) < new Date(game2.saved)) {
+        if (new Date(game1.data.saved) > new Date(game2.data.saved)) {
             return -1;
+        } else if (new Date(game1.data.saved) < new Date(game2.data.saved)) {
+            return 1;
         }
         return 0;
     }

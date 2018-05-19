@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Switch, ImageBackground, KeyboardAvoidingView, } from 'react-native';
 import PropTypes from 'prop-types';
-import { GrowToHeight, } from './../Animation';
+import { GrowToScrollView, } from './../Animation';
 
 const TimeLimitOptions = props => (
     <View style={styles.overlayContainer}>
         <View style={styles.overlay}/>
         <TouchableOpacity style={styles.overlayContainer} onPressOut={props.hideWinLoseOptions}>
-            <GrowToHeight style={{ position: 'absolute', top: 120, }} delay={0}>
+            <GrowToScrollView style={{ position: 'absolute', top: 120, }} delay={0}>
                 <TouchableOpacity
                     onPress={() => {props.updateWinOrLose(true); props.hideWinLoseOptions();}}>
                     <Text style={styles.winLoseOption}>WIN</Text>
@@ -16,7 +16,7 @@ const TimeLimitOptions = props => (
                     onPress={() => {props.updateWinOrLose(false); props.hideWinLoseOptions();}}>
                     <Text style={styles.winLoseOption}>LOSE</Text>
                 </TouchableOpacity>
-            </GrowToHeight>
+            </GrowToScrollView>
         </TouchableOpacity>
     </View>
 );

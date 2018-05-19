@@ -15,7 +15,7 @@ class TimeLimitControl extends Component {
     static propTypes = {
         time: PropTypes.string.isRequired,
         updateTimedGame: PropTypes.func.isRequired,
-        showWrongTimeAlert: PropTypes.func.isRequired,
+        showWrongTimeMessage: PropTypes.func.isRequired,
     };
 
     onChanged = text => {
@@ -54,7 +54,7 @@ class TimeLimitControl extends Component {
             this.props.updateTimedGame(this.state.time);
         } else {
             this.setState({ time: this.props.time, });
-            this.props.showWrongTimeAlert();
+            this.props.showWrongTimeMessage();
         };
     }
 

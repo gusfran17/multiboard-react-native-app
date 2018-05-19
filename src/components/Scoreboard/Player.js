@@ -12,7 +12,7 @@ const Player = props => {
             props.removePlayer(props.index);
         }
         else {
-            props.showDeleteWinnerAlert();
+            props.showDeleteWinnerMessage();
         }
     }
 
@@ -87,7 +87,7 @@ Player.propTypes = {
     selectPlayer: PropTypes.func.isRequired,
     updatePlayerStatus: PropTypes.func.isRequired,
     checkGameStatus: PropTypes.func.isRequired,
-    showDeleteWinnerAlert: PropTypes.func.isRequired,
+    showDeleteWinnerMessage: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({

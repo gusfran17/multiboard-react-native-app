@@ -12,7 +12,7 @@ const TimeLimitSettings = props => {
             <TimeLimitControl
                 time={props.time}
                 updateTimedGame={props.updateTimeLimit}
-                showWrongTimeAlert={props.showWrongTimeAlert}
+                showWrongTimeMessage={props.showWrongTimeMessage}
             />
         </View>
     );
@@ -23,7 +23,7 @@ TimeLimitSettings.propTypes = {
     updateTimeLimit: PropTypes.func.isRequired,
     timed: PropTypes.bool.isRequired,
     time: PropTypes.string.isRequired,
-    showWrongTimeAlert: PropTypes.func.isRequired,
+    showWrongTimeMessage: PropTypes.func.isRequired,
 }
 
 const styles = StyleSheet.create({

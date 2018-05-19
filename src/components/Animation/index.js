@@ -1,2 +1,3 @@
 export BringFromBottom from './BringFromBottom';
-export GrowToHeight from './GrowToHeight';
+export GrowToScrollView from './GrowToScrollView';
+export GrowToView from './GrowToView';

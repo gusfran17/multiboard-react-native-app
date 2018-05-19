@@ -1,7 +1,7 @@
 import { createSelector, } from 'reselect';
 
 const playersSelector = createSelector(
-    state => state.gamePlayers.players,
+    state => state.players.players,
     players => players,
 );
 

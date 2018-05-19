@@ -6,7 +6,7 @@ import { SavedGames, } from './../components'
 const mapStateToProps = state => (
     {
         savedGames: state.mainMenu.savedGames,
-        activeGameNotSaved: state.game.edited || state.gamePlayers.edited,
+        activeGameNotSaved: state.game.edited || state.players.edited,
     }
 );
 

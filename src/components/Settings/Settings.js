@@ -1,22 +1,24 @@
 import React, { Component, } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Switch, ImageBackground, KeyboardAvoidingView, } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Switch, ImageBackground, KeyboardAvoidingView, } from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon, } from 'react-native-elements';
 import { KeyboardAwareScrollView, } from 'react-native-keyboard-aware-scrollview';
 import { MaxScoreSetting, WinLoseSetting, FooterSaveGame, FooterNewGame, TimeSetting, TimeLimitSetting, TimeLimitOptions, } from './';
 import { NavigationHeader, Alert, } from './../../components';
 import { NewGameSettings, MainMenu, Scoreboard, } from './../../utility/constants';
-import { BringFromBottom, GrowToHeight, } from './../Animation';
+import { BringFromBottom, GrowToScrollView, } from './../Animation';
 
 class Settings extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            showEmptyNameAlert: false,
-            showWrongTimeAlert: false,
+            showEmptyNameMessage: false,
+            showWrongTimeMessage: false,
             showWinLoseOptions: false,
-            showTimedGameSettingsAlert: false,
+            showTimedGameSettingsMessage: false,
+            messageText: '',
+            showMessage: false,
         };
     }
 
@@ -60,36 +62,35 @@ class Settings extends Component {
     }
 
     componentDidMount() {
-        if (this.props.timed) {
-            this.showTimedGameSettingsAlert();
+        if (this.props.timed && this.props.navigation.state.routeName !== NewGameSettings) {
+            this.showTimedGameSettingsMessage();
         }
     }
 
-    showEmptyNameAlert = () => {
+    showEmptyNameMessage = () => {
         this.setState({
-            ...this.state,
-            showEmptyNameAlert: true,
+            showMessage: true,
+            messageText: "The name cannot be empty or longer than 30 characters.",
         });
     }
 
-    hideEmptyNameAlert = () => {
+    showWrongTimeMessage = () => {
         this.setState({
-            ...this.state,
-            showEmptyNameAlert: false,
+            showMessage: true,
+            messageText: "You´ve enter a wrong time. (ei. 01:70 should be 02:10)",
         });
     }
 
-    showWrongTimeAlert = () => {
+    showTimedGameSettingsMessage = () => {
         this.setState({
-            ...this.state,
-            showWrongTimeAlert: true,
+            showMessage: true,
+            messageText: "Any change to top score or win or lose settings in a timed game will cause all progress to be reset.",
         });
     }
 
-    hideWrongTimeAlert = () => {
+    hideMessage = () => {
         this.setState({
-            ...this.state,
-            showWrongTimeAlert: false,
+            showMessage: false,
         });
     }
 
@@ -107,20 +108,6 @@ class Settings extends Component {
         });
     }
 
-    showTimedGameSettingsAlert = () => {
-        this.setState({
-            ...this.state,
-            showTimedGameSettingsAlert: true,
-        });
-    }
-
-    hideTimedGameSettingsAlert = () => {
-        this.setState({
-            ...this.state,
-            showTimedGameSettingsAlert: false,
-        });
-    }
-
     timeLimitInput = () => {
         if (this.props.timed) {
             return (
@@ -129,7 +116,7 @@ class Settings extends Component {
                     timed= {this.props.timed}
                     time= {this.props.time}
                     updateTimeLimit={this.props.updateTimeLimitDispatcher}
-                    showWrongTimeAlert={this.showWrongTimeAlert}
+                    showWrongTimeMessage={this.showWrongTimeMessage}
                 />
             );
         }
@@ -187,50 +174,23 @@ class Settings extends Component {
                                     saved={this.props.saved}
                                     navigation={this.props.navigation}
                                     saveProgress={this.props.saveProgressDispatcher}
-                                    showEmptyNameAlert={this.showEmptyNameAlert}
+                                    showEmptyNameMessage={this.showEmptyNameMessage}
                                 />
                             }
                         </View>
                     </KeyboardAwareScrollView>
                 </BringFromBottom>
                 <Alert
-                    show={this.state.showEmptyNameAlert}
+                    show={this.state.showMessage}
                     showProgress={false}
-                    message="The name cannot be empty or longer than 30 characters."
+                    message={this.state.messageText}
                     showCancelButton={false}
                     showConfirmButton={true}
                     confirmText="Ok"
                     onConfirmPressed={() => {
-                        this.hideEmptyNameAlert();
+                        this.hideMessage();
                     }}
                 />
-                <Alert
-                    show={this.state.showWrongTimeAlert}
-                    showProgress={false}
-                    message="You´ve enter a wrong time. (ei. 01:70 should be 02:10)"
-                    showCancelButton={false}
-                    showConfirmButton={true}
-                    confirmText="Ok"
-                    onConfirmPressed={() => {
-                        this.hideWrongTimeAlert();
-                    }}
-                />
-                {this.props.navigation.state.routeName !== NewGameSettings?
-                    <Alert
-                        show={this.state.showTimedGameSettingsAlert}
-                        showProgress={false}
-                        message="Any change to top score or win or lose settings in a timed game will cause all progress to be reset."
-                        showCancelButton={false}
-                        showConfirmButton={true}
-                        confirmText="Ok"
-                        onConfirmPressed={() => {
-                            this.hideTimedGameSettingsAlert();
-                        }}
-                    />
-                    :
-                    null
-                }
-
                 {this.state.showWinLoseOptions?
                     <TimeLimitOptions
                         hideWinLoseOptions={this.hideWinLoseOptions}

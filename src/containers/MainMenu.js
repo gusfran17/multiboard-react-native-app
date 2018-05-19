@@ -6,7 +6,7 @@ import { startNewGame, } from './../actions';
 const mapStateToProps = state => (
     {
         activeGame: state.game,
-        edited: state.gamePlayers.edited || state.game.edited || state.stopwatch.edited,
+        edited: state.players.edited || state.game.edited || state.stopwatch.edited,
         maxScoreWins: state.mainMenu.maxScoreWins,
         maxScore: state.mainMenu.maxScore,
         savedGames: state.mainMenu.savedGames,

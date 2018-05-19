@@ -1,3 +1,4 @@
 <resources>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">me8KvQf0mChGdRLztkLG4UXnCnFOfe076aab-6dc4-434e-bb4b-cd4fa4781549</string>
     <string name="app_name">Multiboard</string>
 </resources>

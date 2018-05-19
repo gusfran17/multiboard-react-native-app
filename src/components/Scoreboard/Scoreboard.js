@@ -64,17 +64,15 @@ class Scoreboard extends Component {
         super(props);
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
         this.state = {
-            showWrongNameAlert: false,
-            showDeleteWinnerAlert: false,
             showTimerAlert: false,
-            showGameEndedAlert: false,
             background: false,
             appState: 'active',
+            messageText: '',
+            showMessage: false,
         };
     }
 
     componentDidMount() {
-        console.log('componentDidMount');
         AppState.addEventListener('change', this.handleAppStateChange);
     }
 
@@ -83,11 +81,8 @@ class Scoreboard extends Component {
     }
 
     handleAppStateChange = appState => {
-        console.log('%%%%%handleAppStateChange%%%%%%%%%');
-        console.log(appState, this.state);
         if (appState === 'inactive') {
             if (!this.state.background && this.props.timed && this.props.running) {
-                console.log('IS PUSHING NOTIFICATIONS inactive');
                 PushNotification.localNotification({
                     ticker: "The timer is running in background",
                     message: Platform.OS === 'ios'?
@@ -104,7 +99,6 @@ class Scoreboard extends Component {
         if (appState === 'background') {
             this.setState({background: true, });
             if (this.props.timed && this.props.running) {
-                console.log('IS PUSHING NOTIFICATIONS background');
                 PushNotification.localNotification({
                     ticker: "The timer is running in background",
                     message: Platform.OS === 'ios'?
@@ -127,9 +121,6 @@ class Scoreboard extends Component {
         const currentTime = this.header.stopwatch.getTime();
         const limitTime = formatMiliseconds(this.props.time);
         const difference = limitTime - currentTime;
-        console.log('IS PUSHING NOTIFICATIONS SCHEDULED');
-        console.log((limitTime-currentTime + delay))
-        console.log(difference);
         if (difference > 1000) {
             PushNotification.localNotificationSchedule({
                 ticker: "Time is out!!!",
@@ -155,17 +146,14 @@ class Scoreboard extends Component {
                 return true;
             }
         }
-        this.setState({
-            showWrongNameAlert: true,
-        });
+        if (name.length > 30) {
+            this.showWrongNameMessage('Player names cannot be longer than 30 characters.');
+        } else if (!name) {
+            this.showWrongNameMessage('Player names cannot be blank.');
+        } else if (playerExists) {
+            this.showWrongNameMessage('Player names cannot be repeated.');
+        }
         return false;
-    };
-
-    hideWrongNameAlert = () => {
-        this.setState({
-
-            showWrongNameAlert: false,
-        });
     };
 
     updatePlayerStatus = (index,status) => {
@@ -196,7 +184,7 @@ class Scoreboard extends Component {
                         selectPlayer={this.props.selectPlayerDispatcher}
                         updateGameStatus={this.props.updateGameStatusDispatcher}
                         checkGameStatus={this.props.checkGameStatusDispatcher}
-                        showDeleteWinnerAlert={this.showDeleteWinnerAlert}
+                        showDeleteWinnerMessage={this.showDeleteWinnerMessage}
                     />
                 </View>
             )
@@ -204,21 +192,27 @@ class Scoreboard extends Component {
         return playersComponent;
     }
 
-    showDeleteWinnerAlert = () => {
+    showDeleteWinnerMessage = () => {
         this.setState({
-            showDeleteWinnerAlert: true,
+            showMessage: true,
+            messageText: 'You cannot delete the winner.',
         });
     }
 
-    hideDeleteWinnerAlert = () => {
+    showWrongNameMessage = messageText => {
         this.setState({
+            messageText,
+            showMessage: true,
+        });
+    }
 
-            showDeleteWinnerAlert: false,
+    hideMessage = () => {
+        this.setState({
+            showMessage: false,
         });
     }
 
     showTimerAlert = () => {
-        console.log('showTimerAlert');
         this.setState({
             showTimerAlert: true,
         }, () => {
@@ -313,26 +307,14 @@ class Scoreboard extends Component {
                     </KeyboardAwareScrollView>
                 </BringFromBottom>
                 <Alert
-                    show={this.state.showWrongNameAlert}
+                    show={this.state.showMessage}
                     showProgress={false}
-                    title="Wrong name"
-                    message={`Player names cannot be blank, repeated or longer than 30 characters`}
+                    message={this.state.messageText}
                     showCancelButton={false}
                     showConfirmButton={true}
                     confirmText="Ok"
                     onConfirmPressed={() => {
-                        this.hideWrongNameAlert();
-                    }}
-                />
-                <Alert
-                    show={this.state.showDeleteWinnerAlert}
-                    showProgress={false}
-                    message="You cannot delete the winner"
-                    showCancelButton={false}
-                    showConfirmButton={true}
-                    confirmText="Ok"
-                    onConfirmPressed={() => {
-                        this.hideDeleteWinnerAlert();
+                        this.hideMessage();
                     }}
                 />
                 {this.state.showTimerAlert?

@@ -63,7 +63,7 @@ const initialState = {
     players: emptyPlayers,
 };
 
-const gamePlayers = (state = initialState, action) => {
+const players = (state = initialState, action) => {
     switch(action.type) {
     case ADD_PLAYER:
         return {
@@ -162,4 +162,4 @@ const gamePlayers = (state = initialState, action) => {
     }
 }
 
-export default gamePlayers;
+export default players;

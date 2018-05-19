@@ -1,8 +1,8 @@
 import React from 'react';
-import { Animated, ScrollView, StyleSheet, } from 'react-native';
+import { Animated, View, StyleSheet, } from 'react-native';
 import PropTypes from 'prop-types';
 
-class GrowToHeight extends React.Component {
+class GrowToScrollView extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -31,19 +31,19 @@ class GrowToHeight extends React.Component {
         let { scale, } = this.state;
 
         return (
-            <Animated.ScrollView
+            <Animated.View
                 scrollEnabled={true}
                 showsVerticalScrollIndicator={true}
                 style={{
-                    transform: [{ scaleY: scale, }, {perspective: 1000, },],
+                    transform: [{ scale: scale, }, {perspective: 1000, },],
                     opacity: scale,
                     ...this.props.style,
                 }}
             >
                 {this.props.children}
-            </Animated.ScrollView>
+            </Animated.View>
         );
     }
 }
 
-export default GrowToHeight;
+export default GrowToScrollView;

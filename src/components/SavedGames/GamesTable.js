@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView, } from 're
 import { Icon, } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import { formatDateShort, } from './../../utility/format';
-import { GrowToHeight, } from './../Animation';
+import { GrowToScrollView, } from './../Animation';
 import { sortSavedGames, } from './../../utility/sort';
 
 const PositionsTable = props => {
@@ -51,12 +51,12 @@ const PositionsTable = props => {
                     <Text style={[ styles.col3, styles.titleLabel, ]}></Text>
                 </View>
             </View>
-            <GrowToHeight
+            <GrowToScrollView
                 height={props.savedGames.length > 3? props.savedGames.length * 40: 120}
                 delay={200}
                 style={gamesTable}>
                 {getSortedGamesListComponent()}
-            </GrowToHeight>
+            </GrowToScrollView>
         </View>
     );
 }

@@ -24,7 +24,7 @@ class FooterSaveGame extends Component {
         saved: PropTypes.object,
         edited: PropTypes.bool.isRequired,
         saveProgress: PropTypes.func.isRequired,
-        showEmptyNameAlert: PropTypes.func.isRequired,
+        showEmptyNameMessage: PropTypes.func.isRequired,
     }
 
     componentWillMount() {
@@ -36,7 +36,7 @@ class FooterSaveGame extends Component {
             this.props.saveProgress(this.state.gameName);
             this.setState({ allowEditGame: false, });
         } else {
-            this.props.showEmptyNameAlert();
+            this.props.showEmptyNameMessage();
         }
         this.setState({ saveProgressDelay: 100, });
     }

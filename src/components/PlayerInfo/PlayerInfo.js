@@ -6,7 +6,7 @@ import Detail from './Detail';
 import { WON, LOST, PLAYING, } from './../../utility/constants';
 import { formatDate, } from './../../utility/format';
 import { StatefullAnimatedButton, } from './../Button';
-import { GrowToHeight, } from './../Animation';
+import { GrowToScrollView, } from './../Animation';
 
 const PlayerInfo = props => {
     let playerDetailsComponents;
@@ -15,7 +15,7 @@ const PlayerInfo = props => {
             <View style={styles.overlayContainer}>
                 <View style={styles.overlay}/>
                 <View style={[ styles.playerInfo, ]}>
-                    <GrowToHeight
+                    <GrowToScrollView
                         height={350}
                         delay={0}
                         style={animatedContainerStyle}>
@@ -48,7 +48,7 @@ const PlayerInfo = props => {
                                 delay={500}
                             />
                         </View>
-                    </GrowToHeight>
+                    </GrowToScrollView>
                 </View>
             </View>
         );

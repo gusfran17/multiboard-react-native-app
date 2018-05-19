@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, } from 'react-native';
 import PropTypes from 'prop-types';
+import { GrowToView, } from './../Animation';
 
 const CustomAlert = props => (
     <View style={styles.overlayContainer}>
         <View style={styles.overlay}/>
-        <View style={styles.container}>
+        <GrowToView style={container} delay={100}>
             <Text style={styles.title}>{props.title}</Text>
             <Text style={styles.message}>{props.message}</Text>
             <TouchableOpacity
@@ -15,7 +16,7 @@ const CustomAlert = props => (
                     {props.confirmText}
                 </Text>
             </TouchableOpacity>
-        </View>
+        </GrowToView>
     </View>
 );
 
@@ -25,6 +26,15 @@ CustomAlert.propTypes = {
     confirmText: PropTypes.string.isRequired,
     onConfirmPressed: PropTypes.func.isRequired,
 }
+
+const container = {
+    borderRadius: 10,
+    backgroundColor: '#555',
+    padding: 15,
+    width: 250,
+    alignItems: 'center',
+    flexDirection: 'column',
+};
 
 const styles = StyleSheet.create({
     overlayContainer: {

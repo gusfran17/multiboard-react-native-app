@@ -17,7 +17,8 @@ export {
 } from './SavedGames';
 export {
     BringFromBottom,
-    GrowToHeight
+    GrowToScrollView,
+    GrowToView
 } from './Animation';
 export {
     Alert,
